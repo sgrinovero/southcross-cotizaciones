@@ -1,799 +1,757 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SouthCross Logistics — Pedido de Cotización</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SouthCross Logistics — Herramientas Comerciales</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --red: #C8102E;
-    --red-light: #f5e6e9;
-    --dark: #0f0f0f;
-    --mid: #3a3a3a;
-    --muted: #888;
-    --border: #e0e0e0;
-    --bg: #f7f7f5;
-    --white: #ffffff;
-    --success: #1a7f4b;
-    --success-bg: #e6f5ee;
-    --danger: #c8102e;
-    --danger-bg: #fceaed;
-    --radius: 8px;
-    --radius-lg: 12px;
-  }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--dark);
-    min-height: 100vh;
-    padding: 0;
-  }
-
-  header {
-    background: var(--dark);
-    padding: 18px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .header-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .logo-mark {
-    width: 32px;
-    height: 32px;
-    background: var(--red);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .logo-mark svg { width: 18px; height: 18px; fill: white; }
-
-  .logo-text {
-    font-size: 15px;
-    font-weight: 600;
-    color: white;
-    letter-spacing: -0.02em;
-  }
-
-  .logo-text span { color: var(--red); }
-
-  .header-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: #666;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .page {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
-  }
-
-  .page-title {
-    font-size: 28px;
-    font-weight: 600;
-    color: var(--dark);
-    letter-spacing: -0.03em;
-    margin-bottom: 4px;
-  }
-
-  .page-sub {
-    font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 32px;
-  }
-
-  .id-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 10px 16px;
-    margin-bottom: 32px;
-    width: fit-content;
-  }
-
-  .id-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .id-value {
-    font-family: 'DM Mono', monospace;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--dark);
-  }
-
-  .id-refresh {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--muted);
-    padding: 2px;
-    display: flex;
-    align-items: center;
-    transition: color 0.15s;
-    border-radius: 4px;
-  }
-
-  .id-refresh:hover { color: var(--dark); }
-
-  .section {
-    margin-bottom: 32px;
-  }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .section-num {
-    width: 22px;
-    height: 22px;
-    background: var(--dark);
-    color: white;
-    border-radius: 50%;
-    font-size: 11px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .section-title {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--mid);
-  }
-
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .col-full { grid-column: 1 / -1; }
-
-  .field { display: flex; flex-direction: column; gap: 5px; }
-
-  label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--mid);
-  }
-
-  .req { color: var(--red); }
-
-  input[type="text"],
-  input[type="date"],
-  select,
-  textarea {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    color: var(--dark);
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 9px 12px;
-    outline: none;
-    transition: border-color 0.15s;
-    width: 100%;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-
-  input[type="text"]:focus,
-  input[type="date"]:focus,
-  select:focus { border-color: var(--dark); }
-
-  input.error, select.error { border-color: var(--red) !important; }
-
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 32px;
-    cursor: pointer;
-  }
-
-  .checks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
-
-  .check-pill {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    color: var(--mid);
-    cursor: pointer;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 5px 12px;
-    transition: all 0.15s;
-    user-select: none;
-  }
-
-  .check-pill input { display: none; }
-  .check-pill:hover { border-color: var(--dark); color: var(--dark); }
-  .check-pill.checked { background: var(--dark); color: white; border-color: var(--dark); }
-
-  .srv-block {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    margin-bottom: 8px;
-    transition: border-color 0.2s;
-  }
-
-  .srv-block.error { border-color: var(--red); }
-
-  .srv-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-  }
-
-  .srv-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--dark);
-  }
-
-  .srv-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    background: var(--bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
-
-  .toggle-group { display: flex; gap: 4px; }
-
-  .tog {
-    font-size: 12px;
-    font-weight: 500;
-    padding: 5px 14px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .tog:hover { border-color: var(--dark); color: var(--dark); }
-  .tog.si { background: var(--success-bg); color: var(--success); border-color: var(--success); }
-  .tog.no { background: var(--danger-bg); color: var(--danger); border-color: var(--danger); }
-
-  .srv-detail {
-    border-top: 1px solid var(--border);
-    padding: 10px 16px;
-    background: var(--bg);
-    display: none;
-  }
-
-  .srv-detail input { background: var(--white); }
-
-  .btn-generate {
-    width: 100%;
-    padding: 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: white;
-    background: var(--dark);
-    border: none;
-    border-radius: var(--radius-lg);
-    cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: -0.01em;
-    margin-top: 8px;
-  }
-
-  .btn-generate:hover { background: var(--red); }
-  .btn-generate:active { transform: scale(0.99); }
-
-  .output-section {
-    margin-top: 32px;
-    display: none;
-  }
-
-  .output-section.visible { display: block; }
-
-  .output-divider {
-    height: 1px;
-    background: var(--border);
-    margin-bottom: 24px;
-  }
-
-  .output-block { margin-bottom: 16px; }
-
-  .output-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-
-  .output-row { display: flex; align-items: flex-start; gap: 8px; }
-
-  .output-box {
-    flex: 1;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 10px 14px;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--dark);
-    line-height: 1.6;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-
-  .btn-copy {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 8px 14px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    background: var(--white);
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-
-  .btn-copy:hover { border-color: var(--dark); color: var(--dark); }
-  .btn-copy.copied { background: var(--success-bg); color: var(--success); border-color: var(--success); }
-
-  .hidden { display: none !important; }
-
-  @media (max-width: 600px) {
-    .grid { grid-template-columns: 1fr; }
-    .col-full { grid-column: 1; }
-    header { padding: 14px 20px; }
-    .page { padding: 24px 16px 60px; }
-    .page-title { font-size: 22px; }
-  }
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#C8102E;--dark:#0f0f0f;--mid:#3a3a3a;--muted:#888;
+  --border:#e0e0e0;--bg:#f7f7f5;--white:#ffffff;
+  --green:#1a7f4b;--green-bg:#e6f5ee;--green-border:#b7dfca;
+  --yellow:#8a6400;--yellow-bg:#fff8e1;--yellow-border:#f0d060;
+  --red-bg:#fceaed;--red-border:#f0b0bb;
+  --blue:#185FA5;--blue-bg:#e6f1fb;
+  --radius:8px;--radius-lg:12px;--radius-xl:16px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+header{background:var(--dark);padding:16px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-mark{width:30px;height:30px;background:var(--red);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:16px;height:16px;fill:none;stroke:white;stroke-width:2;stroke-linecap:round}
+.logo-text{font-size:15px;font-weight:600;color:white;letter-spacing:-.02em}
+.logo-text span{color:var(--red)}
+.header-tag{font-family:'DM Mono',monospace;font-size:11px;color:#666;letter-spacing:.08em;text-transform:uppercase}
+.tabs-bar{background:var(--white);border-bottom:1px solid var(--border);padding:0 40px;display:flex;overflow-x:auto}
+.tab-btn{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;padding:14px 20px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tab-btn:hover{color:var(--dark)}
+.tab-btn.active{color:var(--dark);border-bottom-color:var(--red)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.page{max-width:720px;margin:0 auto;padding:40px 24px 80px}
+.page-title{font-size:26px;font-weight:600;letter-spacing:-.03em;margin-bottom:4px}
+.page-sub{font-size:14px;color:var(--muted);margin-bottom:32px}
+.id-row{display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:10px 16px;margin-bottom:32px;width:fit-content}
+.id-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.id-value{font-family:'DM Mono',monospace;font-size:14px;font-weight:500}
+.id-refresh{background:none;border:none;cursor:pointer;color:var(--muted);padding:2px;display:flex;align-items:center;border-radius:4px;transition:color .15s}
+.id-refresh:hover{color:var(--dark)}
+.section{margin-bottom:32px}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.section-num{width:22px;height:22px;background:var(--dark);color:white;border-radius:50%;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-title{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.col-full{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:5px}
+label{font-size:12px;font-weight:500;color:var(--mid)}
+.req{color:var(--red)}
+input[type=text],input[type=date],select{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dark);background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:9px 12px;outline:none;transition:border-color .15s;width:100%;appearance:none;-webkit-appearance:none}
+input[type=text]:focus,input[type=date]:focus,select:focus{border-color:var(--dark)}
+input.error,select.error{border-color:var(--red)!important}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer}
+.checks{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.check-pill{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mid);cursor:pointer;background:var(--white);border:1px solid var(--border);border-radius:20px;padding:5px 12px;transition:all .15s;user-select:none}
+.check-pill input{display:none}
+.check-pill:hover{border-color:var(--dark);color:var(--dark)}
+.check-pill.checked{background:var(--dark);color:white;border-color:var(--dark)}
+.srv-block{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:8px;transition:border-color .2s}
+.srv-block.error{border-color:var(--red)}
+.srv-top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+.srv-label{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500}
+.srv-icon{width:28px;height:28px;border-radius:6px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:14px}
+.toggle-group{display:flex;gap:4px}
+.tog{font-size:12px;font-weight:500;padding:5px 14px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--muted);cursor:pointer;transition:all .15s}
+.tog:hover{border-color:var(--dark);color:var(--dark)}
+.tog.si{background:var(--green-bg);color:var(--green);border-color:var(--green-border)}
+.tog.no{background:var(--red-bg);color:var(--red);border-color:var(--red-border)}
+.srv-detail{border-top:1px solid var(--border);padding:10px 16px;background:var(--bg);display:none}
+.srv-detail input{background:var(--white)}
+.btn-generate{width:100%;padding:14px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:white;background:var(--dark);border:none;border-radius:var(--radius-lg);cursor:pointer;transition:all .15s;margin-top:8px}
+.btn-generate:hover{background:var(--red)}
+.output-section{margin-top:32px;display:none}
+.output-section.visible{display:block}
+.output-divider{height:1px;background:var(--border);margin-bottom:24px}
+.output-block{margin-bottom:16px}
+.output-label{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.output-row{display:flex;align-items:flex-start;gap:8px}
+.output-box{flex:1;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;font-family:'DM Mono',monospace;font-size:12px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.btn-copy{flex-shrink:0;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:8px 14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-copy:hover{border-color:var(--dark);color:var(--dark)}
+.btn-copy.copied{background:var(--green-bg);color:var(--green);border-color:var(--green-border)}
+.hidden{display:none!important}
+/* WIZARD */
+.wiz-page{max-width:760px;margin:0 auto;padding:40px 24px 80px}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;margin-bottom:32px;overflow:hidden}
+.progress-fill{height:100%;background:var(--dark);border-radius:2px;transition:width .4s ease}
+.wiz-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-xl);padding:32px;margin-bottom:16px}
+.wiz-step-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.wiz-question{font-size:20px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
+.wiz-hint{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.5}
+.wiz-opts{display:flex;flex-direction:column;gap:10px}
+.wiz-opt{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px solid var(--border);border-radius:var(--radius-lg);cursor:pointer;transition:all .15s;background:var(--white)}
+.wiz-opt:hover{border-color:var(--dark)}
+.wiz-opt.selected{border-color:var(--dark);background:var(--dark)}
+.wiz-opt.selected .wiz-opt-label{color:white}
+.wiz-opt.selected .wiz-opt-desc{color:#aaa}
+.wiz-opt-icon{font-size:20px;width:36px;text-align:center;flex-shrink:0}
+.wiz-opt-text{flex:1}
+.wiz-opt-label{font-size:14px;font-weight:500;color:var(--dark)}
+.wiz-opt-desc{font-size:12px;color:var(--muted);margin-top:2px}
+.wiz-nav{display:flex;gap:10px;margin-top:16px}
+.btn-back{padding:11px 20px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;border:1.5px solid var(--border);border-radius:var(--radius-lg);background:var(--white);color:var(--mid);cursor:pointer;transition:all .15s}
+.btn-back:hover{border-color:var(--dark);color:var(--dark)}
+.btn-next{flex:1;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:white;background:var(--dark);border:none;border-radius:var(--radius-lg);cursor:pointer;transition:all .15s}
+.btn-next:hover{background:var(--red)}
+.btn-next:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
+/* RESULTADO */
+.result-card{border-radius:var(--radius-xl);overflow:hidden;margin-bottom:16px}
+.result-header{background:var(--dark);padding:28px 32px}
+.result-tag{font-family:'DM Mono',monospace;font-size:11px;color:#666;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.result-code{font-size:48px;font-weight:700;color:white;letter-spacing:-.03em;margin-bottom:4px}
+.result-full{font-size:14px;color:#888}
+.result-body{background:var(--white);border:1px solid var(--border);border-top:none;padding:24px 32px}
+.r-section{margin-bottom:24px}
+.r-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.r-text{font-size:15px;color:var(--mid);line-height:1.6}
+.resp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.resp-col{border-radius:var(--radius-lg);padding:14px 16px}
+.resp-col.v{background:var(--blue-bg);border:1px solid #b8d4f0}
+.resp-col.c{background:var(--yellow-bg);border:1px solid var(--yellow-border)}
+.resp-col-title{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.resp-col.v .resp-col-title{color:var(--blue)}
+.resp-col.c .resp-col-title{color:var(--yellow)}
+.resp-item{font-size:13px;color:var(--mid);margin-bottom:6px;display:flex;align-items:flex-start;gap:6px}
+.resp-item::before{content:"✓";font-weight:600;flex-shrink:0}
+.resp-col.v .resp-item::before{color:var(--blue)}
+.resp-col.c .resp-item::before{color:var(--yellow)}
+.riesgo-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;font-size:13px;color:var(--mid);line-height:1.5}
+.srv-list{display:flex;flex-direction:column;gap:8px}
+.srv-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg)}
+.srv-item-label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mid)}
+.srv-badge{font-size:11px;font-weight:500;padding:3px 8px;border-radius:20px}
+.srv-badge.alto{background:var(--green-bg);color:var(--green)}
+.srv-badge.medio{background:var(--yellow-bg);color:var(--yellow)}
+.srv-badge.bajo{background:var(--bg);color:var(--muted);border:1px solid var(--border)}
+.control-box{border-radius:var(--radius-lg);padding:16px 20px;display:flex;align-items:flex-start;gap:14px}
+.control-box.verde{background:var(--green-bg);border:1px solid var(--green-border)}
+.control-box.amarillo{background:var(--yellow-bg);border:1px solid var(--yellow-border)}
+.control-box.rojo{background:var(--red-bg);border:1px solid var(--red-border)}
+.control-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.control-dot.verde{background:var(--green)}
+.control-dot.amarillo{background:#d4a000}
+.control-dot.rojo{background:var(--red)}
+.control-text{font-size:13px;line-height:1.5}
+.control-box.verde .control-text{color:var(--green)}
+.control-box.amarillo .control-text{color:var(--yellow)}
+.control-box.rojo .control-text{color:var(--red)}
+.potencial-box{border-radius:var(--radius-lg);padding:16px 20px}
+.potencial-box.alto{background:var(--green-bg);border:1px solid var(--green-border)}
+.potencial-box.medio{background:var(--yellow-bg);border:1px solid var(--yellow-border)}
+.potencial-box.bajo{background:var(--red-bg);border:1px solid var(--red-border)}
+.potencial-nivel{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.potencial-box.alto .potencial-nivel{color:var(--green)}
+.potencial-box.medio .potencial-nivel{color:var(--yellow)}
+.potencial-box.bajo .potencial-nivel{color:var(--red)}
+.potencial-desc{font-size:13px;color:var(--mid);line-height:1.5}
+.btn-restart{width:100%;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;border:1.5px solid var(--border);border-radius:var(--radius-lg);background:var(--white);color:var(--mid);cursor:pointer;transition:all .15s;margin-top:16px}
+.btn-restart:hover{border-color:var(--dark);color:var(--dark)}
+/* NCM */
+.ncm-loading{text-align:center;padding:48px 24px;color:var(--muted)}
+.ncm-spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--dark);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ncm-result-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px 16px;margin-bottom:8px;cursor:pointer;transition:all .15s}
+.ncm-result-card:hover{border-color:var(--dark)}
+.ncm-result-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.ncm-result-code{font-family:'DM Mono',monospace;font-size:15px;font-weight:500}
+.ncm-result-copy{font-size:12px;color:var(--muted);transition:color .15s}
+.ncm-result-card:hover .ncm-result-copy{color:var(--dark)}
+.ncm-result-desc{font-size:13px;color:var(--mid);line-height:1.5}
+@media(max-width:600px){
+  .grid,.resp-grid{grid-template-columns:1fr}
+  .col-full{grid-column:1}
+  header{padding:14px 20px}
+  .tabs-bar{padding:0 16px}
+  .page,.wiz-page{padding:24px 16px 60px}
+  .result-code{font-size:36px}
+  .result-body{padding:20px}
+}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-logo">
-    <div class="logo-mark">
-      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-    </div>
+  <div class="logo">
+    <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
     <span class="logo-text">South<span>Cross</span> Logistics</span>
   </div>
-  <span class="header-tag">Pedido de cotización</span>
+  <span class="header-tag">Herramientas comerciales</span>
 </header>
 
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab('formulario',this)">Pedido de cotización</button>
+  <button class="tab-btn" onclick="switchTab('incoterms',this)">Decisor Incoterms</button>
+  <button class="tab-btn" onclick="switchTab('ncm',this)">Buscador NCM</button>
+</div>
+
+<!-- TAB 1: FORMULARIO -->
+<div class="tab-content active" id="tab-formulario">
 <div class="page">
   <h1 class="page-title">Nueva cotización</h1>
-  <p class="page-sub">Completá todos los campos marcados con <span style="color:var(--red)">*</span> para generar el mail.</p>
-
+  <p class="page-sub">Completá los campos obligatorios <span style="color:var(--red)">*</span> para generar el mail.</p>
   <div class="id-row">
     <span class="id-label">ID Operación</span>
     <span class="id-value" id="op-id">—</span>
-    <button class="id-refresh" onclick="generarID()" title="Regenerar ID" aria-label="Regenerar ID">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+    <button class="id-refresh" onclick="generarID()" aria-label="Regenerar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
     </button>
   </div>
-
   <div class="section">
-    <div class="section-header">
-      <div class="section-num">1</div>
-      <span class="section-title">Identificación</span>
-    </div>
+    <div class="section-header"><div class="section-num">1</div><span class="section-title">Identificación</span></div>
     <div class="grid">
-      <div class="field">
-        <label>Nombre comercial <span class="req">*</span></label>
-        <input type="text" id="nombre" placeholder="Ej: Santiago" />
-      </div>
-      <div class="field">
-        <label>Cliente <span class="req">*</span></label>
-        <input type="text" id="cliente" placeholder="Ej: Salus Aequitas S.A." />
-      </div>
+      <div class="field"><label>Nombre comercial <span class="req">*</span></label><input type="text" id="nombre" placeholder="Ej: Santiago"/></div>
+      <div class="field"><label>Cliente <span class="req">*</span></label><input type="text" id="cliente" placeholder="Ej: Salus Aequitas S.A."/></div>
     </div>
   </div>
-
   <div class="section">
-    <div class="section-header">
-      <div class="section-num">2</div>
-      <span class="section-title">Operación</span>
-    </div>
+    <div class="section-header"><div class="section-num">2</div><span class="section-title">Operación</span></div>
     <div class="grid">
-      <div class="field">
-        <label>Modalidad <span class="req">*</span></label>
+      <div class="field"><label>Modalidad <span class="req">*</span></label>
         <select id="modalidad" onchange="onModalidad()">
-          <option value="">Seleccionar...</option>
-          <option>FCL</option>
-          <option>LCL</option>
-          <option>AÉREO</option>
+          <option value="">Seleccionar...</option><option>FCL</option><option>LCL</option><option>AÉREO</option>
         </select>
       </div>
-      <div class="field hidden" id="contenedor-wrap">
-        <label>Tipo de contenedor <span class="req">*</span></label>
+      <div class="field hidden" id="contenedor-wrap"><label>Tipo de contenedor <span class="req">*</span></label>
         <select id="contenedor">
           <option value="">Seleccionar...</option>
-          <optgroup label="20 pies">
-            <option value="20' Dry Van">20' — Dry Van (Estándar)</option>
-            <option value="20' Reefer">20' — Reefer (Refrigerado)</option>
-            <option value="20' Open Top">20' — Open Top</option>
-            <option value="20' Flat Rack">20' — Flat Rack</option>
-            <option value="20' Tanque">20' — Tanque</option>
-            <option value="20' Ventilado">20' — Ventilado</option>
-          </optgroup>
-          <optgroup label="40 pies">
-            <option value="40' Dry Van">40' — Dry Van (Estándar)</option>
-            <option value="40' HC">40' — High Cube (HC)</option>
-            <option value="40' Reefer">40' — Reefer (Refrigerado)</option>
-            <option value="40' Open Top">40' — Open Top</option>
-            <option value="40' Flat Rack">40' — Flat Rack</option>
-          </optgroup>
+          <optgroup label="20 pies"><option value="20' Dry Van">20' — Dry Van</option><option value="20' Reefer">20' — Reefer</option><option value="20' Open Top">20' — Open Top</option><option value="20' Flat Rack">20' — Flat Rack</option><option value="20' Tanque">20' — Tanque</option><option value="20' Ventilado">20' — Ventilado</option></optgroup>
+          <optgroup label="40 pies"><option value="40' Dry Van">40' — Dry Van</option><option value="40' HC">40' — High Cube (HC)</option><option value="40' Reefer">40' — Reefer</option><option value="40' Open Top">40' — Open Top</option><option value="40' Flat Rack">40' — Flat Rack</option></optgroup>
         </select>
       </div>
-      <div class="field">
-        <label>Tipo de operación <span class="req">*</span></label>
-        <select id="tipo">
-          <option value="">Seleccionar...</option>
-          <option>IMPO</option>
-          <option>EXPO</option>
-        </select>
+      <div class="field"><label>Tipo de operación <span class="req">*</span></label>
+        <select id="tipo"><option value="">Seleccionar...</option><option>IMPO</option><option>EXPO</option></select>
       </div>
-      <div class="field">
-        <label>Incoterm <span class="req">*</span></label>
+      <div class="field"><label>Incoterm <span class="req">*</span></label>
         <select id="incoterm">
           <option value="">Seleccionar...</option>
-          <optgroup label="Multimodal">
-            <option>EXW</option><option>FCA</option><option>CPT</option>
-            <option>CIP</option><option>DAP</option><option>DPU</option><option>DDP</option>
-          </optgroup>
-          <optgroup label="Marítimo">
-            <option>FAS</option><option>FOB</option><option>CFR</option><option>CIF</option>
-          </optgroup>
+          <optgroup label="Multimodal"><option>EXW</option><option>FCA</option><option>CPT</option><option>CIP</option><option>DAP</option><option>DPU</option><option>DDP</option></optgroup>
+          <optgroup label="Marítimo"><option>FAS</option><option>FOB</option><option>CFR</option><option>CIF</option></optgroup>
         </select>
       </div>
-      <div class="field">
-        <label>Fecha estimada de embarque</label>
-        <input type="date" id="fecha-embarque" />
-      </div>
-      <div class="field">
-        <label>País de origen <span class="req">*</span></label>
-        <input type="text" id="pais-origen" placeholder="Ej: China" />
-      </div>
-      <div class="field hidden" id="puerto-origen-wrap">
-        <label>Puerto de origen</label>
-        <input type="text" id="puerto-origen" placeholder="Ej: Shanghai" />
-      </div>
-      <div class="field col-full">
-        <label>Dirección de retiro</label>
-        <input type="text" id="dir-retiro" placeholder="Ej: Huizhou, Guangdong, China" />
-      </div>
-      <div class="field">
-        <label>País de destino <span class="req">*</span></label>
-        <input type="text" id="pais-destino" placeholder="Ej: Argentina" />
-      </div>
-      <div class="field hidden" id="puerto-destino-wrap">
-        <label>Puerto de destino</label>
-        <input type="text" id="puerto-destino" placeholder="Ej: Buenos Aires" />
-      </div>
-      <div class="field col-full">
-        <label>Dirección de entrega</label>
-        <input type="text" id="dir-entrega" placeholder="Ej: Av. Corrientes 1234, Buenos Aires" />
-      </div>
+      <div class="field"><label>Fecha estimada de embarque</label><input type="date" id="fecha-embarque"/></div>
+      <div class="field"><label>País de origen <span class="req">*</span></label><input type="text" id="pais-origen" placeholder="Ej: China"/></div>
+      <div class="field hidden" id="puerto-origen-wrap"><label>Puerto de origen</label><input type="text" id="puerto-origen" placeholder="Ej: Shanghai"/></div>
+      <div class="field col-full"><label>Dirección de retiro</label><input type="text" id="dir-retiro" placeholder="Ej: Huizhou, Guangdong, China"/></div>
+      <div class="field"><label>País de destino <span class="req">*</span></label><input type="text" id="pais-destino" placeholder="Ej: Argentina"/></div>
+      <div class="field hidden" id="puerto-destino-wrap"><label>Puerto de destino</label><input type="text" id="puerto-destino" placeholder="Ej: Buenos Aires"/></div>
+      <div class="field col-full"><label>Dirección de entrega</label><input type="text" id="dir-entrega" placeholder="Ej: Av. Corrientes 1234, Buenos Aires"/></div>
     </div>
   </div>
-
   <div class="section">
-    <div class="section-header">
-      <div class="section-num">3</div>
-      <span class="section-title">Mercadería</span>
-    </div>
+    <div class="section-header"><div class="section-num">3</div><span class="section-title">Mercadería</span></div>
     <div class="grid">
-      <div class="field">
-        <label>Peso bruto <span class="req">*</span></label>
-        <input type="text" id="peso" placeholder="Ej: 890 kg" />
-      </div>
-      <div class="field">
-        <label>Volumen / Medidas <span class="req">*</span></label>
-        <input type="text" id="volumen" placeholder="Ej: 7,01 CBM" />
-      </div>
-      <div class="field">
-        <label>Cantidad de bultos <span class="req">*</span></label>
-        <input type="text" id="bultos" placeholder="Ej: 100 cajas" />
-      </div>
-      <div class="field">
-        <label>NCM</label>
-        <input type="text" id="ncm" placeholder="Ej: 9405.40" />
-      </div>
-      <div class="field col-full">
-        <label>Descripción de la mercadería <span class="req">*</span></label>
-        <input type="text" id="descripcion" placeholder="Ej: Luminarias LED tipo T8" />
-      </div>
-      <div class="field">
-        <label>Valor de la mercadería (USD) <span class="req">*</span></label>
-        <input type="text" id="valor" placeholder="Ej: 6.480" />
-      </div>
+      <div class="field"><label>Peso bruto <span class="req">*</span></label><input type="text" id="peso" placeholder="Ej: 890 kg"/></div>
+      <div class="field"><label>Volumen / Medidas <span class="req">*</span></label><input type="text" id="volumen" placeholder="Ej: 7,01 CBM"/></div>
+      <div class="field"><label>Cantidad de bultos <span class="req">*</span></label><input type="text" id="bultos" placeholder="Ej: 100 cajas"/></div>
+      <div class="field"><label>NCM</label><input type="text" id="ncm" placeholder="Ej: 9405.40"/></div>
+      <div class="field col-full"><label>Descripción de la mercadería <span class="req">*</span></label><input type="text" id="descripcion" placeholder="Ej: Luminarias LED tipo T8"/></div>
+      <div class="field"><label>Valor de la mercadería (USD) <span class="req">*</span></label><input type="text" id="valor" placeholder="Ej: 6.480"/></div>
     </div>
     <div style="margin-top:14px">
       <label style="display:block;margin-bottom:8px">Características especiales</label>
       <div class="checks">
-        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="imo" /> IMO</label>
-        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="reefer" /> Reefer</label>
-        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="apilable" /> Apilable</label>
-        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="roro" /> RoRo</label>
-        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="flatrack" /> Flat Rack</label>
+        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="imo"/> IMO</label>
+        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="reefer"/> Reefer</label>
+        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="apilable"/> Apilable</label>
+        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="roro"/> RoRo</label>
+        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="flatrack"/> Flat Rack</label>
       </div>
     </div>
   </div>
-
   <div class="section">
-    <div class="section-header">
-      <div class="section-num">4</div>
-      <span class="section-title">Logística <span class="req">*</span></span>
-    </div>
-
+    <div class="section-header"><div class="section-num">4</div><span class="section-title">Logística <span class="req">*</span></span></div>
     <div class="srv-block" id="row-pickup">
-      <div class="srv-top">
-        <div class="srv-label">
-          <div class="srv-icon">🚛</div>
-          Pickup
-        </div>
-        <div class="toggle-group">
-          <button class="tog" id="btn-pickup-si" onclick="toggleSrv('pickup','si')">Sí</button>
-          <button class="tog" id="btn-pickup-no" onclick="toggleSrv('pickup','no')">No</button>
-        </div>
+      <div class="srv-top"><div class="srv-label"><div class="srv-icon">🚛</div>Pickup</div>
+        <div class="toggle-group"><button class="tog" id="btn-pickup-si" onclick="toggleSrv('pickup','si')">Sí</button><button class="tog" id="btn-pickup-no" onclick="toggleSrv('pickup','no')">No</button></div>
       </div>
-      <div class="srv-detail" id="detail-pickup">
-        <input type="text" id="txt-pickup" placeholder="Dirección, horario, instrucciones especiales..." />
-      </div>
+      <div class="srv-detail" id="detail-pickup"><input type="text" id="txt-pickup" placeholder="Dirección, horario, instrucciones..."/></div>
     </div>
-
     <div class="srv-block" id="row-flete">
-      <div class="srv-top">
-        <div class="srv-label">
-          <div class="srv-icon">🚢</div>
-          Flete
-        </div>
-        <div class="toggle-group">
-          <button class="tog" id="btn-flete-si" onclick="toggleSrv('flete','si')">Sí</button>
-          <button class="tog" id="btn-flete-no" onclick="toggleSrv('flete','no')">No</button>
-        </div>
+      <div class="srv-top"><div class="srv-label"><div class="srv-icon">🚢</div>Flete</div>
+        <div class="toggle-group"><button class="tog" id="btn-flete-si" onclick="toggleSrv('flete','si')">Sí</button><button class="tog" id="btn-flete-no" onclick="toggleSrv('flete','no')">No</button></div>
       </div>
-      <div class="srv-detail" id="detail-flete">
-        <input type="text" id="txt-flete" placeholder="Ruta, naviera preferida, requerimientos especiales..." />
-      </div>
+      <div class="srv-detail" id="detail-flete"><input type="text" id="txt-flete" placeholder="Ruta, naviera, requerimientos..."/></div>
     </div>
-
     <div class="srv-block" id="row-aduana">
-      <div class="srv-top">
-        <div class="srv-label">
-          <div class="srv-icon">🏛️</div>
-          Servicios aduaneros
-        </div>
-        <div class="toggle-group">
-          <button class="tog" id="btn-aduana-si" onclick="toggleSrv('aduana','si')">Sí</button>
-          <button class="tog" id="btn-aduana-no" onclick="toggleSrv('aduana','no')">No</button>
-        </div>
+      <div class="srv-top"><div class="srv-label"><div class="srv-icon">🏛️</div>Servicios aduaneros</div>
+        <div class="toggle-group"><button class="tog" id="btn-aduana-si" onclick="toggleSrv('aduana','si')">Sí</button><button class="tog" id="btn-aduana-no" onclick="toggleSrv('aduana','no')">No</button></div>
       </div>
-      <div class="srv-detail" id="detail-aduana">
-        <input type="text" id="txt-aduana" placeholder="Tipo de despacho, DDP, documentación requerida..." />
-      </div>
+      <div class="srv-detail" id="detail-aduana"><input type="text" id="txt-aduana" placeholder="Tipo de despacho, DDP, documentación..."/></div>
     </div>
-
     <div class="srv-block" id="row-ultima">
-      <div class="srv-top">
-        <div class="srv-label">
-          <div class="srv-icon">📍</div>
-          Última milla
-        </div>
-        <div class="toggle-group">
-          <button class="tog" id="btn-ultima-si" onclick="toggleSrv('ultima','si')">Sí</button>
-          <button class="tog" id="btn-ultima-no" onclick="toggleSrv('ultima','no')">No</button>
-        </div>
+      <div class="srv-top"><div class="srv-label"><div class="srv-icon">📍</div>Última milla</div>
+        <div class="toggle-group"><button class="tog" id="btn-ultima-si" onclick="toggleSrv('ultima','si')">Sí</button><button class="tog" id="btn-ultima-no" onclick="toggleSrv('ultima','no')">No</button></div>
       </div>
-      <div class="srv-detail" id="detail-ultima">
-        <input type="text" id="txt-ultima" placeholder="Dirección de entrega, piso, horario, contacto..." />
-      </div>
+      <div class="srv-detail" id="detail-ultima"><input type="text" id="txt-ultima" placeholder="Dirección, piso, horario, contacto..."/></div>
     </div>
-
-    <div class="field" style="margin-top:12px">
-      <label>Observaciones generales</label>
-      <input type="text" id="observaciones" placeholder="Información adicional relevante" />
-    </div>
+    <div class="field" style="margin-top:12px"><label>Observaciones generales</label><input type="text" id="observaciones" placeholder="Información adicional relevante"/></div>
   </div>
-
   <button class="btn-generate" onclick="generar()">Generar mail →</button>
-
   <div class="output-section" id="output">
     <div class="output-divider"></div>
     <div class="output-block">
       <div class="output-label">Asunto</div>
-      <div class="output-row">
-        <div class="output-box" id="asunto-out"></div>
-        <button class="btn-copy" onclick="copiar('asunto-out',this)">Copiar</button>
-      </div>
+      <div class="output-row"><div class="output-box" id="asunto-out"></div><button class="btn-copy" onclick="copiar('asunto-out',this)">Copiar</button></div>
     </div>
     <div class="output-block">
       <div class="output-label">Cuerpo del mail</div>
-      <div class="output-row">
-        <div class="output-box" id="cuerpo-out"></div>
-        <button class="btn-copy" onclick="copiar('cuerpo-out',this)">Copiar</button>
-      </div>
+      <div class="output-row"><div class="output-box" id="cuerpo-out"></div><button class="btn-copy" onclick="copiar('cuerpo-out',this)">Copiar</button></div>
     </div>
   </div>
 </div>
+</div>
+
+<!-- TAB 2: DECISOR INCOTERMS -->
+<div class="tab-content" id="tab-incoterms">
+<div class="wiz-page">
+  <h1 class="page-title">Decisor Incoterms</h1>
+  <p class="page-sub">Respondé las preguntas para obtener el Incoterm correcto y el análisis comercial completo.</p>
+  <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+  <div id="wiz-container"></div>
+</div>
+</div>
+
+<!-- TAB 3: NCM -->
+<div class="tab-content" id="tab-ncm">
+<div class="page">
+  <h1 class="page-title">Buscador NCM</h1>
+  <p class="page-sub">Escribí la descripción de tu mercadería y encontrá el código NCM del MERCOSUR 2017.</p>
+  <div style="position:relative;margin-bottom:8px">
+    <input type="text" id="ncm-search" placeholder="Ej: bebida probiótica, luminaria LED, calzado cuero..." oninput="buscarNCM()" style="width:100%;padding:12px 44px 12px 16px;font-size:15px;border-radius:12px;border:1px solid var(--border)"/>
+    <svg style="position:absolute;right:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--muted);fill:none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+  </div>
+  <div id="ncm-count" style="font-size:12px;color:var(--muted);margin-bottom:16px;padding-left:4px;min-height:18px"></div>
+  <div id="ncm-results"></div>
+  <div id="ncm-empty" style="display:none;text-align:center;padding:48px 24px;color:var(--muted)">
+    <div style="font-size:32px;margin-bottom:12px">🔍</div>
+    <div style="font-size:15px;font-weight:500;color:var(--mid);margin-bottom:6px">Sin resultados</div>
+    <div style="font-size:13px">Probá con otro término o una descripción más general.</div>
+  </div>
+  <div id="ncm-placeholder" style="text-align:center;padding:48px 24px;color:var(--muted)">
+    <div style="font-size:32px;margin-bottom:12px">📦</div>
+    <div style="font-size:15px;font-weight:500;color:var(--mid);margin-bottom:6px">¿Qué mercadería querés clasificar?</div>
+    <div style="font-size:13px">Escribí una palabra clave para encontrar el NCM correcto.</div>
+  </div>
+</div>
+</div>
 
 <script>
-const srvState = {pickup:null,flete:null,aduana:null,ultima:null};
-let currentID = '';
+// Motor de decisión comercial SouthCross
+const ENGINE = {
+  evaluate(a) {
+    const { operacion, modalidad, containerizada, coordinador, elige_ff, paga_flete, expo, impo, paga_impuestos, puerta_a_puerta, entrega_nacionalizada } = a;
+
+    let incoterm = null;
+    let razon = '';
+    let vendedor_resp = [];
+    let comprador_resp = [];
+    let riesgo_punto = '';
+    let sc_servicios = [];
+    let sc_control = '';
+    let sc_control_nivel = ''; // verde / amarillo / rojo
+    let potencial = '';
+    let potencial_nivel = ''; // alto / medio / bajo
+
+    // ── LÓGICA PRINCIPAL ──
+    if (entrega_nacionalizada === 'si') {
+      incoterm = 'DDP';
+      razon = 'El vendedor asume absolutamente todo: flete, seguro, exportación, importación y aranceles. El comprador solo recibe la mercadería lista para usar.';
+      vendedor_resp = ['Exportación', 'Flete internacional', 'Seguro', 'Importación', 'Pago de aranceles e impuestos', 'Entrega final'];
+      comprador_resp = ['Solo recibe la mercadería'];
+      riesgo_punto = 'El riesgo se transfiere al llegar la mercadería al domicilio del comprador, ya nacionalizada.';
+    } else if (puerta_a_puerta === 'si' && impo === 'comprador' && paga_impuestos === 'comprador') {
+      incoterm = 'DAP';
+      razon = 'El vendedor cubre todos los costos y riesgos hasta el lugar de destino acordado. El comprador solo se encarga del despacho de importación y los aranceles.';
+      vendedor_resp = ['Exportación', 'Flete internacional', 'Seguro', 'Entrega hasta destino final'];
+      comprador_resp = ['Despacho de importación', 'Aranceles e impuestos'];
+      riesgo_punto = 'El riesgo se transfiere cuando la mercadería está disponible en el destino acordado, lista para descarga.';
+    } else if (puerta_a_puerta === 'si' && impo === 'comprador') {
+      incoterm = 'DPU';
+      razon = 'Similar a DAP pero el vendedor también descarga la mercadería en el punto de destino. El comprador hace la importación.';
+      vendedor_resp = ['Exportación', 'Flete internacional', 'Seguro', 'Entrega y descarga en destino'];
+      comprador_resp = ['Despacho de importación', 'Aranceles e impuestos'];
+      riesgo_punto = 'El riesgo se transfiere una vez que la mercadería es descargada en el lugar de destino acordado.';
+    } else if (expo === 'comprador') {
+      incoterm = 'EXW';
+      razon = 'El comprador controla absolutamente todo desde la fábrica del vendedor. El vendedor solo pone la mercadería a disposición en sus instalaciones.';
+      vendedor_resp = ['Poner la mercadería disponible en sus instalaciones'];
+      comprador_resp = ['Exportación', 'Flete local en origen', 'Flete internacional', 'Seguro', 'Importación', 'Entrega final'];
+      riesgo_punto = 'El riesgo se transfiere en el momento en que el comprador retira la mercadería de las instalaciones del vendedor.';
+    } else if (expo === 'vendedor' && paga_flete === 'comprador' && elige_ff === 'comprador') {
+      if (modalidad === 'maritimo' && containerizada === 'si') {
+        incoterm = 'FOB';
+        razon = 'El vendedor hace el despacho de exportación y carga la mercadería a bordo del buque. El comprador elige el forwarder y paga el flete internacional. El Incoterm más usado en comercio marítimo.';
+        vendedor_resp = ['Exportación', 'Transporte local hasta puerto', 'Carga a bordo del buque'];
+        comprador_resp = ['Flete internacional', 'Seguro', 'Importación', 'Entrega final'];
+        riesgo_punto = 'El riesgo se transfiere cuando la mercadería está a bordo del buque en el puerto de origen.';
+      } else if (modalidad === 'maritimo' && containerizada === 'no') {
+        incoterm = 'FAS';
+        razon = 'Para carga no containerizada, el vendedor entrega al costado del buque. El comprador asume desde ese punto.';
+        vendedor_resp = ['Exportación', 'Transporte hasta costado del buque'];
+        comprador_resp = ['Carga a bordo', 'Flete internacional', 'Seguro', 'Importación'];
+        riesgo_punto = 'El riesgo se transfiere cuando la mercadería está al costado del buque en el puerto de embarque.';
+      } else {
+        incoterm = 'FCA';
+        razon = 'Para operaciones aéreas, terrestres o multimodales, el vendedor hace la exportación y entrega al transportista del comprador en el punto acordado.';
+        vendedor_resp = ['Exportación', 'Entrega al transportista designado por el comprador'];
+        comprador_resp = ['Flete internacional', 'Seguro', 'Importación', 'Entrega final'];
+        riesgo_punto = 'El riesgo se transfiere cuando la mercadería es entregada al transportista designado por el comprador.';
+      }
+    } else if (expo === 'vendedor' && paga_flete === 'vendedor' && elige_ff === 'vendedor') {
+      if (modalidad === 'maritimo') {
+        if (impo === 'comprador') {
+          incoterm = 'CIF';
+          razon = 'El vendedor paga el flete marítimo y contrata el seguro. El comprador hace la importación. Muy usado para commodities y operaciones tradicionales.';
+          vendedor_resp = ['Exportación', 'Flete internacional', 'Seguro marítimo'];
+          comprador_resp = ['Importación', 'Aranceles', 'Entrega final'];
+          riesgo_punto = 'El riesgo se transfiere cuando la mercadería está a bordo del buque en el puerto de origen.';
+        } else {
+          incoterm = 'CFR';
+          razon = 'El vendedor paga el flete pero no el seguro. El comprador corre con el riesgo durante el transporte y hace la importación.';
+          vendedor_resp = ['Exportación', 'Flete internacional'];
+          comprador_resp = ['Seguro', 'Importación', 'Aranceles', 'Entrega final'];
+          riesgo_punto = 'El riesgo se transfiere cuando la mercadería está a bordo del buque en el puerto de origen.';
+        }
+      } else {
+        if (impo === 'comprador') {
+          incoterm = 'CIP';
+          razon = 'Para multimodal o aéreo, el vendedor paga el flete y el seguro hasta el destino acordado. El comprador hace la importación.';
+          vendedor_resp = ['Exportación', 'Flete internacional', 'Seguro'];
+          comprador_resp = ['Importación', 'Aranceles', 'Entrega final'];
+          riesgo_punto = 'El riesgo se transfiere cuando la mercadería es entregada al primer transportista.';
+        } else {
+          incoterm = 'CPT';
+          razon = 'El vendedor paga el flete hasta el destino pero no contrata seguro. El comprador importa y recibe en destino.';
+          vendedor_resp = ['Exportación', 'Flete hasta destino acordado'];
+          comprador_resp = ['Seguro', 'Importación', 'Aranceles'];
+          riesgo_punto = 'El riesgo se transfiere cuando la mercadería es entregada al primer transportista en origen.';
+        }
+      }
+    } else {
+      // Default inteligente basado en lo que sabemos
+      incoterm = 'FCA';
+      razon = 'Basado en las respuestas, FCA es el punto de partida más equilibrado. Te recomendamos revisar las condiciones específicas con tu cliente.';
+      vendedor_resp = ['Exportación', 'Entrega al transportista acordado'];
+      comprador_resp = ['Flete internacional', 'Seguro', 'Importación'];
+      riesgo_punto = 'El riesgo se transfiere en el punto de entrega acordado al transportista.';
+    }
+
+    // ── SERVICIOS SOUTHCROSS ──
+    const srv = [];
+    if (operacion === 'exportacion' || operacion === 'crosstrade') {
+      if (expo === 'vendedor') {
+        srv.push({ icon: '📋', label: 'Despacho de exportación', revenue: 'alto' });
+        srv.push({ icon: '🚛', label: 'Transporte local en origen', revenue: 'medio' });
+        srv.push({ icon: '🏭', label: 'Origin handling', revenue: 'medio' });
+      }
+    }
+    if (operacion === 'importacion' || operacion === 'crosstrade') {
+      if (impo === 'vendedor' || entrega_nacionalizada === 'si') {
+        srv.push({ icon: '📋', label: 'Despacho de importación', revenue: 'alto' });
+        srv.push({ icon: '💰', label: 'Liquidación de impuestos', revenue: 'alto' });
+      }
+    }
+    if (paga_flete === 'vendedor' || elige_ff === 'vendedor') {
+      srv.push({ icon: '🚢', label: 'Flete internacional (revenue principal)', revenue: 'alto' });
+    }
+    if (puerta_a_puerta === 'si' || entrega_nacionalizada === 'si') {
+      srv.push({ icon: '📍', label: 'Última milla / entrega final', revenue: 'medio' });
+    }
+    if (modalidad === 'maritimo') {
+      srv.push({ icon: '⚓', label: 'Coordinación portuaria', revenue: 'bajo' });
+    }
+    if (modalidad === 'aereo') {
+      srv.push({ icon: '✈️', label: 'Coordinación aeroportuaria', revenue: 'bajo' });
+    }
+    srv.push({ icon: '📄', label: 'Coordinación documental', revenue: 'bajo' });
+    sc_servicios = srv;
+
+    // ── NIVEL DE CONTROL SOUTHCROSS ──
+    let control_score = 0;
+    if (elige_ff === 'vendedor') control_score += 3;
+    if (paga_flete === 'vendedor') control_score += 3;
+    if (expo === 'vendedor') control_score += 2;
+    if (impo === 'vendedor' || entrega_nacionalizada === 'si') control_score += 2;
+    if (puerta_a_puerta === 'si') control_score += 1;
+
+    if (control_score >= 7) {
+      sc_control_nivel = 'verde';
+      sc_control = 'SouthCross controla la operación integral — flete, routing, agentes y documentación.';
+    } else if (control_score >= 4) {
+      sc_control_nivel = 'amarillo';
+      sc_control = 'Control parcial. SouthCross maneja algunos tramos pero el cliente o su contraparte controla el flete principal.';
+    } else {
+      sc_control_nivel = 'rojo';
+      sc_control = 'Control limitado. El comprador o vendedor externo controla la mayor parte de la operación.';
+    }
+
+    // ── POTENCIAL COMERCIAL ──
+    const alto_revenue = sc_servicios.filter(s => s.revenue === 'alto').length;
+    if (alto_revenue >= 3) {
+      potencial_nivel = 'alto';
+      potencial = 'Operación con alto potencial de revenue. SouthCross puede cobrar por múltiples tramos y servicios.';
+    } else if (alto_revenue >= 1) {
+      potencial_nivel = 'medio';
+      potencial = 'Revenue parcial. Hay oportunidades concretas pero la operación está compartida con terceros.';
+    } else {
+      potencial_nivel = 'bajo';
+      potencial = 'Revenue bajo. SouthCross actúa principalmente como coordinador. Evaluar si es estratégicamente conveniente.';
+    }
+
+    return {
+      incoterm,
+      razon,
+      vendedor_resp,
+      comprador_resp,
+      riesgo_punto,
+      sc_servicios,
+      sc_control,
+      sc_control_nivel,
+      potencial,
+      potencial_nivel
+    };
+  }
+};
+
+
+// ── WIZARD ──
+const STEPS = [
+  {id:'operacion',bloque:'Bloque 1 — Operación',pregunta:'¿Qué tipo de operación es?',hint:'Desde la perspectiva de SouthCross y su cliente.',opts:[
+    {val:'exportacion',icon:'📤',label:'Exportación',desc:'La mercadería sale del país del vendedor.'},
+    {val:'importacion',icon:'📥',label:'Importación',desc:'La mercadería entra al país del comprador.'},
+    {val:'crosstrade',icon:'🔄',label:'Cross-trade',desc:'Origen y destino son países terceros.'},
+  ]},
+  {id:'modalidad',bloque:'Bloque 2 — Transporte',pregunta:'¿Cuál es la modalidad de transporte?',hint:'El medio principal de transporte internacional.',opts:[
+    {val:'maritimo',icon:'🚢',label:'Marítimo',desc:'Buque — FCL, LCL, Bulk.'},
+    {val:'aereo',icon:'✈️',label:'Aéreo',desc:'Avión de carga.'},
+    {val:'terrestre',icon:'🚛',label:'Terrestre',desc:'Camión, tren.'},
+    {val:'multimodal',icon:'🔀',label:'Multimodal',desc:'Combinación de medios.'},
+  ]},
+  {id:'containerizada',bloque:'Bloque 2 — Transporte',pregunta:'¿La carga va en contenedor?',hint:'Aplica principalmente para marítimo.',opts:[
+    {val:'si',icon:'📦',label:'Sí — Containerizada',desc:'FCL o LCL en contenedor estándar.'},
+    {val:'no',icon:'⚓',label:'No — Carga suelta',desc:'Bulk, RoRo, proyecto, granel.'},
+  ]},
+  {id:'elige_ff',bloque:'Bloque 3 — Control',pregunta:'¿Quién elige el freight forwarder internacional?',hint:'Acá está el revenue del flete. Quien elige, controla el negocio.',opts:[
+    {val:'vendedor',icon:'🏭',label:'El vendedor',desc:'SouthCross puede ser el forwarder elegido.'},
+    {val:'comprador',icon:'🏢',label:'El comprador',desc:'El comprador tiene su propio forwarder.'},
+  ]},
+  {id:'paga_flete',bloque:'Bloque 3 — Control',pregunta:'¿Quién paga el flete internacional?',hint:'Quien paga el flete es quien tiene la relación comercial con el forwarder.',opts:[
+    {val:'vendedor',icon:'💰',label:'El vendedor',desc:'El flete va incluido en el precio de venta.'},
+    {val:'comprador',icon:'💳',label:'El comprador',desc:'El comprador paga el flete por separado.'},
+  ]},
+  {id:'expo',bloque:'Bloque 4 — Aduana',pregunta:'¿Quién hace el despacho de exportación?',hint:'Incluye documentación y habilitación de salida del país.',opts:[
+    {val:'vendedor',icon:'📋',label:'El vendedor',desc:'El vendedor gestiona la salida de su país.'},
+    {val:'comprador',icon:'📋',label:'El comprador',desc:'El comprador gestiona la exportación.'},
+  ]},
+  {id:'impo',bloque:'Bloque 4 — Aduana',pregunta:'¿Quién hace el despacho de importación?',hint:'Incluye trámites aduaneros y pago de aranceles en destino.',opts:[
+    {val:'vendedor',icon:'📋',label:'El vendedor',desc:'El vendedor gestiona todo hasta destino.'},
+    {val:'comprador',icon:'📋',label:'El comprador',desc:'El comprador hace su propia importación.'},
+  ]},
+  {id:'paga_impuestos',bloque:'Bloque 4 — Aduana',pregunta:'¿Quién paga los aranceles e impuestos en destino?',hint:'',opts:[
+    {val:'vendedor',icon:'💰',label:'El vendedor',desc:'Incluido en el precio — operación DDP.'},
+    {val:'comprador',icon:'💳',label:'El comprador',desc:'El comprador paga sus propios aranceles.'},
+  ]},
+  {id:'puerta_a_puerta',bloque:'Bloque 5 — Entrega',pregunta:'¿La entrega es puerta a puerta?',hint:'¿La mercadería llega hasta el domicilio final del comprador?',opts:[
+    {val:'si',icon:'🚪',label:'Sí — Door to door',desc:'Entrega en el domicilio final del consignee.'},
+    {val:'no',icon:'⚓',label:'No — Puerto / terminal',desc:'La entrega es en un punto logístico.'},
+  ]},
+  {id:'entrega_nacionalizada',bloque:'Bloque 5 — Entrega',pregunta:'¿El vendedor entrega la mercadería ya nacionalizada?',hint:'Nacionalizada = despachada, con aranceles pagos, lista para usar.',opts:[
+    {val:'si',icon:'✅',label:'Sí — Mercadería nacionalizada',desc:'DDP — máxima responsabilidad del vendedor.'},
+    {val:'no',icon:'📦',label:'No — Sin nacionalizar',desc:'El comprador hace su propia importación.'},
+  ]},
+];
+
+const INC_FULL = {
+  'EXW':'Ex Works / En fábrica','FCA':'Free Carrier','FOB':'Free On Board',
+  'FAS':'Free Alongside Ship','CFR':'Cost and Freight','CIF':'Cost, Insurance and Freight',
+  'CPT':'Carriage Paid To','CIP':'Carriage and Insurance Paid To',
+  'DAP':'Delivered at Place','DPU':'Delivered at Place Unloaded','DDP':'Delivered Duty Paid'
+};
+
+let wizStep=0, wizAnswers={};
+
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='ncm' && !NCM_LOADED) loadNCM();
+}
+
+function renderWiz(){
+  const c=document.getElementById('wiz-container');
+  if(wizStep>=STEPS.length){renderResult();return;}
+  const s=STEPS[wizStep];
+  const pct=Math.round((wizStep/STEPS.length)*100);
+  document.getElementById('progress').style.width=pct+'%';
+  const sel=wizAnswers[s.id];
+  c.innerHTML=`<div class="wiz-card">
+    <div class="wiz-step-label">${s.bloque} · Pregunta ${wizStep+1} de ${STEPS.length}</div>
+    <div class="wiz-question">${s.pregunta}</div>
+    ${s.hint?`<div class="wiz-hint">${s.hint}</div>`:''}
+    <div class="wiz-opts">${s.opts.map(o=>`
+      <div class="wiz-opt ${sel===o.val?'selected':''}" onclick="wizSelect('${s.id}','${o.val}',this)">
+        <div class="wiz-opt-icon">${o.icon}</div>
+        <div class="wiz-opt-text">
+          <div class="wiz-opt-label">${o.label}</div>
+          ${o.desc?`<div class="wiz-opt-desc">${o.desc}</div>`:''}
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>
+  <div class="wiz-nav">
+    ${wizStep>0?`<button class="btn-back" onclick="wizBack()">← Atrás</button>`:''}
+    <button class="btn-next" id="btn-next" onclick="wizNext()" ${!sel?'disabled':''}>
+      ${wizStep===STEPS.length-1?'Ver resultado →':'Siguiente →'}
+    </button>
+  </div>`;
+}
+
+function wizSelect(key,val,el){
+  wizAnswers[key]=val;
+  el.closest('.wiz-opts').querySelectorAll('.wiz-opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('btn-next').disabled=false;
+}
+function wizNext(){if(!wizAnswers[STEPS[wizStep].id])return;wizStep++;renderWiz();}
+function wizBack(){if(wizStep>0){wizStep--;renderWiz();}}
+
+function renderResult(){
+  document.getElementById('progress').style.width='100%';
+  const r=ENGINE.evaluate(wizAnswers);
+  document.getElementById('wiz-container').innerHTML=`
+    <div class="result-card">
+      <div class="result-header">
+        <div class="result-tag">Incoterm recomendado</div>
+        <div class="result-code">${r.incoterm}</div>
+        <div class="result-full">${INC_FULL[r.incoterm]||''}</div>
+      </div>
+      <div class="result-body">
+        <div class="r-section"><div class="r-title">¿Por qué?</div><div class="r-text">${r.razon}</div></div>
+        <div class="r-section">
+          <div class="r-title">Responsabilidades</div>
+          <div class="resp-grid">
+            <div class="resp-col v"><div class="resp-col-title">Vendedor</div>${r.vendedor_resp.map(i=>`<div class="resp-item">${i}</div>`).join('')}</div>
+            <div class="resp-col c"><div class="resp-col-title">Comprador</div>${r.comprador_resp.map(i=>`<div class="resp-item">${i}</div>`).join('')}</div>
+          </div>
+        </div>
+        <div class="r-section"><div class="r-title">Transferencia de riesgo</div><div class="riesgo-box">📍 ${r.riesgo_punto}</div></div>
+        <div class="r-section">
+          <div class="r-title">Servicios que SouthCross puede vender</div>
+          <div class="srv-list">${r.sc_servicios.map(s=>`
+            <div class="srv-item">
+              <div class="srv-item-label"><span>${s.icon}</span>${s.label}</div>
+              <span class="srv-badge ${s.revenue}">Revenue ${s.revenue}</span>
+            </div>`).join('')}
+          </div>
+        </div>
+        <div class="r-section">
+          <div class="r-title">Nivel de control SouthCross</div>
+          <div class="control-box ${r.sc_control_nivel}">
+            <div class="control-dot ${r.sc_control_nivel}"></div>
+            <div class="control-text">
+              <strong style="font-size:11px;letter-spacing:.06em;text-transform:uppercase">${r.sc_control_nivel==='verde'?'🟢 Control total':r.sc_control_nivel==='amarillo'?'🟡 Control parcial':'🔴 Control limitado'}</strong><br>${r.sc_control}
+            </div>
+          </div>
+        </div>
+        <div class="r-section">
+          <div class="r-title">Potencial comercial</div>
+          <div class="potencial-box ${r.potencial_nivel}">
+            <div class="potencial-nivel">${r.potencial_nivel==='alto'?'🔥 Alto':r.potencial_nivel==='medio'?'⚡ Medio':'💧 Bajo'}</div>
+            <div class="potencial-desc">${r.potencial}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-restart" onclick="wizRestart()">← Nueva consulta</button>`;
+}
+
+function wizRestart(){wizStep=0;wizAnswers={};document.getElementById('progress').style.width='0%';renderWiz();}
+
+// ── FORMULARIO ──
+const srvState={pickup:null,flete:null,aduana:null,ultima:null};
+let currentID='';
 
 function generarID(){
-  const now = new Date();
-  const rand = Math.floor(Math.random()*90000)+10000;
-  const ts = now.getTime().toString().slice(-4);
-  currentID = ('SC-'+now.getFullYear()+'-'+rand+ts).slice(0,16);
-  document.getElementById('op-id').textContent = currentID;
+  const now=new Date();
+  const rand=Math.floor(Math.random()*90000)+10000;
+  const ts=now.getTime().toString().slice(-4);
+  currentID=('SC-'+now.getFullYear()+'-'+rand+ts).slice(0,16);
+  document.getElementById('op-id').textContent=currentID;
 }
-
-function togglePill(label){
-  const cb = label.querySelector('input');
-  setTimeout(()=>{ label.classList.toggle('checked', cb.checked); }, 0);
-}
-
-function toggleSrv(key, val){
-  srvState[key] = val;
-  ['si','no'].forEach(v=>{
-    const btn = document.getElementById('btn-'+key+'-'+v);
-    btn.classList.remove('si','no');
-    if(v===val) btn.classList.add(val);
-  });
-  document.getElementById('detail-'+key).style.display = val==='si' ? 'block' : 'none';
+function togglePill(label){const cb=label.querySelector('input');setTimeout(()=>{label.classList.toggle('checked',cb.checked);},0);}
+function toggleSrv(key,val){
+  srvState[key]=val;
+  ['si','no'].forEach(v=>{const btn=document.getElementById('btn-'+key+'-'+v);btn.classList.remove('si','no');if(v===val)btn.classList.add(val);});
+  document.getElementById('detail-'+key).style.display=val==='si'?'block':'none';
   document.getElementById('row-'+key).classList.remove('error');
 }
-
 function onModalidad(){
-  const m = document.getElementById('modalidad').value;
-  const esFCL = m==='FCL', esM = m==='FCL'||m==='LCL';
-  document.getElementById('contenedor-wrap').classList.toggle('hidden', !esFCL);
-  document.getElementById('puerto-origen-wrap').classList.toggle('hidden', !esM);
-  document.getElementById('puerto-destino-wrap').classList.toggle('hidden', !esM);
+  const m=document.getElementById('modalidad').value;
+  const esFCL=m==='FCL',esM=m==='FCL'||m==='LCL';
+  document.getElementById('contenedor-wrap').classList.toggle('hidden',!esFCL);
+  document.getElementById('puerto-origen-wrap').classList.toggle('hidden',!esM);
+  document.getElementById('puerto-destino-wrap').classList.toggle('hidden',!esM);
 }
-
-function v(id){ const el=document.getElementById(id); return el?el.value.trim():''; }
-function c(id){ const el=document.getElementById(id); return el?el.checked:false; }
-
-function fmt(d){
-  if(!d) return '—';
-  const [y,m,dd]=d.split('-');
-  return dd+'/'+m+'/'+y.slice(2);
-}
-
-function srvLine(label,key){
-  const s=srvState[key], det=v('txt-'+key);
-  let line = label+': '+(s==='si'?'SÍ':s==='no'?'NO':'—');
-  if(s==='si'&&det) line+=' — '+det;
-  return line;
-}
+function v(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+function c(id){const el=document.getElementById(id);return el?el.checked:false;}
+function fmt(d){if(!d)return '—';const[y,m,dd]=d.split('-');return dd+'/'+m+'/'+y.slice(2);}
+function srvLine(label,key){const s=srvState[key],det=v('txt-'+key);let line=label+': '+(s==='si'?'SÍ':s==='no'?'NO':'—');if(s==='si'&&det)line+=' — '+det;return line;}
 
 function generar(){
-  const nombre=v('nombre'),cliente=v('cliente'),modalidad=v('modalidad');
-  const tipo=v('tipo'),incoterm=v('incoterm');
-  const paisOrigen=v('pais-origen'),paisDestino=v('pais-destino');
-  const puertoOrigen=v('puerto-origen'),puertoDestino=v('puerto-destino');
+  const nombre=v('nombre'),cliente=v('cliente'),modalidad=v('modalidad'),tipo=v('tipo'),incoterm=v('incoterm');
+  const paisOrigen=v('pais-origen'),paisDestino=v('pais-destino'),puertoOrigen=v('puerto-origen'),puertoDestino=v('puerto-destino');
   const contenedor=v('contenedor'),dirRetiro=v('dir-retiro'),dirEntrega=v('dir-entrega');
-  const peso=v('peso'),volumen=v('volumen'),bultos=v('bultos');
-  const ncm=v('ncm'),descripcion=v('descripcion'),valor=v('valor');
+  const peso=v('peso'),volumen=v('volumen'),bultos=v('bultos'),ncm=v('ncm'),descripcion=v('descripcion'),valor=v('valor');
   const fechaEmbarque=v('fecha-embarque'),observaciones=v('observaciones');
-  const esFCL=modalidad==='FCL', esM=modalidad==='FCL'||modalidad==='LCL';
-
-  const req=[
-    ['Nombre comercial',nombre],['Cliente',cliente],['Modalidad',modalidad],
-    ['Tipo de operación',tipo],['Incoterm',incoterm],
-    ['País de origen',paisOrigen],['País de destino',paisDestino],
-    ['Peso bruto',peso],['Volumen / Medidas',volumen],
-    ['Cantidad de bultos',bultos],['Descripción de la mercadería',descripcion],
-    ['Valor de la mercadería',valor],
-  ];
-  if(esFCL) req.push(['Tipo de contenedor',contenedor]);
-
+  const esFCL=modalidad==='FCL',esM=modalidad==='FCL'||modalidad==='LCL';
+  const req=[['Nombre comercial',nombre],['Cliente',cliente],['Modalidad',modalidad],['Tipo de operación',tipo],['Incoterm',incoterm],['País de origen',paisOrigen],['País de destino',paisDestino],['Peso bruto',peso],['Volumen / Medidas',volumen],['Cantidad de bultos',bultos],['Descripción de la mercadería',descripcion],['Valor de la mercadería',valor]];
+  if(esFCL)req.push(['Tipo de contenedor',contenedor]);
+  const idMap={'Nombre comercial':'nombre','Cliente':'cliente','Modalidad':'modalidad','Tipo de operación':'tipo','Incoterm':'incoterm','País de origen':'pais-origen','País de destino':'pais-destino','Peso bruto':'peso','Volumen / Medidas':'volumen','Cantidad de bultos':'bultos','Descripción de la mercadería':'descripcion','Valor de la mercadería':'valor','Tipo de contenedor':'contenedor'};
   const falt=req.filter(([,v])=>!v).map(([l])=>l);
-  req.forEach(([l,val])=>{
-    const id=({
-      'Nombre comercial':'nombre','Cliente':'cliente','Modalidad':'modalidad',
-      'Tipo de operación':'tipo','Incoterm':'incoterm',
-      'País de origen':'pais-origen','País de destino':'pais-destino',
-      'Peso bruto':'peso','Volumen / Medidas':'volumen',
-      'Cantidad de bultos':'bultos','Descripción de la mercadería':'descripcion',
-      'Valor de la mercadería':'valor','Tipo de contenedor':'contenedor'
-    })[l];
-    if(id){ const el=document.getElementById(id); if(el) el.classList.toggle('error',!val); }
-  });
-
+  req.forEach(([l,val])=>{const id=idMap[l];if(id){const el=document.getElementById(id);if(el)el.classList.toggle('error',!val);}});
   const srvFalt=Object.entries(srvState).filter(([,v])=>v===null);
   srvFalt.forEach(([key])=>document.getElementById('row-'+key).classList.add('error'));
-
   if(falt.length||srvFalt.length){
     const labels={pickup:'Pickup',flete:'Flete',aduana:'Servicios aduaneros',ultima:'Última milla'};
     let msg='';
-    if(falt.length) msg+='Campos obligatorios faltantes:\n• '+falt.join('\n• ');
-    if(srvFalt.length){
-      if(msg) msg+='\n\n';
-      msg+='Servicios logísticos sin responder:\n• '+srvFalt.map(([k])=>labels[k]).join('\n• ');
-    }
-    alert(msg); return;
+    if(falt.length)msg+='Campos obligatorios faltantes:
+• '+falt.join('
+• ');
+    if(srvFalt.length){if(msg)msg+='
+
+';msg+='Servicios sin responder:
+• '+srvFalt.map(([k])=>labels[k]).join('
+• ');}
+    alert(msg);return;
   }
-
   const today=new Date();
-  const dd=String(today.getDate()).padStart(2,'0');
-  const mm=String(today.getMonth()+1).padStart(2,'0');
-  const yy=String(today.getFullYear()).slice(2);
-  const fechaHoy=dd+'/'+mm+'/'+yy;
-
+  const dd=String(today.getDate()).padStart(2,'0'),mm=String(today.getMonth()+1).padStart(2,'0'),yy=String(today.getFullYear()).slice(2);
   const contStr=esFCL?' | '+contenedor:'';
-  const asunto='['+currentID+'] Pedido Cotización | '+nombre+' | '+modalidad+contStr+' | '+tipo+' | '+paisOrigen+' > '+paisDestino+' | '+cliente+' | '+fechaHoy;
-
-  const caract=[
-    c('imo')?'IMO: SÍ':'IMO: NO',
-    c('reefer')?'Reefer: SÍ':'Reefer: NO',
-    c('apilable')?'Apilable: SÍ':'Apilable: NO',
-    c('roro')?'RoRo: SÍ':'RoRo: NO',
-    c('flatrack')?'Flat Rack: SÍ':'Flat Rack: NO',
-  ].join(' | ');
-
+  const asunto='['+currentID+'] Pedido Cotización | '+nombre+' | '+modalidad+contStr+' | '+tipo+' | '+paisOrigen+' > '+paisDestino+' | '+cliente+' | '+dd+'/'+mm+'/'+yy;
+  const caract=[c('imo')?'IMO: SÍ':'IMO: NO',c('reefer')?'Reefer: SÍ':'Reefer: NO',c('apilable')?'Apilable: SÍ':'Apilable: NO',c('roro')?'RoRo: SÍ':'RoRo: NO',c('flatrack')?'Flat Rack: SÍ':'Flat Rack: NO'].join(' | ');
   const cuerpo=`ID OPERACIÓN: ${currentID}
 
 OPERACIÓN
 Modalidad:                  ${modalidad}${esFCL?' — '+contenedor:''}
 Incoterm:                   ${incoterm}
 Tipo de operación:          ${tipo}
-País de origen:             ${paisOrigen}${esM&&puertoOrigen?'\nPuerto de origen:           '+puertoOrigen:''}
+País de origen:             ${paisOrigen}${esM&&puertoOrigen?'
+Puerto de origen:           '+puertoOrigen:''}
 Dirección de retiro:        ${dirRetiro||'—'}
-País de destino:            ${paisDestino}${esM&&puertoDestino?'\nPuerto de destino:          '+puertoDestino:''}
+País de destino:            ${paisDestino}${esM&&puertoDestino?'
+Puerto de destino:          '+puertoDestino:''}
 Dirección de entrega:       ${dirEntrega||'—'}
 Fecha estimada embarque:    ${fmt(fechaEmbarque)}
 
@@ -812,23 +770,59 @@ ${srvLine('Flete               ','flete')}
 ${srvLine('Servicios aduaneros ','aduana')}
 ${srvLine('Última milla        ','ultima')}
 Observaciones:              ${observaciones||'—'}`;
-
   document.getElementById('asunto-out').textContent=asunto;
   document.getElementById('cuerpo-out').textContent=cuerpo;
   const out=document.getElementById('output');
   out.classList.add('visible');
   out.scrollIntoView({behavior:'smooth',block:'start'});
 }
-
 function copiar(id,btn){
   navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>{
-    btn.classList.add('copied');
-    btn.textContent='✓ Copiado';
+    btn.classList.add('copied');btn.textContent='✓ Copiado';
     setTimeout(()=>{btn.classList.remove('copied');btn.textContent='Copiar';},2000);
   });
 }
 
+// ── NCM — carga lazy ──
+let NCM_DB=null, NCM_LOADED=false;
+
+function loadNCM(){
+  document.getElementById('ncm-placeholder').innerHTML=`<div class="ncm-loading"><div class="ncm-spinner"></div><div style="font-size:14px">Cargando base de datos NCM...</div></div>`;
+  fetch('ncm_data.json')
+    .then(r=>r.json())
+    .then(data=>{NCM_DB=data;NCM_LOADED=true;document.getElementById('ncm-placeholder').innerHTML=`<div style="text-align:center;padding:48px 24px;color:var(--muted)"><div style="font-size:32px;margin-bottom:12px">📦</div><div style="font-size:15px;font-weight:500;color:var(--mid);margin-bottom:6px">¿Qué mercadería querés clasificar?</div><div style="font-size:13px">Escribí una palabra clave para encontrar el NCM correcto.</div></div>`;})
+    .catch(()=>{document.getElementById('ncm-placeholder').innerHTML=`<div style="text-align:center;padding:48px 24px;color:var(--red)"><div style="font-size:32px;margin-bottom:12px">⚠️</div><div style="font-size:15px;font-weight:500">Error al cargar la base NCM</div><div style="font-size:13px;margin-top:6px">Verificá que el archivo ncm_data.json esté en la misma carpeta.</div></div>`;});
+}
+
+function normalizar(s){return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();}
+
+function buscarNCM(){
+  if(!NCM_LOADED||!NCM_DB) return;
+  const q=normalizar(document.getElementById('ncm-search').value);
+  const results=document.getElementById('ncm-results');
+  const empty=document.getElementById('ncm-empty');
+  const placeholder=document.getElementById('ncm-placeholder');
+  const count=document.getElementById('ncm-count');
+  if(q.length<2){results.innerHTML='';empty.style.display='none';placeholder.style.display='block';count.textContent='';return;}
+  placeholder.style.display='none';
+  const terms=q.split(' ').filter(t=>t.length>1);
+  const matches=NCM_DB.filter(e=>{const d=normalizar(e.d),c=e.c.replace(/\./g,'');return terms.every(t=>d.includes(t)||c.includes(t));}).slice(0,50);
+  if(matches.length===0){results.innerHTML='';empty.style.display='block';count.textContent='';return;}
+  empty.style.display='none';
+  count.textContent=matches.length===50?'Mostrando los primeros 50 — escribí más para filtrar.':matches.length+' resultado'+(matches.length!==1?'s':'')+' encontrado'+(matches.length!==1?'s':'')+'.';
+  results.innerHTML=matches.map(e=>{const d=e.d.length>120?e.d.slice(0,120)+'...':e.d;return `<div class="ncm-result-card" onclick="copiarNCM('${e.c}',this)"><div class="ncm-result-top"><span class="ncm-result-code">${e.c}</span><span class="ncm-result-copy">Copiar código</span></div><div class="ncm-result-desc">${d}</div></div>`;}).join('');
+}
+function copiarNCM(code,card){
+  navigator.clipboard.writeText(code).then(()=>{
+    const btn=card.querySelector('.ncm-result-copy');
+    btn.textContent='✓ Copiado';btn.style.color='var(--green)';
+    setTimeout(()=>{btn.textContent='Copiar código';btn.style.color='';},2000);
+  });
+}
+
+// ── INIT ──
 generarID();
+renderWiz();
 </script>
 </body>
 </html>
