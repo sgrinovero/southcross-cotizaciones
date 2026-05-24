@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SouthCross Logistics — Pedido de Cotización</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #C8102E;
+    --red-light: #f5e6e9;
+    --dark: #0f0f0f;
+    --mid: #3a3a3a;
+    --muted: #888;
+    --border: #e0e0e0;
+    --bg: #f7f7f5;
+    --white: #ffffff;
+    --success: #1a7f4b;
+    --success-bg: #e6f5ee;
+    --danger: #c8102e;
+    --danger-bg: #fceaed;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  header {
+    background: var(--dark);
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+    background: var(--red);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-mark svg { width: 18px; height: 18px; fill: white; }
+
+  .logo-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    letter-spacing: -0.02em;
+  }
+
+  .logo-text span { color: var(--red); }
+
+  .header-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: #666;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .page-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--dark);
+    letter-spacing: -0.03em;
+    margin-bottom: 4px;
+  }
+
+  .page-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+
+  .id-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    margin-bottom: 32px;
+    width: fit-content;
+  }
+
+  .id-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .id-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark);
+  }
+
+  .id-refresh {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    transition: color 0.15s;
+    border-radius: 4px;
+  }
+
+  .id-refresh:hover { color: var(--dark); }
+
+  .section {
+    margin-bottom: 32px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    width: 22px;
+    height: 22px;
+    background: var(--dark);
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .col-full { grid-column: 1 / -1; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; }
+
+  label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--mid);
+  }
+
+  .req { color: var(--red); }
+
+  input[type="text"],
+  input[type="date"],
+  select,
+  textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--dark);
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 9px 12px;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  select:focus { border-color: var(--dark); }
+
+  input.error, select.error { border-color: var(--red) !important; }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+  }
+
+  .checks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+
+  .check-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--mid);
+    cursor: pointer;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .check-pill input { display: none; }
+  .check-pill:hover { border-color: var(--dark); color: var(--dark); }
+  .check-pill.checked { background: var(--dark); color: white; border-color: var(--dark); }
+
+  .srv-block {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 8px;
+    transition: border-color 0.2s;
+  }
+
+  .srv-block.error { border-color: var(--red); }
+
+  .srv-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+  }
+
+  .srv-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark);
+  }
+
+  .srv-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .toggle-group { display: flex; gap: 4px; }
+
+  .tog {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .tog:hover { border-color: var(--dark); color: var(--dark); }
+  .tog.si { background: var(--success-bg); color: var(--success); border-color: var(--success); }
+  .tog.no { background: var(--danger-bg); color: var(--danger); border-color: var(--danger); }
+
+  .srv-detail {
+    border-top: 1px solid var(--border);
+    padding: 10px 16px;
+    background: var(--bg);
+    display: none;
+  }
+
+  .srv-detail input { background: var(--white); }
+
+  .btn-generate {
+    width: 100%;
+    padding: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    background: var(--dark);
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: -0.01em;
+    margin-top: 8px;
+  }
+
+  .btn-generate:hover { background: var(--red); }
+  .btn-generate:active { transform: scale(0.99); }
+
+  .output-section {
+    margin-top: 32px;
+    display: none;
+  }
+
+  .output-section.visible { display: block; }
+
+  .output-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 24px;
+  }
+
+  .output-block { margin-bottom: 16px; }
+
+  .output-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .output-row { display: flex; align-items: flex-start; gap: 8px; }
+
+  .output-box {
+    flex: 1;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--dark);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .btn-copy {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .btn-copy:hover { border-color: var(--dark); color: var(--dark); }
+  .btn-copy.copied { background: var(--success-bg); color: var(--success); border-color: var(--success); }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    .col-full { grid-column: 1; }
+    header { padding: 14px 20px; }
+    .page { padding: 24px 16px 60px; }
+    .page-title { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <span class="logo-text">South<span>Cross</span> Logistics</span>
+  </div>
+  <span class="header-tag">Pedido de cotización</span>
+</header>
+
+<div class="page">
+  <h1 class="page-title">Nueva cotización</h1>
+  <p class="page-sub">Completá todos los campos marcados con <span style="color:var(--red)">*</span> para generar el mail.</p>
+
+  <div class="id-row">
+    <span class="id-label">ID Operación</span>
+    <span class="id-value" id="op-id">—</span>
+    <button class="id-refresh" onclick="generarID()" title="Regenerar ID" aria-label="Regenerar ID">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+    </button>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <span class="section-title">Identificación</span>
+    </div>
+    <div class="grid">
+      <div class="field">
+        <label>Nombre comercial <span class="req">*</span></label>
+        <input type="text" id="nombre" placeholder="Ej: Santiago" />
+      </div>
+      <div class="field">
+        <label>Cliente <span class="req">*</span></label>
+        <input type="text" id="cliente" placeholder="Ej: Salus Aequitas S.A." />
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <span class="section-title">Operación</span>
+    </div>
+    <div class="grid">
+      <div class="field">
+        <label>Modalidad <span class="req">*</span></label>
+        <select id="modalidad" onchange="onModalidad()">
+          <option value="">Seleccionar...</option>
+          <option>FCL</option>
+          <option>LCL</option>
+          <option>AÉREO</option>
+        </select>
+      </div>
+      <div class="field hidden" id="contenedor-wrap">
+        <label>Tipo de contenedor <span class="req">*</span></label>
+        <select id="contenedor">
+          <option value="">Seleccionar...</option>
+          <optgroup label="20 pies">
+            <option value="20' Dry Van">20' — Dry Van (Estándar)</option>
+            <option value="20' Reefer">20' — Reefer (Refrigerado)</option>
+            <option value="20' Open Top">20' — Open Top</option>
+            <option value="20' Flat Rack">20' — Flat Rack</option>
+            <option value="20' Tanque">20' — Tanque</option>
+            <option value="20' Ventilado">20' — Ventilado</option>
+          </optgroup>
+          <optgroup label="40 pies">
+            <option value="40' Dry Van">40' — Dry Van (Estándar)</option>
+            <option value="40' HC">40' — High Cube (HC)</option>
+            <option value="40' Reefer">40' — Reefer (Refrigerado)</option>
+            <option value="40' Open Top">40' — Open Top</option>
+            <option value="40' Flat Rack">40' — Flat Rack</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tipo de operación <span class="req">*</span></label>
+        <select id="tipo">
+          <option value="">Seleccionar...</option>
+          <option>IMPO</option>
+          <option>EXPO</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Incoterm <span class="req">*</span></label>
+        <select id="incoterm">
+          <option value="">Seleccionar...</option>
+          <optgroup label="Multimodal">
+            <option>EXW</option><option>FCA</option><option>CPT</option>
+            <option>CIP</option><option>DAP</option><option>DPU</option><option>DDP</option>
+          </optgroup>
+          <optgroup label="Marítimo">
+            <option>FAS</option><option>FOB</option><option>CFR</option><option>CIF</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="field">
+        <label>Fecha estimada de embarque</label>
+        <input type="date" id="fecha-embarque" />
+      </div>
+      <div class="field">
+        <label>País de origen <span class="req">*</span></label>
+        <input type="text" id="pais-origen" placeholder="Ej: China" />
+      </div>
+      <div class="field hidden" id="puerto-origen-wrap">
+        <label>Puerto de origen</label>
+        <input type="text" id="puerto-origen" placeholder="Ej: Shanghai" />
+      </div>
+      <div class="field col-full">
+        <label>Dirección de retiro</label>
+        <input type="text" id="dir-retiro" placeholder="Ej: Huizhou, Guangdong, China" />
+      </div>
+      <div class="field">
+        <label>País de destino <span class="req">*</span></label>
+        <input type="text" id="pais-destino" placeholder="Ej: Argentina" />
+      </div>
+      <div class="field hidden" id="puerto-destino-wrap">
+        <label>Puerto de destino</label>
+        <input type="text" id="puerto-destino" placeholder="Ej: Buenos Aires" />
+      </div>
+      <div class="field col-full">
+        <label>Dirección de entrega</label>
+        <input type="text" id="dir-entrega" placeholder="Ej: Av. Corrientes 1234, Buenos Aires" />
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <span class="section-title">Mercadería</span>
+    </div>
+    <div class="grid">
+      <div class="field">
+        <label>Peso bruto <span class="req">*</span></label>
+        <input type="text" id="peso" placeholder="Ej: 890 kg" />
+      </div>
+      <div class="field">
+        <label>Volumen / Medidas <span class="req">*</span></label>
+        <input type="text" id="volumen" placeholder="Ej: 7,01 CBM" />
+      </div>
+      <div class="field">
+        <label>Cantidad de bultos <span class="req">*</span></label>
+        <input type="text" id="bultos" placeholder="Ej: 100 cajas" />
+      </div>
+      <div class="field">
+        <label>NCM</label>
+        <input type="text" id="ncm" placeholder="Ej: 9405.40" />
+      </div>
+      <div class="field col-full">
+        <label>Descripción de la mercadería <span class="req">*</span></label>
+        <input type="text" id="descripcion" placeholder="Ej: Luminarias LED tipo T8" />
+      </div>
+      <div class="field">
+        <label>Valor de la mercadería (USD) <span class="req">*</span></label>
+        <input type="text" id="valor" placeholder="Ej: 6.480" />
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <label style="display:block;margin-bottom:8px">Características especiales</label>
+      <div class="checks">
+        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="imo" /> IMO</label>
+        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="reefer" /> Reefer</label>
+        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="apilable" /> Apilable</label>
+        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="roro" /> RoRo</label>
+        <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="flatrack" /> Flat Rack</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <span class="section-title">Logística <span class="req">*</span></span>
+    </div>
+
+    <div class="srv-block" id="row-pickup">
+      <div class="srv-top">
+        <div class="srv-label">
+          <div class="srv-icon">🚛</div>
+          Pickup
+        </div>
+        <div class="toggle-group">
+          <button class="tog" id="btn-pickup-si" onclick="toggleSrv('pickup','si')">Sí</button>
+          <button class="tog" id="btn-pickup-no" onclick="toggleSrv('pickup','no')">No</button>
+        </div>
+      </div>
+      <div class="srv-detail" id="detail-pickup">
+        <input type="text" id="txt-pickup" placeholder="Dirección, horario, instrucciones especiales..." />
+      </div>
+    </div>
+
+    <div class="srv-block" id="row-flete">
+      <div class="srv-top">
+        <div class="srv-label">
+          <div class="srv-icon">🚢</div>
+          Flete
+        </div>
+        <div class="toggle-group">
+          <button class="tog" id="btn-flete-si" onclick="toggleSrv('flete','si')">Sí</button>
+          <button class="tog" id="btn-flete-no" onclick="toggleSrv('flete','no')">No</button>
+        </div>
+      </div>
+      <div class="srv-detail" id="detail-flete">
+        <input type="text" id="txt-flete" placeholder="Ruta, naviera preferida, requerimientos especiales..." />
+      </div>
+    </div>
+
+    <div class="srv-block" id="row-aduana">
+      <div class="srv-top">
+        <div class="srv-label">
+          <div class="srv-icon">🏛️</div>
+          Servicios aduaneros
+        </div>
+        <div class="toggle-group">
+          <button class="tog" id="btn-aduana-si" onclick="toggleSrv('aduana','si')">Sí</button>
+          <button class="tog" id="btn-aduana-no" onclick="toggleSrv('aduana','no')">No</button>
+        </div>
+      </div>
+      <div class="srv-detail" id="detail-aduana">
+        <input type="text" id="txt-aduana" placeholder="Tipo de despacho, DDP, documentación requerida..." />
+      </div>
+    </div>
+
+    <div class="srv-block" id="row-ultima">
+      <div class="srv-top">
+        <div class="srv-label">
+          <div class="srv-icon">📍</div>
+          Última milla
+        </div>
+        <div class="toggle-group">
+          <button class="tog" id="btn-ultima-si" onclick="toggleSrv('ultima','si')">Sí</button>
+          <button class="tog" id="btn-ultima-no" onclick="toggleSrv('ultima','no')">No</button>
+        </div>
+      </div>
+      <div class="srv-detail" id="detail-ultima">
+        <input type="text" id="txt-ultima" placeholder="Dirección de entrega, piso, horario, contacto..." />
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:12px">
+      <label>Observaciones generales</label>
+      <input type="text" id="observaciones" placeholder="Información adicional relevante" />
+    </div>
+  </div>
+
+  <button class="btn-generate" onclick="generar()">Generar mail →</button>
+
+  <div class="output-section" id="output">
+    <div class="output-divider"></div>
+    <div class="output-block">
+      <div class="output-label">Asunto</div>
+      <div class="output-row">
+        <div class="output-box" id="asunto-out"></div>
+        <button class="btn-copy" onclick="copiar('asunto-out',this)">Copiar</button>
+      </div>
+    </div>
+    <div class="output-block">
+      <div class="output-label">Cuerpo del mail</div>
+      <div class="output-row">
+        <div class="output-box" id="cuerpo-out"></div>
+        <button class="btn-copy" onclick="copiar('cuerpo-out',this)">Copiar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const srvState = {pickup:null,flete:null,aduana:null,ultima:null};
+let currentID = '';
+
+function generarID(){
+  const now = new Date();
+  const rand = Math.floor(Math.random()*90000)+10000;
+  const ts = now.getTime().toString().slice(-4);
+  currentID = ('SC-'+now.getFullYear()+'-'+rand+ts).slice(0,16);
+  document.getElementById('op-id').textContent = currentID;
+}
+
+function togglePill(label){
+  const cb = label.querySelector('input');
+  setTimeout(()=>{ label.classList.toggle('checked', cb.checked); }, 0);
+}
+
+function toggleSrv(key, val){
+  srvState[key] = val;
+  ['si','no'].forEach(v=>{
+    const btn = document.getElementById('btn-'+key+'-'+v);
+    btn.classList.remove('si','no');
+    if(v===val) btn.classList.add(val);
+  });
+  document.getElementById('detail-'+key).style.display = val==='si' ? 'block' : 'none';
+  document.getElementById('row-'+key).classList.remove('error');
+}
+
+function onModalidad(){
+  const m = document.getElementById('modalidad').value;
+  const esFCL = m==='FCL', esM = m==='FCL'||m==='LCL';
+  document.getElementById('contenedor-wrap').classList.toggle('hidden', !esFCL);
+  document.getElementById('puerto-origen-wrap').classList.toggle('hidden', !esM);
+  document.getElementById('puerto-destino-wrap').classList.toggle('hidden', !esM);
+}
+
+function v(id){ const el=document.getElementById(id); return el?el.value.trim():''; }
+function c(id){ const el=document.getElementById(id); return el?el.checked:false; }
+
+function fmt(d){
+  if(!d) return '—';
+  const [y,m,dd]=d.split('-');
+  return dd+'/'+m+'/'+y.slice(2);
+}
+
+function srvLine(label,key){
+  const s=srvState[key], det=v('txt-'+key);
+  let line = label+': '+(s==='si'?'SÍ':s==='no'?'NO':'—');
+  if(s==='si'&&det) line+=' — '+det;
+  return line;
+}
+
+function generar(){
+  const nombre=v('nombre'),cliente=v('cliente'),modalidad=v('modalidad');
+  const tipo=v('tipo'),incoterm=v('incoterm');
+  const paisOrigen=v('pais-origen'),paisDestino=v('pais-destino');
+  const puertoOrigen=v('puerto-origen'),puertoDestino=v('puerto-destino');
+  const contenedor=v('contenedor'),dirRetiro=v('dir-retiro'),dirEntrega=v('dir-entrega');
+  const peso=v('peso'),volumen=v('volumen'),bultos=v('bultos');
+  const ncm=v('ncm'),descripcion=v('descripcion'),valor=v('valor');
+  const fechaEmbarque=v('fecha-embarque'),observaciones=v('observaciones');
+  const esFCL=modalidad==='FCL', esM=modalidad==='FCL'||modalidad==='LCL';
+
+  const req=[
+    ['Nombre comercial',nombre],['Cliente',cliente],['Modalidad',modalidad],
+    ['Tipo de operación',tipo],['Incoterm',incoterm],
+    ['País de origen',paisOrigen],['País de destino',paisDestino],
+    ['Peso bruto',peso],['Volumen / Medidas',volumen],
+    ['Cantidad de bultos',bultos],['Descripción de la mercadería',descripcion],
+    ['Valor de la mercadería',valor],
+  ];
+  if(esFCL) req.push(['Tipo de contenedor',contenedor]);
+
+  const falt=req.filter(([,v])=>!v).map(([l])=>l);
+  req.forEach(([l,val])=>{
+    const id=({
+      'Nombre comercial':'nombre','Cliente':'cliente','Modalidad':'modalidad',
+      'Tipo de operación':'tipo','Incoterm':'incoterm',
+      'País de origen':'pais-origen','País de destino':'pais-destino',
+      'Peso bruto':'peso','Volumen / Medidas':'volumen',
+      'Cantidad de bultos':'bultos','Descripción de la mercadería':'descripcion',
+      'Valor de la mercadería':'valor','Tipo de contenedor':'contenedor'
+    })[l];
+    if(id){ const el=document.getElementById(id); if(el) el.classList.toggle('error',!val); }
+  });
+
+  const srvFalt=Object.entries(srvState).filter(([,v])=>v===null);
+  srvFalt.forEach(([key])=>document.getElementById('row-'+key).classList.add('error'));
+
+  if(falt.length||srvFalt.length){
+    const labels={pickup:'Pickup',flete:'Flete',aduana:'Servicios aduaneros',ultima:'Última milla'};
+    let msg='';
+    if(falt.length) msg+='Campos obligatorios faltantes:\n• '+falt.join('\n• ');
+    if(srvFalt.length){
+      if(msg) msg+='\n\n';
+      msg+='Servicios logísticos sin responder:\n• '+srvFalt.map(([k])=>labels[k]).join('\n• ');
+    }
+    alert(msg); return;
+  }
+
+  const today=new Date();
+  const dd=String(today.getDate()).padStart(2,'0');
+  const mm=String(today.getMonth()+1).padStart(2,'0');
+  const yy=String(today.getFullYear()).slice(2);
+  const fechaHoy=dd+'/'+mm+'/'+yy;
+
+  const contStr=esFCL?' | '+contenedor:'';
+  const asunto='['+currentID+'] Pedido Cotización | '+nombre+' | '+modalidad+contStr+' | '+tipo+' | '+paisOrigen+' > '+paisDestino+' | '+cliente+' | '+fechaHoy;
+
+  const caract=[
+    c('imo')?'IMO: SÍ':'IMO: NO',
+    c('reefer')?'Reefer: SÍ':'Reefer: NO',
+    c('apilable')?'Apilable: SÍ':'Apilable: NO',
+    c('roro')?'RoRo: SÍ':'RoRo: NO',
+    c('flatrack')?'Flat Rack: SÍ':'Flat Rack: NO',
+  ].join(' | ');
+
+  const cuerpo=`ID OPERACIÓN: ${currentID}
+
+OPERACIÓN
+Modalidad:                  ${modalidad}${esFCL?' — '+contenedor:''}
+Incoterm:                   ${incoterm}
+Tipo de operación:          ${tipo}
+País de origen:             ${paisOrigen}${esM&&puertoOrigen?'\nPuerto de origen:           '+puertoOrigen:''}
+Dirección de retiro:        ${dirRetiro||'—'}
+País de destino:            ${paisDestino}${esM&&puertoDestino?'\nPuerto de destino:          '+puertoDestino:''}
+Dirección de entrega:       ${dirEntrega||'—'}
+Fecha estimada embarque:    ${fmt(fechaEmbarque)}
+
+MERCADERÍA
+Peso bruto:                 ${peso}
+Volumen / Medidas:          ${volumen}
+Cantidad de bultos:         ${bultos}
+NCM:                        ${ncm||'A confirmar'}
+Descripción:                ${descripcion}
+Valor de la mercadería:     USD ${valor}
+${caract}
+
+LOGÍSTICA
+${srvLine('Pickup              ','pickup')}
+${srvLine('Flete               ','flete')}
+${srvLine('Servicios aduaneros ','aduana')}
+${srvLine('Última milla        ','ultima')}
+Observaciones:              ${observaciones||'—'}`;
+
+  document.getElementById('asunto-out').textContent=asunto;
+  document.getElementById('cuerpo-out').textContent=cuerpo;
+  const out=document.getElementById('output');
+  out.classList.add('visible');
+  out.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function copiar(id,btn){
+  navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>{
+    btn.classList.add('copied');
+    btn.textContent='✓ Copiado';
+    setTimeout(()=>{btn.classList.remove('copied');btn.textContent='Copiar';},2000);
+  });
+}
+
+generarID();
+</script>
+</body>
+</html>
