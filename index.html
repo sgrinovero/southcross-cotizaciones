@@ -102,6 +102,11 @@
   .btn-generate { width: 100%; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: white; background: var(--dark); border: none; border-radius: var(--radius-lg); cursor: pointer; transition: all 0.15s; letter-spacing: -0.01em; margin-top: 8px; }
   .btn-generate:hover { background: var(--red); }
   .btn-generate:active { transform: scale(0.99); }
+  .btn-gmail { background: var(--red); margin-top: 12px; }
+  .btn-gmail:hover { background: var(--dark); }
+  input[type="file"] { font-family: 'DM Sans', sans-serif; font-size: 13px; background: var(--white); border: 1px dashed var(--border); border-radius: var(--radius); padding: 10px 12px; width: 100%; cursor: pointer; }
+  .file-help { font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 6px; }
+  .file-list { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--mid); margin-top: 8px; line-height: 1.6; white-space: pre-wrap; }
 
   .output-section { margin-top: 32px; display: none; }
   .output-section.visible { display: block; }
@@ -340,6 +345,12 @@
       <div class="srv-detail" id="detail-ultima"><input type="text" id="txt-ultima" placeholder="Dirección de entrega, piso, horario, contacto..." /></div>
     </div>
     <div class="field" style="margin-top:12px"><label>Observaciones generales</label><input type="text" id="observaciones" placeholder="Información adicional relevante" /></div>
+    <div class="field" style="margin-top:12px">
+      <label>Adjuntos para enviar por Gmail</label>
+      <input type="file" id="adjuntos" multiple onchange="mostrarAdjuntos()" />
+      <div class="file-help">La página abre Gmail con destinatario, asunto y cuerpo cargados. Por seguridad del navegador, los archivos seleccionados deberán adjuntarse manualmente en Gmail.</div>
+      <div class="file-list" id="adjuntos-lista"></div>
+    </div>
   </div>
 
   <button class="btn-generate" onclick="generar()">Generar mail →</button>
@@ -360,6 +371,7 @@
         <button class="btn-copy" onclick="copiar('cuerpo-out',this)">Copiar</button>
       </div>
     </div>
+    <button class="btn-generate btn-gmail" onclick="abrirGmail()">Abrir Gmail con este pedido →</button>
   </div>
 </div>
 </div>
@@ -561,8 +573,41 @@
 
 <script>
 const srvState={pickup:null,flete:null,aduana:null,ultima:null};
+const GMAIL_DESTINO='sgrinovero@southcrosslog.com,ramiro@southcrosslog.com';
 let currentID='';
 const wizAnswers={modo:null,export:null,flete:null,import:null};
+
+function mostrarAdjuntos(){
+  const input=document.getElementById('adjuntos');
+  const lista=document.getElementById('adjuntos-lista');
+  if(!input||!lista) return;
+  const files=[...input.files];
+  if(!files.length){ lista.textContent=''; return; }
+  lista.textContent='Archivos seleccionados para adjuntar manualmente en Gmail:\n• '+files.map(f=>f.name).join('\n• ');
+}
+
+function abrirGmail(){
+  const asunto=document.getElementById('asunto-out')?.textContent.trim();
+  const cuerpo=document.getElementById('cuerpo-out')?.textContent.trim();
+  if(!asunto||!cuerpo){
+    generar();
+  }
+  const asuntoFinal=document.getElementById('asunto-out')?.textContent.trim();
+  const cuerpoFinal=document.getElementById('cuerpo-out')?.textContent.trim();
+  if(!asuntoFinal||!cuerpoFinal) return;
+
+  const files=document.getElementById('adjuntos')?.files || [];
+  let avisoAdjuntos='';
+  if(files.length){
+    avisoAdjuntos='\n\nADJUNTOS A CARGAR MANUALMENTE EN GMAIL:\n- '+[...files].map(f=>f.name).join('\n- ');
+  }
+
+  const url='https://mail.google.com/mail/?view=cm&fs=1'
+    +'&to='+encodeURIComponent(GMAIL_DESTINO)
+    +'&su='+encodeURIComponent(asuntoFinal)
+    +'&body='+encodeURIComponent(cuerpoFinal+avisoAdjuntos);
+  window.open(url,'_blank');
+}
 
 function switchTab(id,btn){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
