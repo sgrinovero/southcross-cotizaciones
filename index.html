@@ -64,13 +64,13 @@
   label { font-size: 12px; font-weight: 500; color: var(--mid); }
   .req { color: var(--red); }
 
-  input[type="text"], input[type="date"], select {
+  input[type="text"], input[type="date"], input[type="number"], select {
     font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--dark);
     background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
     padding: 9px 12px; outline: none; transition: border-color 0.15s; width: 100%;
     appearance: none; -webkit-appearance: none;
   }
-  input[type="text"]:focus, input[type="date"]:focus, select:focus { border-color: var(--dark); }
+  input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus, select:focus { border-color: var(--dark); }
   input.error, select.error { border-color: var(--red) !important; }
   select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
@@ -122,11 +122,54 @@
 
   .hidden { display: none !important; }
 
-  .ncm-result-card {
-    background: var(--white); border: 1px solid var(--border);
-    border-radius: var(--radius-lg); padding: 12px 16px;
-    margin-bottom: 8px; cursor: pointer; transition: all 0.15s;
-  }
+  /* ── BULTOS ── */
+  .bultos-unit-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .bultos-unit-label { font-size: 12px; font-weight: 500; color: var(--mid); margin-right: 4px; }
+  .unit-pill { font-size: 12px; font-weight: 500; padding: 4px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg); color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .unit-pill:hover { border-color: var(--dark); color: var(--dark); }
+  .unit-pill.active { background: var(--dark); color: white; border-color: var(--dark); }
+
+  .divisor-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .divisor-label { font-size: 12px; font-weight: 500; color: var(--mid); margin-right: 4px; }
+  .div-pill { font-size: 12px; font-weight: 500; padding: 4px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg); color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .div-pill:hover { border-color: var(--dark); color: var(--dark); }
+  .div-pill.active { background: var(--info-bg); color: var(--info); border-color: var(--info); }
+
+  .bultos-table-wrap { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 10px; overflow-x: auto; }
+  .bultos-table { width: 100%; border-collapse: collapse; min-width: 460px; }
+  .bultos-table thead th { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 8px; text-align: center; background: var(--bg); border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .bultos-table thead th:first-child { text-align: left; padding-left: 14px; }
+  .bultos-table tbody tr { border-bottom: 1px solid var(--border); }
+  .bultos-table tbody tr:last-child { border-bottom: none; }
+  .bultos-table tbody td { padding: 6px 4px; }
+  .bultos-table tbody td:first-child { padding-left: 10px; }
+  .bultos-table tbody td:last-child { padding-right: 10px; text-align: center; }
+  .bultos-input { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--dark); background: var(--bg); border: 1px solid transparent; border-radius: 6px; padding: 6px 8px; width: 100%; text-align: center; outline: none; transition: all 0.15s; -webkit-appearance: none; appearance: none; }
+  .bultos-input:focus { border-color: var(--dark); background: var(--white); }
+  .bultos-input::placeholder { color: var(--muted); opacity: 0.6; }
+  .bultos-input.col-desc { text-align: left; }
+  .td-cbm-val { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--mid); text-align: center; padding: 6px 8px; white-space: nowrap; }
+  .btn-del-row { background: none; border: none; cursor: pointer; color: var(--muted); padding: 5px 8px; border-radius: 6px; transition: all 0.15s; font-size: 16px; }
+  .btn-del-row:hover { background: var(--red-light); color: var(--red); }
+
+  .btn-add-row { display: flex; align-items: center; justify-content: center; gap: 6px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--muted); background: none; border: 1px dashed var(--border); border-radius: var(--radius); padding: 9px 16px; cursor: pointer; width: 100%; transition: all 0.15s; margin-bottom: 16px; }
+  .btn-add-row:hover { border-color: var(--dark); color: var(--dark); }
+
+  .bultos-resumen { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 18px; }
+  .bultos-resumen-title { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .bultos-resumen-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .res-item { }
+  .res-item-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .res-item-value { font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 500; color: var(--dark); }
+  .res-item-unit { font-size: 11px; color: var(--muted); }
+  .res-chargeable { grid-column: span 2; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; }
+  .res-chargeable-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .res-chargeable-value { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 600; color: var(--dark); }
+  .res-chargeable-note { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+  .bultos-empty { text-align: center; padding: 24px; font-size: 13px; color: var(--muted); }
+
+  /* ── NCM ── */
+  .ncm-result-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 12px 16px; margin-bottom: 8px; cursor: pointer; transition: all 0.15s; }
   .ncm-result-card:hover { border-color: var(--dark); }
   .ncm-result-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
   .ncm-result-code { font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 500; color: var(--dark); }
@@ -134,7 +177,7 @@
   .ncm-result-card:hover .ncm-result-copy { color: var(--dark); }
   .ncm-result-desc { font-size: 13px; color: var(--mid); line-height: 1.5; }
 
-  /* ── INCOTERMS TAB ── */
+  /* ── INCOTERMS ── */
   .inc-page { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
   .wizard-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 32px; }
   .wizard-title { font-size: 14px; font-weight: 600; color: var(--dark); margin-bottom: 4px; }
@@ -188,24 +231,14 @@
   .btn-limpiar:hover { border-color: var(--dark); color: var(--dark); }
   .cot-toggle-vigentes { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--mid); cursor: pointer; }
   .cot-toggle-vigentes input { accent-color: var(--dark); }
-
   .cot-status { text-align: center; padding: 40px; color: var(--muted); }
   .cot-status-icon { font-size: 32px; margin-bottom: 12px; }
   .cot-status-title { font-size: 15px; font-weight: 500; color: var(--mid); }
   .cot-status-sub { font-size: 13px; margin-top: 4px; }
-
   .cot-summary { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
   .cot-count { font-size: 13px; color: var(--muted); }
   .cot-count strong { color: var(--dark); }
-  .cot-sort { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--mid); }
-  .cot-sort select { font-size: 12px; padding: 5px 28px 5px 10px; width: auto; }
-
-  .cot-result-card {
-    background: var(--white); border: 1px solid var(--border);
-    border-radius: var(--radius-lg); padding: 16px 18px;
-    margin-bottom: 10px; transition: border-color 0.15s;
-    position: relative;
-  }
+  .cot-result-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: 10px; transition: border-color 0.15s; position: relative; }
   .cot-result-card:hover { border-color: #ccc; }
   .cot-result-card.mejor-precio { border-color: var(--success); border-width: 1.5px; }
   .cot-result-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
@@ -226,17 +259,64 @@
   .cot-tag-mejor { background: var(--success); color: white; }
   .cot-remarks { font-size: 12px; color: var(--muted); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); font-family: 'DM Mono', monospace; line-height: 1.5; }
   .cot-validez { font-size: 12px; color: var(--muted); }
-
   .cot-grupo { margin-bottom: 28px; }
   .cot-grupo-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding: 6px 0; margin-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
   .cot-grupo-count { font-weight: 400; }
-
   .cot-loading { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 48px; color: var(--muted); font-size: 14px; }
   .spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--dark); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
   .select-all-btn { font-size: 11px; color: var(--info); cursor: pointer; border: none; background: none; padding: 0; font-family: inherit; }
   .select-all-btn:hover { text-decoration: underline; }
+
+
+
+  /* ── PORT TAGS ── */
+  .port-tags-wrap { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 8px; min-height: 42px; cursor: text; transition: border-color 0.15s; }
+  .port-tags-wrap:focus-within { border-color: var(--dark); }
+  .port-tags-wrap.error { border-color: var(--red) !important; }
+  .port-tag { display: flex; align-items: center; gap: 5px; background: var(--dark); color: white; font-size: 12px; font-weight: 500; padding: 3px 8px 3px 10px; border-radius: 20px; white-space: nowrap; }
+  .port-tag-flag { font-size: 13px; }
+  .port-tag-name { max-width: 160px; overflow: hidden; text-overflow: ellipsis; }
+  .port-tag-del { background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer; font-size: 14px; line-height: 1; padding: 0 1px; transition: color 0.15s; }
+  .port-tag-del:hover { color: white; }
+  .port-tag-input { border: none; outline: none; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--dark); background: transparent; min-width: 140px; flex: 1; padding: 2px 4px; }
+  .port-tag-input::placeholder { color: var(--muted); opacity: 0.7; }
+
+
+  /* ── LOGÍSTICA SMART ── */
+  .srv-block { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 8px; transition: border-color 0.2s; }
+  .srv-block.error { border-color: var(--red); }
+  .srv-top { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; gap: 12px; }
+  .srv-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+  .srv-label { font-size: 14px; font-weight: 500; color: var(--dark); }
+  .srv-hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .srv-auto-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.04em; padding: 2px 7px; border-radius: 20px; background: var(--info-bg); color: var(--info); margin-left: 8px; white-space: nowrap; }
+  .srv-auto-badge.modified { background: var(--warn-bg); color: var(--warn); }
+  .srv-detail { border-top: 1px solid var(--border); padding: 10px 16px; background: var(--bg); display: none; }
+  .srv-detail input { background: var(--white); }
+  .srv-inco-hint { font-size: 11px; color: var(--muted); margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+
+  /* despachante block */
+  .desp-block { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; margin-bottom: 8px; }
+  .desp-title { font-size: 13px; font-weight: 500; color: var(--dark); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .desp-opts { display: flex; gap: 8px; flex-wrap: wrap; }
+  .desp-opt { font-size: 13px; font-weight: 500; padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg); color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .desp-opt:hover { border-color: var(--dark); color: var(--dark); }
+  .desp-opt.active-si { background: var(--success-bg); color: var(--success); border-color: var(--success); }
+  .desp-opt.active-propio { background: var(--info-bg); color: var(--info); border-color: var(--info); }
+  .desp-opt.active-no { background: var(--danger-bg); color: var(--danger); border-color: var(--danger); }
+  .desp-nombre { margin-top: 10px; display: none; }
+
+  /* ── AUTOCOMPLETE ── */
+  .ac-wrap { position: relative; }
+  .ac-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 4px 16px rgba(0,0,0,0.08); z-index: 200; max-height: 220px; overflow-y: auto; margin-top: 2px; }
+  .ac-dropdown:empty { display: none; }
+  .ac-item { padding: 9px 12px; font-size: 13px; color: var(--dark); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.1s; }
+  .ac-item:hover, .ac-item.focused { background: var(--bg); }
+  .ac-item-flag { font-size: 16px; flex-shrink: 0; }
+  .ac-item-name { flex: 1; }
+  .ac-item-sub { font-size: 11px; color: var(--muted); }
+  .ac-divider { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 6px 12px 4px; background: var(--bg); border-bottom: 1px solid var(--border); }
 
   @media (max-width: 700px) {
     .grid, .inc-grid { grid-template-columns: 1fr; }
@@ -245,6 +325,8 @@
     .tabs-bar { padding: 0 16px; }
     .page, .inc-page, .cot-page { padding: 24px 16px 60px; }
     .cot-filters-grid { grid-template-columns: 1fr; }
+    .bultos-resumen-grid { grid-template-columns: 1fr 1fr; }
+    .res-chargeable { grid-column: span 2; }
   }
 </style>
 </head>
@@ -281,6 +363,7 @@
     </button>
   </div>
 
+  <!-- SECCIÓN 1 -->
   <div class="section">
     <div class="section-header"><div class="section-num">1</div><span class="section-title">Identificación</span></div>
     <div class="grid">
@@ -289,6 +372,7 @@
     </div>
   </div>
 
+  <!-- SECCIÓN 2 -->
   <div class="section">
     <div class="section-header"><div class="section-num">2</div><span class="section-title">Operación</span></div>
     <div class="grid">
@@ -321,37 +405,37 @@
       </div>
       <div class="field">
         <label>Tipo de operación <span class="req">*</span></label>
-        <select id="tipo"><option value="">Seleccionar...</option><option>IMPO</option><option>EXPO</option></select>
+        <select id="tipo" onchange="autoLogistica(document.getElementById('incoterm').value)"><option value="">Seleccionar...</option><option>IMPO</option><option>EXPO</option></select>
       </div>
       <div class="field">
         <label>Incoterm <span class="req">*</span></label>
-        <select id="incoterm">
+        <select id="incoterm" onchange="autoLogistica(this.value)">
           <option value="">Seleccionar...</option>
           <optgroup label="Multimodal"><option>EXW</option><option>FCA</option><option>CPT</option><option>CIP</option><option>DAP</option><option>DPU</option><option>DDP</option></optgroup>
           <optgroup label="Marítimo"><option>FAS</option><option>FOB</option><option>CFR</option><option>CIF</option></optgroup>
         </select>
       </div>
       <div class="field"><label>Fecha estimada de embarque</label><input type="date" id="fecha-embarque" /></div>
-      <div class="field"><label>País de origen <span class="req">*</span></label><input type="text" id="pais-origen" placeholder="Ej: China" /></div>
-      <div class="field hidden" id="puerto-origen-wrap"><label>Puerto de origen</label><input type="text" id="puerto-origen" placeholder="Ej: Shanghai" /></div>
+      <div class="field"><label>País de origen <span class="req">*</span></label><div class="ac-wrap"><input type="text" id="pais-origen" placeholder="Ej: China" autocomplete="off" oninput="acPais('pais-origen','dd-pais-origen')" onfocus="acPais('pais-origen','dd-pais-origen')" onblur="acBlur('dd-pais-origen')" onkeydown="acKey(event,'dd-pais-origen','pais-origen')" /><div class="ac-dropdown" id="dd-pais-origen"></div></div></div>
+      <div class="field hidden" id="puerto-origen-wrap"><label id="label-puerto-origen">Puerto de origen</label><div class="ac-wrap"><div class="port-tags-wrap" id="tags-wrap-puerto-origen" onclick="document.getElementById('puerto-origen').focus()"><div id="tags-puerto-origen"></div><input type="text" id="puerto-origen" class="port-tag-input" placeholder="Agregar puerto..." autocomplete="off" oninput="acPuertoTag('puerto-origen')" onfocus="acPuertoTag('puerto-origen')" onblur="acBlur('dd-puerto-origen')" onkeydown="tagKey(event,'puerto-origen','dd-puerto-origen')" /></div><div class="ac-dropdown" id="dd-puerto-origen"></div></div></div>
       <div class="field col-full"><label>Dirección de retiro</label><input type="text" id="dir-retiro" placeholder="Ej: Huizhou, Guangdong, China" /></div>
-      <div class="field"><label>País de destino <span class="req">*</span></label><input type="text" id="pais-destino" placeholder="Ej: Argentina" /></div>
-      <div class="field hidden" id="puerto-destino-wrap"><label>Puerto de destino</label><input type="text" id="puerto-destino" placeholder="Ej: Buenos Aires" /></div>
+      <div class="field"><label>País de destino <span class="req">*</span></label><div class="ac-wrap"><input type="text" id="pais-destino" placeholder="Ej: Argentina" autocomplete="off" oninput="acPais('pais-destino','dd-pais-destino')" onfocus="acPais('pais-destino','dd-pais-destino')" onblur="acBlur('dd-pais-destino')" onkeydown="acKey(event,'dd-pais-destino','pais-destino')" /><div class="ac-dropdown" id="dd-pais-destino"></div></div></div>
+      <div class="field hidden" id="puerto-destino-wrap"><label id="label-puerto-destino">Puerto de destino</label><div class="ac-wrap"><div class="port-tags-wrap" id="tags-wrap-puerto-destino" onclick="document.getElementById('puerto-destino').focus()"><div id="tags-puerto-destino"></div><input type="text" id="puerto-destino" class="port-tag-input" placeholder="Agregar puerto..." autocomplete="off" oninput="acPuertoTag('puerto-destino')" onfocus="acPuertoTag('puerto-destino')" onblur="acBlur('dd-puerto-destino')" onkeydown="tagKey(event,'puerto-destino','dd-puerto-destino')" /></div><div class="ac-dropdown" id="dd-puerto-destino"></div></div></div>
       <div class="field col-full"><label>Dirección de entrega</label><input type="text" id="dir-entrega" placeholder="Ej: Av. Corrientes 1234, Buenos Aires" /></div>
     </div>
   </div>
 
+  <!-- SECCIÓN 3: MERCADERÍA + BULTOS -->
   <div class="section">
     <div class="section-header"><div class="section-num">3</div><span class="section-title">Mercadería</span></div>
-    <div class="grid">
-      <div class="field"><label>Peso bruto <span class="req">*</span></label><input type="text" id="peso" placeholder="Ej: 890 kg" /></div>
-      <div class="field"><label>Volumen / Medidas <span class="req">*</span></label><input type="text" id="volumen" placeholder="Ej: 7,01 CBM" /></div>
-      <div class="field"><label>Cantidad de bultos <span class="req">*</span></label><input type="text" id="bultos" placeholder="Ej: 100 cajas" /></div>
+    <div class="grid" style="margin-bottom:16px">
       <div class="field"><label>NCM</label><input type="text" id="ncm" placeholder="Ej: 9405.40" /></div>
-      <div class="field col-full"><label>Descripción de la mercadería <span class="req">*</span></label><input type="text" id="descripcion" placeholder="Ej: Luminarias LED tipo T8" /></div>
+      <div class="field"><label>Descripción de la mercadería <span class="req">*</span></label><input type="text" id="descripcion" placeholder="Ej: Luminarias LED tipo T8" /></div>
       <div class="field"><label>Valor de la mercadería (USD) <span class="req">*</span></label><input type="text" id="valor" placeholder="Ej: 6.480" /></div>
     </div>
-    <div style="margin-top:14px">
+
+    <!-- CARACTERÍSTICAS -->
+    <div style="margin-bottom:18px">
       <label style="display:block;margin-bottom:8px">Características especiales</label>
       <div class="checks">
         <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="imo" /> IMO</label>
@@ -361,38 +445,204 @@
         <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" id="flatrack" /> Flat Rack</label>
       </div>
     </div>
+
+    <!-- GESTOR DE BULTOS -->
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;margin-bottom:0" id="bultos-wrap">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+        <span style="font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid)">Detalle de bultos <span class="req">*</span></span>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <!-- Unidad -->
+          <div class="bultos-unit-row" style="margin:0">
+            <span class="bultos-unit-label">Unidad:</span>
+            <button class="unit-pill active" onclick="setUnit('cm',this)">cm</button>
+            <button class="unit-pill" onclick="setUnit('m',this)">m</button>
+            <button class="unit-pill" onclick="setUnit('in',this)">in</button>
+          </div>
+          <!-- Divisor -->
+          <div class="divisor-row" style="margin:0">
+            <span class="divisor-label">Divisor:</span>
+            <button class="div-pill active" onclick="setDivisor(167,this)" title="Aéreo">167 (Aéreo)</button>
+            <button class="div-pill" onclick="setDivisor(1000,this)" title="Marítimo / LCL">1000 (Marítimo)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bultos-table-wrap" id="bultos-error-wrap">
+        <table class="bultos-table">
+          <thead>
+            <tr>
+              <th style="width:120px;text-align:left">Descripción</th>
+              <th style="width:56px">Cant.</th>
+              <th>Largo</th>
+              <th>Ancho</th>
+              <th>Alto</th>
+              <th>Peso kg</th>
+              <th style="width:64px">CBM</th>
+              <th style="width:36px"></th>
+            </tr>
+          </thead>
+          <tbody id="bultos-body"></tbody>
+        </table>
+      </div>
+
+      <button class="btn-add-row" onclick="agregarBulto()" style="margin-top:10px;margin-bottom:14px">
+        + Agregar bulto
+      </button>
+
+      <div class="bultos-resumen" id="bultos-resumen">
+        <div class="bultos-resumen-title">Resumen de carga</div>
+        <div class="bultos-resumen-grid">
+          <div class="res-item">
+            <div class="res-item-label">Total bultos</div>
+            <div class="res-item-value" id="r-bultos">0</div>
+            <div class="res-item-unit">unidades</div>
+          </div>
+          <div class="res-item">
+            <div class="res-item-label">Peso bruto total</div>
+            <div class="res-item-value" id="r-peso">0.00</div>
+            <div class="res-item-unit">kg</div>
+          </div>
+          <div class="res-item">
+            <div class="res-item-label">Volumen total</div>
+            <div class="res-item-value" id="r-cbm">0.000</div>
+            <div class="res-item-unit">CBM</div>
+          </div>
+          <div class="res-item">
+            <div class="res-item-label">Peso volumétrico</div>
+            <div class="res-item-value" id="r-pvol">0.00</div>
+            <div class="res-item-unit">kg</div>
+          </div>
+          <div class="res-chargeable">
+            <div class="res-chargeable-label">Chargeable weight</div>
+            <div class="res-chargeable-value" id="r-chargeable">0.00 kg</div>
+            <div class="res-chargeable-note">Mayor entre peso bruto y peso volumétrico</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <!-- SECCIÓN 4: LOGÍSTICA SMART -->
   <div class="section">
-    <div class="section-header"><div class="section-num">4</div><span class="section-title">Logística <span class="req">*</span></span></div>
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <span class="section-title">Logística <span class="req">*</span></span>
+      <span id="inco-auto-label" style="font-size:11px;color:var(--info);margin-left:8px;display:none">⚡ Preconfigurado por Incoterm</span>
+    </div>
+
+    <!-- PICKUP -->
     <div class="srv-block" id="row-pickup">
       <div class="srv-top">
-        <div class="srv-label"><div class="srv-icon">🚛</div>Pickup</div>
-        <div class="toggle-group"><button class="tog" id="btn-pickup-si" onclick="toggleSrv('pickup','si')">Sí</button><button class="tog" id="btn-pickup-no" onclick="toggleSrv('pickup','no')">No</button></div>
+        <div class="srv-left">
+          <div class="srv-icon">🚛</div>
+          <div>
+            <div class="srv-label">Pickup <span id="badge-pickup"></span></div>
+            <div class="srv-hint" id="hint-pickup"></div>
+          </div>
+        </div>
+        <div class="toggle-group">
+          <button class="tog" id="btn-pickup-si" onclick="toggleSrv('pickup','si')">Sí</button>
+          <button class="tog" id="btn-pickup-no" onclick="toggleSrv('pickup','no')">No</button>
+        </div>
       </div>
-      <div class="srv-detail" id="detail-pickup"><input type="text" id="txt-pickup" placeholder="Dirección, horario, instrucciones especiales..." /></div>
+      <div class="srv-detail" id="detail-pickup">
+        <input type="text" id="txt-pickup" placeholder="Dirección, horario, instrucciones especiales..." />
+      </div>
     </div>
+
+    <!-- FLETE -->
     <div class="srv-block" id="row-flete">
       <div class="srv-top">
-        <div class="srv-label"><div class="srv-icon">🚢</div>Flete</div>
-        <div class="toggle-group"><button class="tog" id="btn-flete-si" onclick="toggleSrv('flete','si')">Sí</button><button class="tog" id="btn-flete-no" onclick="toggleSrv('flete','no')">No</button></div>
+        <div class="srv-left">
+          <div class="srv-icon">🚢</div>
+          <div>
+            <div class="srv-label">Flete internacional <span id="badge-flete"></span></div>
+            <div class="srv-hint" id="hint-flete"></div>
+          </div>
+        </div>
+        <div class="toggle-group">
+          <button class="tog" id="btn-flete-si" onclick="toggleSrv('flete','si')">Sí</button>
+          <button class="tog" id="btn-flete-no" onclick="toggleSrv('flete','no')">No</button>
+        </div>
       </div>
-      <div class="srv-detail" id="detail-flete"><input type="text" id="txt-flete" placeholder="Ruta, naviera preferida, requerimientos especiales..." /></div>
+      <div class="srv-detail" id="detail-flete">
+        <input type="text" id="txt-flete" placeholder="Naviera preferida, requerimientos especiales..." />
+      </div>
     </div>
-    <div class="srv-block" id="row-aduana">
+
+    <!-- ADUANA EXPO -->
+    <div class="srv-block" id="row-aduana-expo">
       <div class="srv-top">
-        <div class="srv-label"><div class="srv-icon">🏛️</div>Servicios aduaneros</div>
-        <div class="toggle-group"><button class="tog" id="btn-aduana-si" onclick="toggleSrv('aduana','si')">Sí</button><button class="tog" id="btn-aduana-no" onclick="toggleSrv('aduana','no')">No</button></div>
+        <div class="srv-left">
+          <div class="srv-icon">🏛️</div>
+          <div>
+            <div class="srv-label">Aduana exportación <span id="badge-aduana-expo"></span></div>
+            <div class="srv-hint" id="hint-aduana-expo"></div>
+          </div>
+        </div>
+        <div class="toggle-group">
+          <button class="tog" id="btn-aduana-expo-si" onclick="toggleSrv('aduana-expo','si')">Sí</button>
+          <button class="tog" id="btn-aduana-expo-no" onclick="toggleSrv('aduana-expo','no')">No</button>
+        </div>
       </div>
-      <div class="srv-detail" id="detail-aduana"><input type="text" id="txt-aduana" placeholder="Tipo de despacho, DDP, documentación requerida..." /></div>
+      <div class="srv-detail" id="detail-aduana-expo">
+        <input type="text" id="txt-aduana-expo" placeholder="Instrucciones, documentación requerida..." />
+      </div>
     </div>
+
+    <!-- ADUANA IMPO -->
+    <div class="srv-block" id="row-aduana-impo">
+      <div class="srv-top">
+        <div class="srv-left">
+          <div class="srv-icon">🏛️</div>
+          <div>
+            <div class="srv-label">Aduana importación <span id="badge-aduana-impo"></span></div>
+            <div class="srv-hint" id="hint-aduana-impo"></div>
+          </div>
+        </div>
+        <div class="toggle-group">
+          <button class="tog" id="btn-aduana-impo-si" onclick="toggleSrv('aduana-impo','si')">Sí</button>
+          <button class="tog" id="btn-aduana-impo-no" onclick="toggleSrv('aduana-impo','no')">No</button>
+        </div>
+      </div>
+      <div class="srv-detail" id="detail-aduana-impo">
+        <input type="text" id="txt-aduana-impo" placeholder="Instrucciones, documentación requerida..." />
+      </div>
+    </div>
+
+    <!-- DESPACHANTE -->
+    <div class="desp-block" id="row-despachante">
+      <div class="desp-title">🧾 ¿Necesitás despachante de aduana en destino?</div>
+      <div class="desp-opts">
+        <button class="desp-opt" id="desp-si" onclick="toggleDesp('si')">Sí, necesito uno</button>
+        <button class="desp-opt" id="desp-propio" onclick="toggleDesp('propio')">Ya tengo uno</button>
+        <button class="desp-opt" id="desp-no" onclick="toggleDesp('no')">No necesito</button>
+      </div>
+      <div class="desp-nombre" id="desp-nombre-wrap">
+        <input type="text" id="txt-despachante" placeholder="Nombre / empresa del despachante..." style="margin-top:4px" />
+      </div>
+    </div>
+
+    <!-- ÚLTIMA MILLA -->
     <div class="srv-block" id="row-ultima">
       <div class="srv-top">
-        <div class="srv-label"><div class="srv-icon">📍</div>Última milla</div>
-        <div class="toggle-group"><button class="tog" id="btn-ultima-si" onclick="toggleSrv('ultima','si')">Sí</button><button class="tog" id="btn-ultima-no" onclick="toggleSrv('ultima','no')">No</button></div>
+        <div class="srv-left">
+          <div class="srv-icon">📍</div>
+          <div>
+            <div class="srv-label">Última milla <span id="badge-ultima"></span></div>
+            <div class="srv-hint" id="hint-ultima"></div>
+          </div>
+        </div>
+        <div class="toggle-group">
+          <button class="tog" id="btn-ultima-si" onclick="toggleSrv('ultima','si')">Sí</button>
+          <button class="tog" id="btn-ultima-no" onclick="toggleSrv('ultima','no')">No</button>
+        </div>
       </div>
-      <div class="srv-detail" id="detail-ultima"><input type="text" id="txt-ultima" placeholder="Dirección de entrega, piso, horario, contacto..." /></div>
+      <div class="srv-detail" id="detail-ultima">
+        <input type="text" id="txt-ultima" placeholder="Dirección de entrega, piso, horario, contacto..." />
+      </div>
     </div>
+
     <div class="field" style="margin-top:12px"><label>Observaciones generales</label><input type="text" id="observaciones" placeholder="Información adicional relevante" /></div>
     <div class="field" style="margin-top:12px">
       <label>Adjuntos para enviar por Gmail</label>
@@ -528,11 +778,8 @@
       Actualizar
     </button>
   </div>
-
-  <!-- FILTROS -->
   <div class="cot-filters">
     <div class="cot-filters-grid">
-      <!-- Agente -->
       <div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
           <div class="cot-filter-label">Agente</div>
@@ -540,7 +787,6 @@
         </div>
         <div class="cot-filter-checks" id="filtro-agentes"></div>
       </div>
-      <!-- Puerto origen -->
       <div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
           <div class="cot-filter-label">Puerto origen</div>
@@ -548,7 +794,6 @@
         </div>
         <div class="cot-filter-checks" id="filtro-origenes"></div>
       </div>
-      <!-- Puerto destino -->
       <div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
           <div class="cot-filter-label">Puerto destino</div>
@@ -557,13 +802,10 @@
         <div class="cot-filter-checks" id="filtro-destinos"></div>
       </div>
     </div>
-
-    <!-- Contenedor -->
     <div style="margin-bottom:16px">
       <div class="cot-filter-label" style="margin-bottom:8px">Tipo de contenedor</div>
       <div class="cot-filter-checks" id="filtro-contenedores" style="flex-direction:row;flex-wrap:wrap;max-height:none"></div>
     </div>
-
     <div class="cot-actions">
       <button class="btn-buscar" onclick="aplicarFiltros()">Buscar tarifas</button>
       <button class="btn-limpiar" onclick="limpiarFiltros()">Limpiar filtros</button>
@@ -573,8 +815,6 @@
       </label>
     </div>
   </div>
-
-  <!-- RESULTADOS -->
   <div id="cot-resultados">
     <div class="cot-loading" id="cot-cargando">
       <div class="spinner"></div>
@@ -585,14 +825,144 @@
 </div>
 
 <script>
-// ══════════ DATOS GLOBALES ══════════
+// ══════════ CONFIG ══════════
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz8soemG0UJjgqyr_Y6cpR0Ek5aYczcEDKs5_AHBGSSlJS_Oc_ex33bYX-bJBWZZNR6/exec';
 const GMAIL_DESTINO = 'sgrinovero@southcrosslog.com,ramiro@southcrosslog.com';
 
 let tarifasRaw = [];
 let currentID = '';
-const srvState = {pickup:null,flete:null,aduana:null,ultima:null};
+const srvState = {pickup:null,flete:null,'aduana-expo':null,'aduana-impo':null,ultima:null};
+let despState = null;
 const wizAnswers = {modo:null,export:null,flete:null,import:null};
+
+// ══════════ BULTOS ══════════
+let bultosUnit = 'cm';
+let bultosDivisor = 167;
+let bultosRows = [];
+let bultosNextId = 1;
+
+function setUnit(u, btn) {
+  bultosUnit = u;
+  document.querySelectorAll('.unit-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  recalcularBultos();
+}
+
+function setDivisor(d, btn) {
+  bultosDivisor = d;
+  document.querySelectorAll('.div-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  recalcularBultos();
+}
+
+function toCBM(l, w, h) {
+  if (!l || !w || !h) return 0;
+  if (bultosUnit === 'cm') return (l/100)*(w/100)*(h/100);
+  if (bultosUnit === 'm')  return l*w*h;
+  if (bultosUnit === 'in') return (l*0.0254)*(w*0.0254)*(h*0.0254);
+  return 0;
+}
+
+function calcRowCBM(row) {
+  const qty = parseFloat(row.qty) || 1;
+  return toCBM(parseFloat(row.l)||0, parseFloat(row.w)||0, parseFloat(row.h)||0) * qty;
+}
+
+function agregarBulto() {
+  const id = bultosNextId++;
+  bultosRows.push({id, desc:'', qty:'1', l:'', w:'', h:'', peso:''});
+  renderBultos();
+  setTimeout(() => {
+    const el = document.querySelector(`#brow-${id} .b-desc`);
+    if (el) el.focus();
+  }, 40);
+}
+
+function eliminarBulto(id) {
+  bultosRows = bultosRows.filter(r => r.id !== id);
+  renderBultos();
+  recalcularBultos();
+}
+
+function onBultoInput(id, campo, val) {
+  const row = bultosRows.find(r => r.id === id);
+  if (row) { row[campo] = val; recalcularBultos(); }
+}
+
+function renderBultos() {
+  const tbody = document.getElementById('bultos-body');
+  if (!bultosRows.length) {
+    tbody.innerHTML = `<tr><td colspan="8" class="bultos-empty">No hay bultos. Hacé clic en "+ Agregar bulto".</td></tr>`;
+    recalcularBultos();
+    return;
+  }
+  tbody.innerHTML = bultosRows.map(r => {
+    const cbm = calcRowCBM(r);
+    const cbmStr = cbm > 0 ? cbm.toFixed(4) : '—';
+    return `<tr id="brow-${r.id}">
+      <td><input class="bultos-input b-desc col-desc" type="text" placeholder="Ej: Caja" value="${r.desc}" oninput="onBultoInput(${r.id},'desc',this.value)" /></td>
+      <td><input class="bultos-input" type="number" min="1" placeholder="1" value="${r.qty}" oninput="onBultoInput(${r.id},'qty',this.value)" /></td>
+      <td><input class="bultos-input" type="number" min="0" step="any" placeholder="0" value="${r.l}" oninput="onBultoInput(${r.id},'l',this.value)" /></td>
+      <td><input class="bultos-input" type="number" min="0" step="any" placeholder="0" value="${r.w}" oninput="onBultoInput(${r.id},'w',this.value)" /></td>
+      <td><input class="bultos-input" type="number" min="0" step="any" placeholder="0" value="${r.h}" oninput="onBultoInput(${r.id},'h',this.value)" /></td>
+      <td><input class="bultos-input" type="number" min="0" step="any" placeholder="0" value="${r.peso}" oninput="onBultoInput(${r.id},'peso',this.value)" /></td>
+      <td class="td-cbm-val" id="cbm-${r.id}">${cbmStr}</td>
+      <td><button class="btn-del-row" onclick="eliminarBulto(${r.id})" aria-label="Eliminar fila">✕</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function recalcularBultos() {
+  let totalBultos = 0, totalPeso = 0, totalCBM = 0;
+  bultosRows.forEach(r => {
+    const qty = parseFloat(r.qty) || 1;
+    totalBultos += qty;
+    totalPeso += (parseFloat(r.peso)||0) * qty;
+    const cbm = calcRowCBM(r);
+    totalCBM += cbm;
+    const tdCBM = document.getElementById(`cbm-${r.id}`);
+    if (tdCBM) tdCBM.textContent = cbm > 0 ? cbm.toFixed(4) : '—';
+  });
+  const pesoVol = totalCBM * bultosDivisor;
+  const chargeable = Math.max(totalPeso, pesoVol);
+  document.getElementById('r-bultos').textContent = totalBultos;
+  document.getElementById('r-peso').textContent = totalPeso.toFixed(2);
+  document.getElementById('r-cbm').textContent = totalCBM.toFixed(4);
+  document.getElementById('r-pvol').textContent = pesoVol.toFixed(2);
+  document.getElementById('r-chargeable').textContent = chargeable.toFixed(2) + ' kg';
+}
+
+function getBultosResumen() {
+  let totalBultos = 0, totalPeso = 0, totalCBM = 0;
+  bultosRows.forEach(r => {
+    const qty = parseFloat(r.qty)||1;
+    totalBultos += qty;
+    totalPeso += (parseFloat(r.peso)||0)*qty;
+    totalCBM += calcRowCBM(r);
+  });
+  const pesoVol = totalCBM * bultosDivisor;
+  const chargeable = Math.max(totalPeso, pesoVol);
+  return { totalBultos, totalPeso, totalCBM, pesoVol, chargeable };
+}
+
+function getBultosTexto() {
+  if (!bultosRows.length) return 'Sin detalle.';
+  const u = bultosUnit;
+  let lines = bultosRows.map((r,i) => {
+    const qty = parseFloat(r.qty)||1;
+    const cbm = calcRowCBM(r);
+    const desc = r.desc || `Bulto ${i+1}`;
+    const dims = (r.l && r.w && r.h) ? `${r.l}×${r.w}×${r.h} ${u}` : '—';
+    const peso = r.peso ? `${(parseFloat(r.peso)*qty).toFixed(2)} kg` : '—';
+    return `  ${desc.padEnd(16)} x${qty}   ${dims.padEnd(18)}   ${peso.padEnd(12)}   CBM: ${cbm>0?cbm.toFixed(4):'—'}`;
+  });
+  const res = getBultosResumen();
+  lines.push('');
+  lines.push(`  TOTALES:  ${res.totalBultos} bultos   ${res.totalPeso.toFixed(2)} kg   ${res.totalCBM.toFixed(4)} CBM`);
+  lines.push(`  Peso volumétrico (÷${bultosDivisor}): ${res.pesoVol.toFixed(2)} kg`);
+  lines.push(`  Chargeable weight: ${res.chargeable.toFixed(2)} kg`);
+  return lines.join('\n');
+}
 
 // ══════════ FORMULARIO ══════════
 function mostrarAdjuntos(){
@@ -604,12 +974,9 @@ function mostrarAdjuntos(){
   lista.textContent='Archivos seleccionados:\n• '+files.map(f=>f.name).join('\n• ');
 }
 function abrirGmail(){
-  const asunto=document.getElementById('asunto-out')?.textContent.trim();
-  const cuerpo=document.getElementById('cuerpo-out')?.textContent.trim();
-  if(!asunto||!cuerpo){generar();}
   const af=document.getElementById('asunto-out')?.textContent.trim();
   const cf=document.getElementById('cuerpo-out')?.textContent.trim();
-  if(!af||!cf) return;
+  if(!af||!cf){generar();return;}
   const files=document.getElementById('adjuntos')?.files||[];
   let av='';
   if(files.length){av='\n\nADJUNTOS A CARGAR MANUALMENTE:\n- '+[...files].map(f=>f.name).join('\n- ');}
@@ -621,7 +988,7 @@ function switchTab(id,btn){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
-  if(id==='cotizador' && tarifasRaw.length===0) cargarDatos(false);
+  if(id==='cotizador'&&tarifasRaw.length===0) cargarDatos(false);
 }
 function generarID(){
   const now=new Date();
@@ -634,66 +1001,430 @@ function togglePill(label){
   const cb=label.querySelector('input');
   setTimeout(()=>{label.classList.toggle('checked',cb.checked);},0);
 }
-function toggleSrv(key,val){
-  srvState[key]=val;
-  ['si','no'].forEach(v=>{
-    const btn=document.getElementById('btn-'+key+'-'+v);
+function toggleSrv(key, val) {
+  srvState[key] = val;
+  ['si','no'].forEach(v => {
+    const btn = document.getElementById('btn-'+key+'-'+v);
+    if (!btn) return;
     btn.classList.remove('si','no');
-    if(v===val) btn.classList.add(val);
+    if (v === val) btn.classList.add(val);
   });
-  document.getElementById('detail-'+key).style.display=val==='si'?'block':'none';
-  document.getElementById('row-'+key).classList.remove('error');
+  const detail = document.getElementById('detail-'+key);
+  if (detail) detail.style.display = val === 'si' ? 'block' : 'none';
+  document.getElementById('row-'+key)?.classList.remove('error');
+  // Update badge if differs from incoterm suggestion
+  updateSrvBadge(key, val);
 }
+
+function toggleDesp(val) {
+  despState = val;
+  ['si','propio','no'].forEach(v => {
+    const btn = document.getElementById('desp-'+v);
+    if (btn) { btn.classList.remove('active-si','active-propio','active-no'); }
+  });
+  const btn = document.getElementById('desp-'+val);
+  if (btn) btn.classList.add('active-'+val);
+  const nombreWrap = document.getElementById('desp-nombre-wrap');
+  if (nombreWrap) nombreWrap.style.display = val === 'propio' ? 'block' : 'none';
+}
+
+// Incoterm × Tipo operación → suggested logistics
+// Keys: pickup, flete, aduana-expo, aduana-impo, ultima
+// IMPO = SouthCross es el agente del importador argentino
+// EXPO = SouthCross es el agente del exportador argentino
+const INCO_LOGIC = {
+  // ── IMPO ──────────────────────────────────────────────────────────────────
+  // EXW-IMPO: vendedor solo pone a disposición → SC hace TODO
+  'EXW|IMPO': {
+    pickup:'si', flete:'si', 'aduana-expo':'si', 'aduana-impo':'si', ultima:'si',
+    hints:{
+      pickup:'SC organiza el retiro desde fábrica del vendedor',
+      flete:'SC contrata y cotiza el flete internacional',
+      'aduana-expo':'SC gestiona el despacho de exportación en origen',
+      'aduana-impo':'SC hace el despacho de importación en Argentina',
+      ultima:'SC gestiona la entrega en destino final'
+    }
+  },
+  // FCA/FAS/FOB-IMPO: vendedor ya hizo expo → SC hace flete + aduana impo
+  'FCA|IMPO': {
+    pickup:'no', flete:'si', 'aduana-expo':'no', 'aduana-impo':'si', ultima:'si',
+    hints:{
+      pickup:'El vendedor entrega al transportista — SC no hace pickup',
+      flete:'SC contrata y cotiza el flete internacional',
+      'aduana-expo':'El vendedor ya hizo el despacho de exportación',
+      'aduana-impo':'SC hace el despacho de importación en Argentina',
+      ultima:'SC gestiona la entrega en destino final'
+    }
+  },
+  'FAS|IMPO': {
+    pickup:'no', flete:'si', 'aduana-expo':'no', 'aduana-impo':'si', ultima:'si',
+    hints:{
+      pickup:'El vendedor entrega al costado del buque',
+      flete:'SC contrata y cotiza el flete internacional',
+      'aduana-expo':'El vendedor ya hizo el despacho de exportación',
+      'aduana-impo':'SC hace el despacho de importación en Argentina',
+      ultima:'SC gestiona la entrega en destino final'
+    }
+  },
+  'FOB|IMPO': {
+    pickup:'no', flete:'si', 'aduana-expo':'no', 'aduana-impo':'si', ultima:'si',
+    hints:{
+      pickup:'El vendedor carga a bordo — SC no hace pickup',
+      flete:'SC contrata y cotiza el flete internacional',
+      'aduana-expo':'El vendedor ya hizo el despacho de exportación',
+      'aduana-impo':'SC hace el despacho de importación en Argentina',
+      ultima:'SC gestiona la entrega en destino final'
+    }
+  },
+  // CFR/CIF/CPT/CIP-IMPO: vendedor paga flete → SC solo hace aduana impo
+  'CFR|IMPO': {
+    pickup:'no', flete:'no', 'aduana-expo':'no', 'aduana-impo':'si', ultima:'si',
+    hints:{
+      pickup:'El vendedor organiza el retiro',
+      flete:'El vendedor ya pagó el flete hasta puerto destino',
+      'aduana-expo':'El vendedor hizo el despacho de exportación',
+      'aduana-impo':'SC hace el despacho de importación en Argentina',
+      ultima:'SC gestiona la entrega en destino final'
+    }
+  },
+  'CIF|IMPO': {
+    pickup:'no', flete:'no', 'aduana-expo':'no', 'aduana-impo':'si', ultima:'si',
+    hints:{
+      pickup:'El vendedor organiza el retiro',
+      flete:'El vendedor pagó flete y seguro hasta puerto destino',
+      'aduana-expo':'El vendedor hizo el despacho de exportación',
+      'aduana-impo':'SC hace el despacho de importación en Argentina',
+      ultima:'SC gestiona la entrega en destino final'
+    }
+  },
+  'CPT|IMPO': {
+    pickup:'no', flete:'no', 'aduana-expo':'no', 'aduana-impo':'si', ultima:'si',
+    hints:{
+      pickup:'El vendedor organiza el retiro',
+      flete:'El vendedor pagó el flete hasta destino acordado',
+      'aduana-expo':'El vendedor hizo el despacho de exportación',
+      'aduana-impo':'SC hace el despacho de importación en Argentina',
+      ultima:'SC gestiona la entrega en destino final'
+    }
+  },
+  'CIP|IMPO': {
+    pickup:'no', flete:'no', 'aduana-expo':'no', 'aduana-impo':'si', ultima:'si',
+    hints:{
+      pickup:'El vendedor organiza el retiro',
+      flete:'El vendedor pagó flete y seguro hasta destino',
+      'aduana-expo':'El vendedor hizo el despacho de exportación',
+      'aduana-impo':'SC hace el despacho de importación en Argentina',
+      ultima:'SC gestiona la entrega en destino final'
+    }
+  },
+  // DAP/DPU-IMPO: vendedor llega hasta destino → SC solo hace aduana impo
+  'DAP|IMPO': {
+    pickup:'no', flete:'no', 'aduana-expo':'no', 'aduana-impo':'si', ultima:'no',
+    hints:{
+      pickup:'El vendedor organiza todo hasta destino',
+      flete:'El vendedor ya incluyó el flete',
+      'aduana-expo':'El vendedor hizo el despacho de exportación',
+      'aduana-impo':'SC hace el despacho de importación en Argentina',
+      ultima:'El vendedor entrega en el lugar acordado'
+    }
+  },
+  'DPU|IMPO': {
+    pickup:'no', flete:'no', 'aduana-expo':'no', 'aduana-impo':'si', ultima:'no',
+    hints:{
+      pickup:'El vendedor organiza todo hasta destino',
+      flete:'El vendedor ya incluyó el flete',
+      'aduana-expo':'El vendedor hizo el despacho de exportación',
+      'aduana-impo':'SC hace el despacho de importación en Argentina',
+      ultima:'El vendedor descarga en el lugar acordado'
+    }
+  },
+  // DDP-IMPO: vendedor hace TODO incluyendo aranceles → SC no hace nada (o acompaña)
+  'DDP|IMPO': {
+    pickup:'no', flete:'no', 'aduana-expo':'no', 'aduana-impo':'no', ultima:'no',
+    hints:{
+      pickup:'El vendedor organiza todo',
+      flete:'El vendedor ya incluyó el flete',
+      'aduana-expo':'El vendedor hizo el despacho de exportación',
+      'aduana-impo':'El vendedor paga aranceles y hace el despacho de importación',
+      ultima:'El vendedor entrega en domicilio del comprador'
+    }
+  },
+
+  // ── EXPO ──────────────────────────────────────────────────────────────────
+  // EXW-EXPO: SC solo gestiona que el cliente entregue en fábrica
+  'EXW|EXPO': {
+    pickup:'no', flete:'no', 'aduana-expo':'no', 'aduana-impo':'no', ultima:'no',
+    hints:{
+      pickup:'Con EXW el comprador retira desde fábrica',
+      flete:'El comprador contrata el flete',
+      'aduana-expo':'El comprador hace el despacho de exportación',
+      'aduana-impo':'El comprador hace el despacho de importación',
+      ultima:'El comprador gestiona la entrega final'
+    }
+  },
+  // FCA/FAS/FOB-EXPO: SC hace pickup + aduana expo hasta embarque
+  'FCA|EXPO': {
+    pickup:'si', flete:'no', 'aduana-expo':'si', 'aduana-impo':'no', ultima:'no',
+    hints:{
+      pickup:'SC organiza el retiro desde origen',
+      flete:'El comprador contrata el flete internacional',
+      'aduana-expo':'SC gestiona el despacho de exportación',
+      'aduana-impo':'El comprador hace el despacho de importación en destino',
+      ultima:'El comprador gestiona la entrega final'
+    }
+  },
+  'FAS|EXPO': {
+    pickup:'si', flete:'no', 'aduana-expo':'si', 'aduana-impo':'no', ultima:'no',
+    hints:{
+      pickup:'SC organiza el retiro hasta costado del buque',
+      flete:'El comprador contrata el flete',
+      'aduana-expo':'SC gestiona el despacho de exportación',
+      'aduana-impo':'El comprador hace el despacho de importación en destino',
+      ultima:'El comprador gestiona la entrega final'
+    }
+  },
+  'FOB|EXPO': {
+    pickup:'si', flete:'no', 'aduana-expo':'si', 'aduana-impo':'no', ultima:'no',
+    hints:{
+      pickup:'SC organiza el retiro y carga a bordo',
+      flete:'El comprador contrata el flete internacional',
+      'aduana-expo':'SC gestiona el despacho de exportación',
+      'aduana-impo':'El comprador hace el despacho de importación en destino',
+      ultima:'El comprador gestiona la entrega final'
+    }
+  },
+  // CFR/CIF/CPT/CIP-EXPO: SC hace pickup + flete + aduana expo
+  'CFR|EXPO': {
+    pickup:'si', flete:'si', 'aduana-expo':'si', 'aduana-impo':'no', ultima:'no',
+    hints:{
+      pickup:'SC organiza el retiro desde origen',
+      flete:'SC contrata el flete hasta puerto destino',
+      'aduana-expo':'SC gestiona el despacho de exportación',
+      'aduana-impo':'El comprador hace el despacho de importación en destino',
+      ultima:'El comprador gestiona la entrega final'
+    }
+  },
+  'CIF|EXPO': {
+    pickup:'si', flete:'si', 'aduana-expo':'si', 'aduana-impo':'no', ultima:'no',
+    hints:{
+      pickup:'SC organiza el retiro desde origen',
+      flete:'SC contrata flete y seguro hasta puerto destino',
+      'aduana-expo':'SC gestiona el despacho de exportación',
+      'aduana-impo':'El comprador hace el despacho de importación en destino',
+      ultima:'El comprador gestiona la entrega final'
+    }
+  },
+  'CPT|EXPO': {
+    pickup:'si', flete:'si', 'aduana-expo':'si', 'aduana-impo':'no', ultima:'no',
+    hints:{
+      pickup:'SC organiza el retiro desde origen',
+      flete:'SC contrata el flete hasta destino acordado',
+      'aduana-expo':'SC gestiona el despacho de exportación',
+      'aduana-impo':'El comprador hace el despacho de importación en destino',
+      ultima:'El comprador gestiona la entrega final'
+    }
+  },
+  'CIP|EXPO': {
+    pickup:'si', flete:'si', 'aduana-expo':'si', 'aduana-impo':'no', ultima:'no',
+    hints:{
+      pickup:'SC organiza el retiro desde origen',
+      flete:'SC contrata flete y seguro hasta destino',
+      'aduana-expo':'SC gestiona el despacho de exportación',
+      'aduana-impo':'El comprador hace el despacho de importación en destino',
+      ultima:'El comprador gestiona la entrega final'
+    }
+  },
+  // DAP/DPU/DDP-EXPO: SC hace todo
+  'DAP|EXPO': {
+    pickup:'si', flete:'si', 'aduana-expo':'si', 'aduana-impo':'no', ultima:'si',
+    hints:{
+      pickup:'SC organiza el retiro desde origen',
+      flete:'SC contrata el flete hasta lugar de destino',
+      'aduana-expo':'SC gestiona el despacho de exportación',
+      'aduana-impo':'El comprador hace el despacho de importación en destino',
+      ultima:'SC entrega en el lugar acordado'
+    }
+  },
+  'DPU|EXPO': {
+    pickup:'si', flete:'si', 'aduana-expo':'si', 'aduana-impo':'no', ultima:'si',
+    hints:{
+      pickup:'SC organiza el retiro desde origen',
+      flete:'SC contrata el flete hasta lugar de destino',
+      'aduana-expo':'SC gestiona el despacho de exportación',
+      'aduana-impo':'El comprador hace el despacho de importación en destino',
+      ultima:'SC descarga en el lugar acordado'
+    }
+  },
+  'DDP|EXPO': {
+    pickup:'si', flete:'si', 'aduana-expo':'si', 'aduana-impo':'si', ultima:'si',
+    hints:{
+      pickup:'SC organiza el retiro desde origen',
+      flete:'SC contrata el flete completo',
+      'aduana-expo':'SC gestiona el despacho de exportación',
+      'aduana-impo':'SC gestiona el despacho de importación y aranceles en destino',
+      ultima:'SC entrega en domicilio del comprador'
+    }
+  },
+};
+
+let incoSuggested = {};
+
+function autoLogistica(incoterm) {
+  const tipo = document.getElementById('tipo')?.value || '';
+  if (!incoterm || !tipo) return;
+  const key = incoterm + '|' + tipo;
+  const logic = INCO_LOGIC[key];
+  if (!logic) return;
+  incoSuggested = logic;
+  const label = document.getElementById('inco-auto-label');
+  if (label) label.style.display = 'inline';
+  const services = ['pickup','flete','aduana-expo','aduana-impo','ultima'];
+  services.forEach(k => toggleSrv(k, logic[k]));
+  services.forEach(k => {
+    const hintEl = document.getElementById('hint-'+k);
+    if (hintEl && logic.hints?.[k]) hintEl.textContent = logic.hints[k];
+  });
+  document.getElementById('row-despachante').style.display = 'block';
+}
+
+
+function updateSrvBadge(key, val) {
+  const badge = document.getElementById('badge-'+key);
+  if (!badge) return;
+  const suggested = incoSuggested[key];
+  if (!suggested) { badge.innerHTML = ''; return; }
+  if (val === suggested) {
+    badge.innerHTML = `<span class="srv-auto-badge">⚡ ${document.getElementById('incoterm')?.value||''}</span>`;
+  } else {
+    badge.innerHTML = `<span class="srv-auto-badge modified">✏️ Modificado</span>`;
+  }
+}
+
 function onModalidad(){
   const m=document.getElementById('modalidad').value;
-  const esFCL=m==='FCL',esM=m==='FCL'||m==='LCL';
+  const esFCL=m==='FCL';
+  const esM=m==='FCL'||m==='LCL';
+  const esAereo=m==='AÉREO';
+  const mostrarPuertos=esM||esAereo;
   document.getElementById('contenedor-wrap').classList.toggle('hidden',!esFCL);
-  document.getElementById('puerto-origen-wrap').classList.toggle('hidden',!esM);
-  document.getElementById('puerto-destino-wrap').classList.toggle('hidden',!esM);
+  document.getElementById('puerto-origen-wrap').classList.toggle('hidden',!mostrarPuertos);
+  document.getElementById('puerto-destino-wrap').classList.toggle('hidden',!mostrarPuertos);
+  // Update labels and placeholders
+  const labelOrigen=document.getElementById('label-puerto-origen');
+  const labelDestino=document.getElementById('label-puerto-destino');
+  const inputOrigen=document.getElementById('puerto-origen');
+  const inputDestino=document.getElementById('puerto-destino');
+  if(esAereo){
+    if(labelOrigen) labelOrigen.textContent='Aeropuerto de origen';
+    if(labelDestino) labelDestino.textContent='Aeropuerto de destino';
+    if(inputOrigen && portTags['puerto-origen'].length===0) inputOrigen.placeholder='Ej: PVG - Shanghai Pudong';
+    if(inputDestino && portTags['puerto-destino'].length===0) inputDestino.placeholder='Ej: EZE - Ezeiza';
+  } else {
+    if(labelOrigen) labelOrigen.textContent='Puerto de origen';
+    if(labelDestino) labelDestino.textContent='Puerto de destino';
+    if(inputOrigen && portTags['puerto-origen'].length===0) inputOrigen.placeholder='Agregar puerto...';
+    if(inputDestino && portTags['puerto-destino'].length===0) inputDestino.placeholder='Agregar puerto...';
+  }
+  // Switch autocomplete function
+  const acFnOrigen = esAereo ? 'acAeropuerto' : 'acPuerto';
+  const acFnDestino = esAereo ? 'acAeropuerto' : 'acPuerto';
+  if(inputOrigen){
+    inputOrigen.setAttribute('oninput', `${acFnOrigen}('puerto-origen','dd-puerto-origen')`);
+    inputOrigen.setAttribute('onfocus', `${acFnOrigen}('puerto-origen','dd-puerto-origen')`);
+  }
+  if(inputDestino){
+    inputDestino.setAttribute('oninput', `${acFnDestino}('puerto-destino','dd-puerto-destino')`);
+    inputDestino.setAttribute('onfocus', `${acFnDestino}('puerto-destino','dd-puerto-destino')`);
+  }
 }
 function v(id){const el=document.getElementById(id);return el?el.value.trim():'';}
 function c(id){const el=document.getElementById(id);return el?el.checked:false;}
 function fmt(d){if(!d)return '—';const[y,m,dd]=d.split('-');return dd+'/'+m+'/'+y.slice(2);}
 function srvLine(label,key){const s=srvState[key],det=v('txt-'+key);let line=label+': '+(s==='si'?'SÍ':s==='no'?'NO':'—');if(s==='si'&&det)line+=' — '+det;return line;}
+
 function generar(){
   const nombre=v('nombre'),cliente=v('cliente'),modalidad=v('modalidad');
   const tipo=v('tipo'),incoterm=v('incoterm');
   const paisOrigen=v('pais-origen'),paisDestino=v('pais-destino');
-  const puertoOrigen=v('puerto-origen'),puertoDestino=v('puerto-destino');
+  const puertoOrigen=getPortTagsText('puerto-origen')||v('puerto-origen'),puertoDestino=getPortTagsText('puerto-destino')||v('puerto-destino');
   const contenedor=v('contenedor'),dirRetiro=v('dir-retiro'),dirEntrega=v('dir-entrega');
-  const peso=v('peso'),volumen=v('volumen'),bultos=v('bultos');
   const ncm=v('ncm'),descripcion=v('descripcion'),valor=v('valor');
   const fechaEmbarque=v('fecha-embarque'),observaciones=v('observaciones');
-  const esFCL=modalidad==='FCL',esM=modalidad==='FCL'||modalidad==='LCL';
-  const req=[['Nombre comercial',nombre],['Cliente',cliente],['Modalidad',modalidad],['Tipo de operación',tipo],['Incoterm',incoterm],['País de origen',paisOrigen],['País de destino',paisDestino],['Peso bruto',peso],['Volumen / Medidas',volumen],['Cantidad de bultos',bultos],['Descripción de la mercadería',descripcion],['Valor de la mercadería',valor]];
+  const esFCL=modalidad==='FCL',esM=modalidad==='FCL'||modalidad==='LCL',esAereo=modalidad==='AÉREO';
+
+  const req=[['Nombre comercial',nombre],['Cliente',cliente],['Modalidad',modalidad],['Tipo de operación',tipo],['Incoterm',incoterm],['País de origen',paisOrigen],['País de destino',paisDestino],['Descripción de la mercadería',descripcion],['Valor de la mercadería',valor]];
   if(esFCL) req.push(['Tipo de contenedor',contenedor]);
-  const falt=req.filter(([,v])=>!v).map(([l])=>l);
-  const idMap={'Nombre comercial':'nombre','Cliente':'cliente','Modalidad':'modalidad','Tipo de operación':'tipo','Incoterm':'incoterm','País de origen':'pais-origen','País de destino':'pais-destino','Peso bruto':'peso','Volumen / Medidas':'volumen','Cantidad de bultos':'bultos','Descripción de la mercadería':'descripcion','Valor de la mercadería':'valor','Tipo de contenedor':'contenedor'};
+
+  const falt=req.filter(([,val])=>!val).map(([l])=>l);
+  const idMap={'Nombre comercial':'nombre','Cliente':'cliente','Modalidad':'modalidad','Tipo de operación':'tipo','Incoterm':'incoterm','País de origen':'pais-origen','País de destino':'pais-destino','Descripción de la mercadería':'descripcion','Valor de la mercadería':'valor','Tipo de contenedor':'contenedor'};
   req.forEach(([l,val])=>{const id=idMap[l];if(id){const el=document.getElementById(id);if(el)el.classList.toggle('error',!val);}});
-  const srvFalt=Object.entries(srvState).filter(([,v])=>v===null);
-  srvFalt.forEach(([key])=>document.getElementById('row-'+key).classList.add('error'));
-  if(falt.length||srvFalt.length){
-    const labels={pickup:'Pickup',flete:'Flete',aduana:'Servicios aduaneros',ultima:'Última milla'};
+
+  // Validar bultos
+  const sinBultos = bultosRows.length === 0;
+  document.getElementById('bultos-error-wrap').style.borderColor = sinBultos ? 'var(--red)' : '';
+
+  const srvFalt=Object.entries(srvState).filter(([,val])=>val===null);
+  srvFalt.forEach(([key])=>document.getElementById('row-'+key)?.classList.add('error'));
+
+  if(falt.length||srvFalt.length||sinBultos){
+    const labels={pickup:'Pickup',flete:'Flete internacional','aduana-expo':'Aduana exportación','aduana-impo':'Aduana importación',ultima:'Última milla'};
     let msg='';
     if(falt.length) msg+='Campos obligatorios faltantes:\n• '+falt.join('\n• ');
+    if(sinBultos){if(msg)msg+='\n\n';msg+='Debés agregar al menos un bulto en la sección Mercadería.';}
     if(srvFalt.length){if(msg)msg+='\n\n';msg+='Servicios logísticos sin responder:\n• '+srvFalt.map(([k])=>labels[k]).join('\n• ');}
     alert(msg);return;
   }
+
   const today=new Date();
   const dd=String(today.getDate()).padStart(2,'0');
   const mm=String(today.getMonth()+1).padStart(2,'0');
   const yy=String(today.getFullYear()).slice(2);
   const fechaHoy=dd+'/'+mm+'/'+yy;
+  const res=getBultosResumen();
   const contStr=esFCL?' | '+contenedor:'';
-  const asunto='['+currentID+'] Pedido Cotización | '+nombre+' | '+modalidad+contStr+' | '+tipo+' | '+paisOrigen+' > '+paisDestino+' | '+cliente+' | '+fechaHoy;
   const caract=[c('imo')?'IMO: SÍ':'IMO: NO',c('reefer')?'Reefer: SÍ':'Reefer: NO',c('apilable')?'Apilable: SÍ':'Apilable: NO',c('roro')?'RoRo: SÍ':'RoRo: NO',c('flatrack')?'Flat Rack: SÍ':'Flat Rack: NO'].join(' | ');
-  const cuerpo=`ID OPERACIÓN: ${currentID}\n\nOPERACIÓN\nModalidad:                  ${modalidad}${esFCL?' — '+contenedor:''}\nIncoterm:                   ${incoterm}\nTipo de operación:          ${tipo}\nPaís de origen:             ${paisOrigen}${esM&&puertoOrigen?'\nPuerto de origen:           '+puertoOrigen:''}\nDirección de retiro:        ${dirRetiro||'—'}\nPaís de destino:            ${paisDestino}${esM&&puertoDestino?'\nPuerto de destino:          '+puertoDestino:''}\nDirección de entrega:       ${dirEntrega||'—'}\nFecha estimada embarque:    ${fmt(fechaEmbarque)}\n\nMERCADERÍA\nPeso bruto:                 ${peso}\nVolumen / Medidas:          ${volumen}\nCantidad de bultos:         ${bultos}\nNCM:                        ${ncm||'A confirmar'}\nDescripción:                ${descripcion}\nValor de la mercadería:     USD ${valor}\n${caract}\n\nLOGÍSTICA\n${srvLine('Pickup              ','pickup')}\n${srvLine('Flete               ','flete')}\n${srvLine('Servicios aduaneros ','aduana')}\n${srvLine('Última milla        ','ultima')}\nObservaciones:              ${observaciones||'—'}`;
+
+  const asunto='['+currentID+'] Pedido Cotización | '+nombre+' | '+modalidad+contStr+' | '+tipo+' | '+paisOrigen+' > '+paisDestino+' | '+cliente+' | '+fechaHoy;
+
+  const despTxt = despState==='si'?'Sí, necesito uno':despState==='propio'?'Ya tengo uno — '+(v('txt-despachante')||''):despState==='no'?'No necesito':'—';
+  const cuerpo=`ID OPERACIÓN: ${currentID}
+
+OPERACIÓN
+Modalidad:                  ${modalidad}${esFCL?' — '+contenedor:''}
+Incoterm:                   ${incoterm}
+Tipo de operación:          ${tipo}
+País de origen:             ${paisOrigen}${(esM||esAereo)&&puertoOrigen?'\n'+(esAereo?'Aeropuerto de origen:       ':'Puerto de origen:           ')+puertoOrigen:''}
+Dirección de retiro:        ${dirRetiro||'—'}
+País de destino:            ${paisDestino}${(esM||esAereo)&&puertoDestino?'\n'+(esAereo?'Aeropuerto de destino:      ':'Puerto de destino:          ')+puertoDestino:''}
+Dirección de entrega:       ${dirEntrega||'—'}
+Fecha estimada embarque:    ${fmt(fechaEmbarque)}
+
+MERCADERÍA
+NCM:                        ${ncm||'A confirmar'}
+Descripción:                ${descripcion}
+Valor de la mercadería:     USD ${valor}
+${caract}
+
+DETALLE DE BULTOS
+Descripción        Cant.   Dimensiones          Peso total   CBM
+${getBultosTexto()}
+
+LOGÍSTICA (Incoterm: ${incoterm})
+${srvLine('Pickup                ','pickup')}
+${srvLine('Flete internacional   ','flete')}
+${srvLine('Aduana exportación    ','aduana-expo')}
+${srvLine('Aduana importación    ','aduana-impo')}
+Despachante destino:        ${despTxt}
+${srvLine('Última milla          ','ultima')}
+Observaciones:              ${observaciones||'—'}`;
+
   document.getElementById('asunto-out').textContent=asunto;
   document.getElementById('cuerpo-out').textContent=cuerpo;
   const out=document.getElementById('output');
   out.classList.add('visible');
   out.scrollIntoView({behavior:'smooth',block:'start'});
 }
+
 function copiar(id,btn){
   navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>{
     btn.classList.add('copied');btn.textContent='✓ Copiado';
@@ -756,71 +1487,33 @@ function copiarNCM(code,card){
 function parsearFecha(str) {
   if (!str || str === '-' || str === '—') return null;
   str = str.toString().trim();
-
-  // "Válido hasta 14 junio" / "Válido hasta 31 mayo"
   const meses = {enero:0,febrero:1,marzo:2,abril:3,mayo:4,junio:5,julio:6,agosto:7,septiembre:8,octubre:9,noviembre:10,diciembre:11};
   const m1 = str.match(/(\d{1,2})\s+de?\s+([a-záéíóú]+)/i);
-  if (m1) {
-    const mes = meses[m1[2].toLowerCase()];
-    if (mes !== undefined) {
-      const y = new Date().getFullYear();
-      return new Date(y, mes, parseInt(m1[1]));
-    }
-  }
+  if (m1) { const mes = meses[m1[2].toLowerCase()]; if (mes !== undefined) { const y = new Date().getFullYear(); return new Date(y, mes, parseInt(m1[1])); } }
   const m2 = str.match(/(\d{1,2})\s+([a-záéíóú]+)\s*(\d{4})?/i);
-  if (m2) {
-    const mes = meses[m2[2].toLowerCase()];
-    if (mes !== undefined) {
-      const y = m2[3] ? parseInt(m2[3]) : new Date().getFullYear();
-      return new Date(y, mes, parseInt(m2[1]));
-    }
-  }
-  // "Válido 01-07 Jun 2026"
+  if (m2) { const mes = meses[m2[2].toLowerCase()]; if (mes !== undefined) { const y = m2[3] ? parseInt(m2[3]) : new Date().getFullYear(); return new Date(y, mes, parseInt(m2[1])); } }
   const m3 = str.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-\s]+([a-záéíóú]+)\s*(\d{4})?/i);
-  if (m3) {
-    const mes = meses[m3[3].toLowerCase()];
-    if (mes !== undefined) {
-      const y = m3[4] ? parseInt(m3[4]) : new Date().getFullYear();
-      return new Date(y, mes, parseInt(m3[2]));
-    }
-  }
-  // "30/04" o "30/04/2026"
+  if (m3) { const mes = meses[m3[3].toLowerCase()]; if (mes !== undefined) { const y = m3[4] ? parseInt(m3[4]) : new Date().getFullYear(); return new Date(y, mes, parseInt(m3[2])); } }
   const m4 = str.match(/(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?/);
-  if (m4) {
-    const y = m4[3] ? (m4[3].length===2?2000+parseInt(m4[3]):parseInt(m4[3])) : new Date().getFullYear();
-    return new Date(y, parseInt(m4[2])-1, parseInt(m4[1]));
-  }
+  if (m4) { const y = m4[3] ? (m4[3].length===2?2000+parseInt(m4[3]):parseInt(m4[3])) : new Date().getFullYear(); return new Date(y, parseInt(m4[2])-1, parseInt(m4[1])); }
   return null;
 }
-
 function semaforo(validezStr) {
   const fecha = parsearFecha(validezStr);
   if (!fecha) return { clase: '', texto: validezStr || '—' };
-  const hoy = new Date();
-  hoy.setHours(0,0,0,0);
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
   const diff = Math.floor((fecha - hoy) / (1000*60*60*24));
   if (diff < 0) return { clase: 'cot-tag-vencida', texto: `Vencida (${formatFecha(fecha)})` };
   if (diff <= 7) return { clase: 'cot-tag-vence-pronto', texto: `Vence en ${diff}d (${formatFecha(fecha)})` };
   return { clase: 'cot-tag-vigente', texto: `Vigente hasta ${formatFecha(fecha)}` };
 }
-
-function formatFecha(d) {
-  return d.getDate().toString().padStart(2,'0') + '/' + (d.getMonth()+1).toString().padStart(2,'0');
-}
-
-function esVigente(validezStr) {
-  const fecha = parsearFecha(validezStr);
-  if (!fecha) return true; // si no se puede parsear, mostrar igual
-  const hoy = new Date(); hoy.setHours(0,0,0,0);
-  return fecha >= hoy;
-}
+function formatFecha(d) { return d.getDate().toString().padStart(2,'0') + '/' + (d.getMonth()+1).toString().padStart(2,'0'); }
+function esVigente(validezStr) { const fecha = parsearFecha(validezStr); if (!fecha) return true; const hoy = new Date(); hoy.setHours(0,0,0,0); return fecha >= hoy; }
 
 async function cargarDatos(forzar = false) {
   if (tarifasRaw.length > 0 && !forzar) { construirFiltros(); return; }
-  
   const res = document.getElementById('cot-resultados');
   res.innerHTML = '<div class="cot-loading"><div class="spinner"></div>Cargando tarifas desde Google Sheets...</div>';
-  
   try {
     const resp = await fetch(APPS_SCRIPT_URL);
     const data = await resp.json();
@@ -832,62 +1525,33 @@ async function cargarDatos(forzar = false) {
     res.innerHTML = `<div class="cot-status"><div class="cot-status-icon">⚠️</div><div class="cot-status-title">No se pudo conectar con Google Sheets</div><div class="cot-status-sub">Verificá tu conexión y el Apps Script. ${e.message}</div></div>`;
   }
 }
-
 function unique(arr) { return [...new Set(arr.filter(Boolean))].sort(); }
-
 function construirFiltros() {
-  const agentes = unique(tarifasRaw.map(r => r['Agente']));
-  const origenes = unique(tarifasRaw.map(r => r['Puerto origen']));
-  const destinos = unique(tarifasRaw.map(r => r['Puerto destino']));
-  const contenedores = unique(tarifasRaw.map(r => r['Contenedor']));
-
-  renderChecks('filtro-agentes', agentes, true);
-  renderChecks('filtro-origenes', origenes, false);
-  renderChecks('filtro-destinos', destinos, false);
-  renderChecks('filtro-contenedores', contenedores, true);
+  renderChecks('filtro-agentes', unique(tarifasRaw.map(r => r['Agente'])), true);
+  renderChecks('filtro-origenes', unique(tarifasRaw.map(r => r['Puerto origen'])), false);
+  renderChecks('filtro-destinos', unique(tarifasRaw.map(r => r['Puerto destino'])), false);
+  renderChecks('filtro-contenedores', unique(tarifasRaw.map(r => r['Contenedor'])), true);
 }
-
 function renderChecks(containerId, items, allChecked) {
   const el = document.getElementById(containerId);
   if (!el) return;
-  el.innerHTML = items.map(item => `
-    <label class="cot-check">
-      <input type="checkbox" value="${item}" ${allChecked ? 'checked' : ''} />
-      <span>${item}</span>
-    </label>
-  `).join('');
+  el.innerHTML = items.map(item => `<label class="cot-check"><input type="checkbox" value="${item}" ${allChecked ? 'checked' : ''} /><span>${item}</span></label>`).join('');
 }
-
-function getChecked(containerId) {
-  return [...document.querySelectorAll(`#${containerId} input:checked`)].map(i => i.value);
-}
-
-function toggleAllChecks(containerId) {
-  const checks = document.querySelectorAll(`#${containerId} input`);
-  const allChecked = [...checks].every(c => c.checked);
-  checks.forEach(c => c.checked = !allChecked);
-}
-
+function getChecked(containerId) { return [...document.querySelectorAll(`#${containerId} input:checked`)].map(i => i.value); }
+function toggleAllChecks(containerId) { const checks = document.querySelectorAll(`#${containerId} input`); const allChecked = [...checks].every(c => c.checked); checks.forEach(c => c.checked = !allChecked); }
 function limpiarFiltros() {
-  ['filtro-agentes','filtro-contenedores'].forEach(id => {
-    document.querySelectorAll(`#${id} input`).forEach(c => c.checked = true);
-  });
-  ['filtro-origenes','filtro-destinos'].forEach(id => {
-    document.querySelectorAll(`#${id} input`).forEach(c => c.checked = false);
-  });
+  ['filtro-agentes','filtro-contenedores'].forEach(id => { document.querySelectorAll(`#${id} input`).forEach(c => c.checked = true); });
+  ['filtro-origenes','filtro-destinos'].forEach(id => { document.querySelectorAll(`#${id} input`).forEach(c => c.checked = false); });
   document.getElementById('solo-vigentes').checked = true;
   aplicarFiltros();
 }
-
 function aplicarFiltros() {
   if (tarifasRaw.length === 0) { cargarDatos(false); return; }
-
   const agentes = getChecked('filtro-agentes');
   const origenes = getChecked('filtro-origenes');
   const destinos = getChecked('filtro-destinos');
   const contenedores = getChecked('filtro-contenedores');
   const soloVigentes = document.getElementById('solo-vigentes').checked;
-
   let filtradas = tarifasRaw.filter(r => {
     if (agentes.length && !agentes.includes(r['Agente'])) return false;
     if (origenes.length && !origenes.includes(r['Puerto origen'])) return false;
@@ -896,49 +1560,19 @@ function aplicarFiltros() {
     if (soloVigentes && !esVigente(r['Validez'])) return false;
     return true;
   });
-
-  // Ordenar por flete ascendente
-  filtradas.sort((a, b) => {
-    const fa = parseFloat(String(a['Flete']).replace(/[^0-9.]/g,'')) || 0;
-    const fb = parseFloat(String(b['Flete']).replace(/[^0-9.]/g,'')) || 0;
-    return fa - fb;
-  });
-
+  filtradas.sort((a, b) => { const fa = parseFloat(String(a['Flete']).replace(/[^0-9.]/g,''))||0; const fb = parseFloat(String(b['Flete']).replace(/[^0-9.]/g,''))||0; return fa - fb; });
   renderResultados(filtradas);
 }
-
 function renderResultados(datos) {
   const res = document.getElementById('cot-resultados');
-
-  if (datos.length === 0) {
-    res.innerHTML = `<div class="cot-status"><div class="cot-status-icon">🔍</div><div class="cot-status-title">Sin resultados</div><div class="cot-status-sub">Probá ampliando los filtros de búsqueda.</div></div>`;
-    return;
-  }
-
-  // Agrupar por agente
+  if (datos.length === 0) { res.innerHTML = `<div class="cot-status"><div class="cot-status-icon">🔍</div><div class="cot-status-title">Sin resultados</div><div class="cot-status-sub">Probá ampliando los filtros de búsqueda.</div></div>`; return; }
   const grupos = {};
-  datos.forEach(r => {
-    const ag = r['Agente'] || 'Otros';
-    if (!grupos[ag]) grupos[ag] = [];
-    grupos[ag].push(r);
-  });
-
-  // Identificar mejor precio global por ruta+contenedor
+  datos.forEach(r => { const ag = r['Agente'] || 'Otros'; if (!grupos[ag]) grupos[ag] = []; grupos[ag].push(r); });
   const mejoresPorRuta = {};
-  datos.forEach(r => {
-    const key = `${r['Puerto origen']}|${r['Puerto destino']}|${r['Contenedor']}|${r['Moneda']}`;
-    const precio = parseFloat(String(r['Flete']).replace(/[^0-9.]/g,'')) || Infinity;
-    if (!mejoresPorRuta[key] || precio < mejoresPorRuta[key]) {
-      mejoresPorRuta[key] = precio;
-    }
-  });
-
+  datos.forEach(r => { const key = `${r['Puerto origen']}|${r['Puerto destino']}|${r['Contenedor']}|${r['Moneda']}`; const precio = parseFloat(String(r['Flete']).replace(/[^0-9.]/g,'')) || Infinity; if (!mejoresPorRuta[key] || precio < mejoresPorRuta[key]) { mejoresPorRuta[key] = precio; } });
   let html = `<div class="cot-summary"><div class="cot-count"><strong>${datos.length}</strong> tarifas encontradas en <strong>${Object.keys(grupos).length}</strong> agentes</div></div>`;
-
   Object.entries(grupos).forEach(([agente, items]) => {
-    html += `<div class="cot-grupo">
-      <div class="cot-grupo-title">${agente} <span class="cot-grupo-count">(${items.length} tarifa${items.length!==1?'s':''})</span></div>`;
-
+    html += `<div class="cot-grupo"><div class="cot-grupo-title">${agente} <span class="cot-grupo-count">(${items.length} tarifa${items.length!==1?'s':''})</span></div>`;
     items.forEach(r => {
       const precio = parseFloat(String(r['Flete']).replace(/[^0-9.]/g,'')) || 0;
       const moneda = r['Moneda'] || 'USD';
@@ -947,37 +1581,320 @@ function renderResultados(datos) {
       const sem = semaforo(r['Validez']);
       const dias = r['Días libres'];
       const remarks = (r['Remarks']||'').replace(/^[.\-–—]+\s*/,'').trim();
-
-      html += `<div class="cot-result-card${esMejor ? ' mejor-precio' : ''}">
-        <div class="cot-result-header">
-          <div class="cot-result-ruta">
-            <div class="cot-result-agente">${r['Agente'] || ''}</div>
-            <div class="cot-result-naviera">${r['Naviera'] || '—'}</div>
-            <div class="cot-result-puertos">${r['Puerto origen'] || '—'} → ${r['Puerto destino'] || '—'}</div>
-          </div>
-          <div class="cot-result-right">
-            <div class="cot-result-precio">${precio > 0 ? precio.toLocaleString() : '—'}</div>
-            <div class="cot-result-moneda">${moneda}</div>
-          </div>
-        </div>
-        <div class="cot-result-footer">
-          ${esMejor ? '<span class="cot-tag cot-tag-mejor">⭐ Mejor precio</span>' : ''}
-          <span class="cot-tag cot-tag-contenedor">${r['Contenedor'] || '—'}</span>
-          ${dias ? `<span class="cot-tag cot-tag-dias">📅 ${dias} días libres</span>` : ''}
-          ${sem.clase ? `<span class="cot-tag ${sem.clase}">${sem.texto}</span>` : `<span class="cot-validez">${sem.texto}</span>`}
-        </div>
-        ${remarks && remarks !== '-' ? `<div class="cot-remarks">${remarks}</div>` : ''}
-      </div>`;
+      html += `<div class="cot-result-card${esMejor?' mejor-precio':''}"><div class="cot-result-header"><div class="cot-result-ruta"><div class="cot-result-agente">${r['Agente']||''}</div><div class="cot-result-naviera">${r['Naviera']||'—'}</div><div class="cot-result-puertos">${r['Puerto origen']||'—'} → ${r['Puerto destino']||'—'}</div></div><div class="cot-result-right"><div class="cot-result-precio">${precio>0?precio.toLocaleString():'—'}</div><div class="cot-result-moneda">${moneda}</div></div></div><div class="cot-result-footer">${esMejor?'<span class="cot-tag cot-tag-mejor">⭐ Mejor precio</span>':''}<span class="cot-tag cot-tag-contenedor">${r['Contenedor']||'—'}</span>${dias?`<span class="cot-tag cot-tag-dias">📅 ${dias} días libres</span>`:''} ${sem.clase?`<span class="cot-tag ${sem.clase}">${sem.texto}</span>`:`<span class="cot-validez">${sem.texto}</span>`}</div>${remarks&&remarks!=='-'?`<div class="cot-remarks">${remarks}</div>`:''}</div>`;
     });
-
     html += `</div>`;
   });
-
   res.innerHTML = html;
+}
+
+
+
+// ══════════ PORT TAGS ══════════
+const portTags = { 'puerto-origen': [], 'puerto-destino': [] };
+
+function acPuertoTag(inputId) {
+  const input = document.getElementById(inputId);
+  const ddId = 'dd-' + inputId;
+  const dd = document.getElementById(ddId);
+  const q = normAC(input.value);
+  const isAereo = document.getElementById('modalidad').value === 'AÉREO';
+  if (!q) { dd.innerHTML = ''; return; }
+  const list = isAereo ? AEROPUERTOS : PUERTOS;
+  const matches = list.filter(p =>
+    normAC(p.n).includes(q) || normAC(p.p).includes(q) || (p.iata && p.iata.toLowerCase().includes(q))
+  ).slice(0, 14);
+  if (!matches.length) { dd.innerHTML = ''; return; }
+  dd.innerHTML = matches.map(p => {
+    const safe = p.n.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `<div class="ac-item" data-val="${safe}" data-flag="${p.f}" data-inp="${inputId}" data-dd="dd-${inputId}" onmousedown="event.preventDefault();addPortTag('${inputId}','${safe}','${p.f}')">
+      <span class="ac-item-flag">${p.f}</span>
+      <span class="ac-item-name">${p.n}</span>
+      <span class="ac-item-sub">${p.p}</span>
+    </div>`;
+  }).join('');
+}
+
+function addPortTag(inputId, name, flag) {
+  if (!portTags[inputId]) portTags[inputId] = [];
+  if (portTags[inputId].find(t => t.name === name)) {
+    document.getElementById(inputId).value = '';
+    document.getElementById('dd-' + inputId).innerHTML = '';
+    return;
+  }
+  portTags[inputId].push({ name, flag });
+  renderPortTags(inputId);
+  document.getElementById(inputId).value = '';
+  document.getElementById('dd-' + inputId).innerHTML = '';
+  // Update placeholder
+  updateTagPlaceholder(inputId);
+}
+
+function removePortTag(inputId, name) {
+  portTags[inputId] = portTags[inputId].filter(t => t.name !== name);
+  renderPortTags(inputId);
+  updateTagPlaceholder(inputId);
+}
+
+function renderPortTags(inputId) {
+  const container = document.getElementById('tags-' + inputId);
+  if (!container) return;
+  container.innerHTML = portTags[inputId].map(t => {
+    const safeName = t.name.replace(/'/g, "\'");
+    return `<span class="port-tag">
+      <span class="port-tag-flag">${t.flag}</span>
+      <span class="port-tag-name">${t.name}</span>
+      <button class="port-tag-del" onmousedown="removePortTag('${inputId}','${safeName}')" aria-label="Eliminar">×</button>
+    </span>`;
+  }).join('');
+}
+
+function updateTagPlaceholder(inputId) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  const isAereo = document.getElementById('modalidad').value === 'AÉREO';
+  if (portTags[inputId].length > 0) {
+    input.placeholder = 'Agregar otro...';
+  } else {
+    input.placeholder = isAereo ? 'Ej: PVG - Shanghai Pudong' : 'Agregar puerto...';
+  }
+}
+
+function tagKey(e, inputId, ddId) {
+  const dd = document.getElementById(ddId);
+  const items = dd ? [...dd.querySelectorAll('.ac-item')] : [];
+  const focused = dd ? dd.querySelector('.ac-item.focused') : null;
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    const idx = focused ? items.indexOf(focused) : -1;
+    items.forEach(i => i.classList.remove('focused'));
+    if (idx < items.length - 1) items[idx+1].classList.add('focused');
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    const idx = focused ? items.indexOf(focused) : items.length;
+    items.forEach(i => i.classList.remove('focused'));
+    if (idx > 0) items[idx-1].classList.add('focused');
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (focused) {
+      const val = focused.getAttribute('data-val');
+      const flag = focused.querySelector('.ac-item-flag')?.textContent || '';
+      if (val) addPortTag(inputId, val, flag);
+    } else {
+      // Add free text if typed manually
+      const input = document.getElementById(inputId);
+      const val = input.value.trim();
+      if (val) addPortTag(inputId, val, '📍');
+    }
+  } else if (e.key === 'Backspace') {
+    const input = document.getElementById(inputId);
+    if (input.value === '' && portTags[inputId].length > 0) {
+      const last = portTags[inputId][portTags[inputId].length - 1];
+      removePortTag(inputId, last.name);
+    }
+  } else if (e.key === 'Escape') {
+    if (dd) dd.innerHTML = '';
+  }
+}
+
+function getPortTagsText(inputId) {
+  if (!portTags[inputId] || portTags[inputId].length === 0) return '';
+  return portTags[inputId].map(t => t.name).join(' / ');
+}
+
+// ══════════ AUTOCOMPLETE PAÍSES Y PUERTOS ══════════
+const PAISES = [
+  // América del Sur
+  {n:'Argentina',f:'🇦🇷',r:'América del Sur'},{n:'Brasil',f:'🇧🇷',r:'América del Sur'},{n:'Chile',f:'🇨🇱',r:'América del Sur'},{n:'Uruguay',f:'🇺🇾',r:'América del Sur'},{n:'Paraguay',f:'🇵🇾',r:'América del Sur'},{n:'Bolivia',f:'🇧🇴',r:'América del Sur'},{n:'Perú',f:'🇵🇪',r:'América del Sur'},{n:'Colombia',f:'🇨🇴',r:'América del Sur'},{n:'Venezuela',f:'🇻🇪',r:'América del Sur'},{n:'Ecuador',f:'🇪🇨',r:'América del Sur'},{n:'Guyana',f:'🇬🇾',r:'América del Sur'},
+  // América Central y Caribe
+  {n:'México',f:'🇲🇽',r:'América Central'},{n:'Panamá',f:'🇵🇦',r:'América Central'},{n:'Costa Rica',f:'🇨🇷',r:'América Central'},{n:'Guatemala',f:'🇬🇹',r:'América Central'},{n:'Honduras',f:'🇭🇳',r:'América Central'},{n:'El Salvador',f:'🇸🇻',r:'América Central'},{n:'Nicaragua',f:'🇳🇮',r:'América Central'},{n:'Cuba',f:'🇨🇺',r:'Caribe'},{n:'República Dominicana',f:'🇩🇴',r:'Caribe'},{n:'Jamaica',f:'🇯🇲',r:'Caribe'},{n:'Trinidad y Tobago',f:'🇹🇹',r:'Caribe'},
+  // América del Norte
+  {n:'Estados Unidos',f:'🇺🇸',r:'América del Norte'},{n:'Canadá',f:'🇨🇦',r:'América del Norte'},
+  // Asia
+  {n:'China',f:'🇨🇳',r:'Asia'},{n:'Japón',f:'🇯🇵',r:'Asia'},{n:'Corea del Sur',f:'🇰🇷',r:'Asia'},{n:'India',f:'🇮🇳',r:'Asia'},{n:'Vietnam',f:'🇻🇳',r:'Asia'},{n:'Tailandia',f:'🇹🇭',r:'Asia'},{n:'Indonesia',f:'🇮🇩',r:'Asia'},{n:'Malasia',f:'🇲🇾',r:'Asia'},{n:'Singapur',f:'🇸🇬',r:'Asia'},{n:'Bangladesh',f:'🇧🇩',r:'Asia'},{n:'Pakistán',f:'🇵🇰',r:'Asia'},{n:'Sri Lanka',f:'🇱🇰',r:'Asia'},{n:'Filipinas',f:'🇵🇭',r:'Asia'},{n:'Myanmar',f:'🇲🇲',r:'Asia'},{n:'Camboya',f:'🇰🇭',r:'Asia'},{n:'Hong Kong',f:'🇭🇰',r:'Asia'},{n:'Taiwán',f:'🇹🇼',r:'Asia'},
+  // Medio Oriente
+  {n:'Emiratos Árabes',f:'🇦🇪',r:'Medio Oriente'},{n:'Arabia Saudita',f:'🇸🇦',r:'Medio Oriente'},{n:'Israel',f:'🇮🇱',r:'Medio Oriente'},{n:'Turquía',f:'🇹🇷',r:'Medio Oriente'},{n:'Qatar',f:'🇶🇦',r:'Medio Oriente'},{n:'Kuwait',f:'🇰🇼',r:'Medio Oriente'},{n:'Bahréin',f:'🇧🇭',r:'Medio Oriente'},{n:'Omán',f:'🇴🇲',r:'Medio Oriente'},{n:'Irán',f:'🇮🇷',r:'Medio Oriente'},
+  // Europa
+  {n:'Alemania',f:'🇩🇪',r:'Europa'},{n:'España',f:'🇪🇸',r:'Europa'},{n:'Francia',f:'🇫🇷',r:'Europa'},{n:'Italia',f:'🇮🇹',r:'Europa'},{n:'Países Bajos',f:'🇳🇱',r:'Europa'},{n:'Bélgica',f:'🇧🇪',r:'Europa'},{n:'Reino Unido',f:'🇬🇧',r:'Europa'},{n:'Portugal',f:'🇵🇹',r:'Europa'},{n:'Polonia',f:'🇵🇱',r:'Europa'},{n:'Suecia',f:'🇸🇪',r:'Europa'},{n:'Noruega',f:'🇳🇴',r:'Europa'},{n:'Dinamarca',f:'🇩🇰',r:'Europa'},{n:'Finlandia',f:'🇫🇮',r:'Europa'},{n:'Suiza',f:'🇨🇭',r:'Europa'},{n:'Austria',f:'🇦🇹',r:'Europa'},{n:'Grecia',f:'🇬🇷',r:'Europa'},{n:'Rumania',f:'🇷🇴',r:'Europa'},{n:'Hungría',f:'🇭🇺',r:'Europa'},{n:'República Checa',f:'🇨🇿',r:'Europa'},{n:'Croacia',f:'🇭🇷',r:'Europa'},{n:'Rusia',f:'🇷🇺',r:'Europa'},
+  // África
+  {n:'Sudáfrica',f:'🇿🇦',r:'África'},{n:'Egipto',f:'🇪🇬',r:'África'},{n:'Marruecos',f:'🇲🇦',r:'África'},{n:'Nigeria',f:'🇳🇬',r:'África'},{n:'Kenia',f:'🇰🇪',r:'África'},{n:'Etiopía',f:'🇪🇹',r:'África'},{n:'Ghana',f:'🇬🇭',r:'África'},{n:'Tanzania',f:'🇹🇿',r:'África'},{n:'Mozambique',f:'🇲🇿',r:'África'},{n:'Costa de Marfil',f:'🇨🇮',r:'África'},
+  // Oceanía
+  {n:'Australia',f:'🇦🇺',r:'Oceanía'},{n:'Nueva Zelanda',f:'🇳🇿',r:'Oceanía'},
+];
+
+const PUERTOS = [
+  // Argentina
+  {n:'Buenos Aires',p:'Argentina',f:'🇦🇷'},{n:'Zárate',p:'Argentina',f:'🇦🇷'},{n:'Rosario',p:'Argentina',f:'🇦🇷'},{n:'Bahía Blanca',p:'Argentina',f:'🇦🇷'},{n:'Mar del Plata',p:'Argentina',f:'🇦🇷'},
+  // Brasil
+  {n:'Santos',p:'Brasil',f:'🇧🇷'},{n:'Paranaguá',p:'Brasil',f:'🇧🇷'},{n:'Itajaí',p:'Brasil',f:'🇧🇷'},{n:'Rio de Janeiro',p:'Brasil',f:'🇧🇷'},{n:'Manaus',p:'Brasil',f:'🇧🇷'},{n:'Belém',p:'Brasil',f:'🇧🇷'},
+  // Chile / Uruguay / Paraguay
+  {n:'Valparaíso',p:'Chile',f:'🇨🇱'},{n:'San Antonio',p:'Chile',f:'🇨🇱'},{n:'Iquique',p:'Chile',f:'🇨🇱'},{n:'Montevideo',p:'Uruguay',f:'🇺🇾'},{n:'Asunción',p:'Paraguay',f:'🇵🇾'},
+  // Perú / Colombia / Ecuador
+  {n:'Callao',p:'Perú',f:'🇵🇪'},{n:'Buenaventura',p:'Colombia',f:'🇨🇴'},{n:'Cartagena',p:'Colombia',f:'🇨🇴'},{n:'Guayaquil',p:'Ecuador',f:'🇪🇨'},
+  // México / Centroamérica
+  {n:'Veracruz',p:'México',f:'🇲🇽'},{n:'Manzanillo',p:'México',f:'🇲🇽'},{n:'Altamira',p:'México',f:'🇲🇽'},{n:'Lázaro Cárdenas',p:'México',f:'🇲🇽'},{n:'Colón',p:'Panamá',f:'🇵🇦'},{n:'Balboa',p:'Panamá',f:'🇵🇦'},
+  // EE.UU.
+  {n:'Miami',p:'EE.UU.',f:'🇺🇸'},{n:'New York',p:'EE.UU.',f:'🇺🇸'},{n:'Los Angeles',p:'EE.UU.',f:'🇺🇸'},{n:'Long Beach',p:'EE.UU.',f:'🇺🇸'},{n:'Houston',p:'EE.UU.',f:'🇺🇸'},{n:'Savannah',p:'EE.UU.',f:'🇺🇸'},{n:'Seattle',p:'EE.UU.',f:'🇺🇸'},{n:'Baltimore',p:'EE.UU.',f:'🇺🇸'},{n:'Charleston',p:'EE.UU.',f:'🇺🇸'},
+  // Canadá
+  {n:'Vancouver',p:'Canadá',f:'🇨🇦'},{n:'Montreal',p:'Canadá',f:'🇨🇦'},{n:'Halifax',p:'Canadá',f:'🇨🇦'},
+  // China
+  {n:'Shanghai',p:'China',f:'🇨🇳'},{n:'Ningbo',p:'China',f:'🇨🇳'},{n:'Shenzhen',p:'China',f:'🇨🇳'},{n:'Guangzhou',p:'China',f:'🇨🇳'},{n:'Tianjin',p:'China',f:'🇨🇳'},{n:'Qingdao',p:'China',f:'🇨🇳'},{n:'Xiamen',p:'China',f:'🇨🇳'},{n:'Dalian',p:'China',f:'🇨🇳'},{n:'Wuhan',p:'China',f:'🇨🇳'},{n:'Chongqing',p:'China',f:'🇨🇳'},{n:'Yantian',p:'China',f:'🇨🇳'},
+  // Hong Kong / Taiwán / Corea / Japón
+  {n:'Hong Kong',p:'Hong Kong',f:'🇭🇰'},{n:'Kaohsiung',p:'Taiwán',f:'🇹🇼'},{n:'Keelung',p:'Taiwán',f:'🇹🇼'},{n:'Busan',p:'Corea del Sur',f:'🇰🇷'},{n:'Incheon',p:'Corea del Sur',f:'🇰🇷'},{n:'Tokio',p:'Japón',f:'🇯🇵'},{n:'Yokohama',p:'Japón',f:'🇯🇵'},{n:'Osaka',p:'Japón',f:'🇯🇵'},{n:'Nagoya',p:'Japón',f:'🇯🇵'},
+  // Asia Sudeste
+  {n:'Singapur',p:'Singapur',f:'🇸🇬'},{n:'Port Klang',p:'Malasia',f:'🇲🇾'},{n:'Penang',p:'Malasia',f:'🇲🇾'},{n:'Ho Chi Minh',p:'Vietnam',f:'🇻🇳'},{n:'Hanói',p:'Vietnam',f:'🇻🇳'},{n:'Hai Phong',p:'Vietnam',f:'🇻🇳'},{n:'Bangkok',p:'Tailandia',f:'🇹🇭'},{n:'Laem Chabang',p:'Tailandia',f:'🇹🇭'},{n:'Jakarta',p:'Indonesia',f:'🇮🇩'},{n:'Surabaya',p:'Indonesia',f:'🇮🇩'},{n:'Manila',p:'Filipinas',f:'🇵🇭'},{n:'Colombo',p:'Sri Lanka',f:'🇱🇰'},
+  // India / Bangladesh / Pakistán
+  {n:'Nhava Sheva (Mumbai)',p:'India',f:'🇮🇳'},{n:'Chennai',p:'India',f:'🇮🇳'},{n:'Kolkata',p:'India',f:'🇮🇳'},{n:'Mundra',p:'India',f:'🇮🇳'},{n:'Chittagong',p:'Bangladesh',f:'🇧🇩'},{n:'Karachi',p:'Pakistán',f:'🇵🇰'},
+  // Medio Oriente
+  {n:'Jebel Ali (Dubai)',p:'Emiratos Árabes',f:'🇦🇪'},{n:'Abu Dhabi',p:'Emiratos Árabes',f:'🇦🇪'},{n:'Jeddah',p:'Arabia Saudita',f:'🇸🇦'},{n:'Dammam',p:'Arabia Saudita',f:'🇸🇦'},{n:'Doha',p:'Qatar',f:'🇶🇦'},{n:'Haifa',p:'Israel',f:'🇮🇱'},{n:'Ashdod',p:'Israel',f:'🇮🇱'},
+  // Turquía
+  {n:'Estambul',p:'Turquía',f:'🇹🇷'},{n:'Mersin',p:'Turquía',f:'🇹🇷'},{n:'Izmir',p:'Turquía',f:'🇹🇷'},
+  // Europa Norte
+  {n:'Rotterdam',p:'Países Bajos',f:'🇳🇱'},{n:'Amberes',p:'Bélgica',f:'🇧🇪'},{n:'Hamburgo',p:'Alemania',f:'🇩🇪'},{n:'Bremen',p:'Alemania',f:'🇩🇪'},{n:'Felixstowe',p:'Reino Unido',f:'🇬🇧'},{n:'Southampton',p:'Reino Unido',f:'🇬🇧'},{n:'Le Havre',p:'Francia',f:'🇫🇷'},{n:'Marsella',p:'Francia',f:'🇫🇷'},{n:'Copenhague',p:'Dinamarca',f:'🇩🇰'},{n:'Gotemburgo',p:'Suecia',f:'🇸🇪'},{n:'Oslo',p:'Noruega',f:'🇳🇴'},
+  // Europa Sur / Med
+  {n:'Barcelona',p:'España',f:'🇪🇸'},{n:'Valencia',p:'España',f:'🇪🇸'},{n:'Algeciras',p:'España',f:'🇪🇸'},{n:'Bilbao',p:'España',f:'🇪🇸'},{n:'Lisboa',p:'Portugal',f:'🇵🇹'},{n:'Sines',p:'Portugal',f:'🇵🇹'},{n:'Génova',p:'Italia',f:'🇮🇹'},{n:'La Spezia',p:'Italia',f:'🇮🇹'},{n:'Livorno',p:'Italia',f:'🇮🇹'},{n:'Nápoles',p:'Italia',f:'🇮🇹'},{n:'El Pireo',p:'Grecia',f:'🇬🇷'},{n:'Gdansk',p:'Polonia',f:'🇵🇱'},
+  // África
+  {n:'Durban',p:'Sudáfrica',f:'🇿🇦'},{n:'Ciudad del Cabo',p:'Sudáfrica',f:'🇿🇦'},{n:'Port Elizabeth',p:'Sudáfrica',f:'🇿🇦'},{n:'Alejandría',p:'Egipto',f:'🇪🇬'},{n:'Puerto Suez',p:'Egipto',f:'🇪🇬'},{n:'Casablanca',p:'Marruecos',f:'🇲🇦'},{n:'Lagos (Apapa)',p:'Nigeria',f:'🇳🇬'},{n:'Mombasa',p:'Kenia',f:'🇰🇪'},{n:'Dar es Salaam',p:'Tanzania',f:'🇹🇿'},{n:'Maputo',p:'Mozambique',f:'🇲🇿'},
+  // Oceanía
+  {n:'Sídney',p:'Australia',f:'🇦🇺'},{n:'Melbourne',p:'Australia',f:'🇦🇺'},{n:'Brisbane',p:'Australia',f:'🇦🇺'},{n:'Auckland',p:'Nueva Zelanda',f:'🇳🇿'},
+];
+
+function normAC(s) {
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+}
+
+
+const AEROPUERTOS = [
+  // Argentina
+  {n:'EZE — Ezeiza (Buenos Aires)',p:'Argentina',f:'🇦🇷',iata:'EZE'},{n:'AEP — Aeroparque Jorge Newbery',p:'Argentina',f:'🇦🇷',iata:'AEP'},{n:'COR — Córdoba',p:'Argentina',f:'🇦🇷',iata:'COR'},{n:'ROS — Rosario',p:'Argentina',f:'🇦🇷',iata:'ROS'},{n:'MDZ — Mendoza',p:'Argentina',f:'🇦🇷',iata:'MDZ'},
+  // Brasil
+  {n:'GRU — São Paulo Guarulhos',p:'Brasil',f:'🇧🇷',iata:'GRU'},{n:'VCP — São Paulo Campinas',p:'Brasil',f:'🇧🇷',iata:'VCP'},{n:'GIG — Rio de Janeiro Galeão',p:'Brasil',f:'🇧🇷',iata:'GIG'},{n:'MAO — Manaos',p:'Brasil',f:'🇧🇷',iata:'MAO'},
+  // Sudamérica
+  {n:'SCL — Santiago de Chile',p:'Chile',f:'🇨🇱',iata:'SCL'},{n:'MVD — Montevideo Carrasco',p:'Uruguay',f:'🇺🇾',iata:'MVD'},{n:'ASU — Asunción',p:'Paraguay',f:'🇵🇾',iata:'ASU'},{n:'BOG — Bogotá El Dorado',p:'Colombia',f:'🇨🇴',iata:'BOG'},{n:'LIM — Lima Jorge Chávez',p:'Perú',f:'🇵🇪',iata:'LIM'},{n:'GYE — Guayaquil',p:'Ecuador',f:'🇪🇨',iata:'GYE'},{n:'UIO — Quito',p:'Ecuador',f:'🇪🇨',iata:'UIO'},{n:'CCS — Caracas',p:'Venezuela',f:'🇻🇪',iata:'CCS'},
+  // México / Centroamérica
+  {n:'MEX — Ciudad de México',p:'México',f:'🇲🇽',iata:'MEX'},{n:'MTY — Monterrey',p:'México',f:'🇲🇽',iata:'MTY'},{n:'GDL — Guadalajara',p:'México',f:'🇲🇽',iata:'GDL'},{n:'PTY — Ciudad de Panamá',p:'Panamá',f:'🇵🇦',iata:'PTY'},
+  // EE.UU.
+  {n:'JFK — Nueva York JFK',p:'EE.UU.',f:'🇺🇸',iata:'JFK'},{n:'ORD — Chicago OHare',p:'EE.UU.',f:'🇺🇸',iata:'ORD'},{n:'LAX — Los Angeles',p:'EE.UU.',f:'🇺🇸',iata:'LAX'},{n:'MIA — Miami',p:'EE.UU.',f:'🇺🇸',iata:'MIA'},{n:'ATL — Atlanta',p:'EE.UU.',f:'🇺🇸',iata:'ATL'},{n:'IAH — Houston',p:'EE.UU.',f:'🇺🇸',iata:'IAH'},{n:'DFW — Dallas Fort Worth',p:'EE.UU.',f:'🇺🇸',iata:'DFW'},{n:'ANC — Anchorage',p:'EE.UU.',f:'🇺🇸',iata:'ANC'},{n:'SFO — San Francisco',p:'EE.UU.',f:'🇺🇸',iata:'SFO'},
+  // Canadá
+  {n:'YYZ — Toronto Pearson',p:'Canadá',f:'🇨🇦',iata:'YYZ'},{n:'YVR — Vancouver',p:'Canadá',f:'🇨🇦',iata:'YVR'},{n:'YUL — Montreal',p:'Canadá',f:'🇨🇦',iata:'YUL'},
+  // China
+  {n:'PVG — Shanghai Pudong',p:'China',f:'🇨🇳',iata:'PVG'},{n:'SHA — Shanghai Hongqiao',p:'China',f:'🇨🇳',iata:'SHA'},{n:'PEK — Beijing Capital',p:'China',f:'🇨🇳',iata:'PEK'},{n:'PKX — Beijing Daxing',p:'China',f:'🇨🇳',iata:'PKX'},{n:'CAN — Guangzhou Baiyun',p:'China',f:'🇨🇳',iata:'CAN'},{n:'SZX — Shenzhen',p:'China',f:'🇨🇳',iata:'SZX'},{n:'CTU — Chengdu',p:'China',f:'🇨🇳',iata:'CTU'},{n:'XIY — Xian',p:'China',f:'🇨🇳',iata:'XIY'},{n:'TSN — Tianjin',p:'China',f:'🇨🇳',iata:'TSN'},{n:'WUH — Wuhan',p:'China',f:'🇨🇳',iata:'WUH'},{n:'NGB — Ningbo',p:'China',f:'🇨🇳',iata:'NGB'},{n:'CGO — Zhengzhou',p:'China',f:'🇨🇳',iata:'CGO'},
+  // Hong Kong / Taiwán / Japón / Corea
+  {n:'HKG — Hong Kong',p:'Hong Kong',f:'🇭🇰',iata:'HKG'},{n:'TPE — Taipei Taoyuan',p:'Taiwán',f:'🇹🇼',iata:'TPE'},{n:'NRT — Tokio Narita',p:'Japón',f:'🇯🇵',iata:'NRT'},{n:'HND — Tokio Haneda',p:'Japón',f:'🇯🇵',iata:'HND'},{n:'KIX — Osaka Kansai',p:'Japón',f:'🇯🇵',iata:'KIX'},{n:'NGO — Nagoya',p:'Japón',f:'🇯🇵',iata:'NGO'},{n:'ICN — Seúl Incheon',p:'Corea del Sur',f:'🇰🇷',iata:'ICN'},
+  // Asia Sudeste
+  {n:'SIN — Singapur Changi',p:'Singapur',f:'🇸🇬',iata:'SIN'},{n:'KUL — Kuala Lumpur',p:'Malasia',f:'🇲🇾',iata:'KUL'},{n:'BKK — Bangkok Suvarnabhumi',p:'Tailandia',f:'🇹🇭',iata:'BKK'},{n:'SGN — Ho Chi Minh',p:'Vietnam',f:'🇻🇳',iata:'SGN'},{n:'HAN — Hanói',p:'Vietnam',f:'🇻🇳',iata:'HAN'},{n:'CGK — Jakarta',p:'Indonesia',f:'🇮🇩',iata:'CGK'},{n:'MNL — Manila',p:'Filipinas',f:'🇵🇭',iata:'MNL'},
+  // India / Pakistán / Bangladesh
+  {n:'BOM — Mumbai',p:'India',f:'🇮🇳',iata:'BOM'},{n:'DEL — Delhi',p:'India',f:'🇮🇳',iata:'DEL'},{n:'MAA — Chennai',p:'India',f:'🇮🇳',iata:'MAA'},{n:'CCU — Kolkata',p:'India',f:'🇮🇳',iata:'CCU'},{n:'DAC — Daca',p:'Bangladesh',f:'🇧🇩',iata:'DAC'},{n:'KHI — Karachi',p:'Pakistán',f:'🇵🇰',iata:'KHI'},
+  // Medio Oriente
+  {n:'DXB — Dubai',p:'Emiratos Árabes',f:'🇦🇪',iata:'DXB'},{n:'AUH — Abu Dhabi',p:'Emiratos Árabes',f:'🇦🇪',iata:'AUH'},{n:'DOH — Doha',p:'Qatar',f:'🇶🇦',iata:'DOH'},{n:'RUH — Riad',p:'Arabia Saudita',f:'🇸🇦',iata:'RUH'},{n:'JED — Jeddah',p:'Arabia Saudita',f:'🇸🇦',iata:'JED'},{n:'TLV — Tel Aviv',p:'Israel',f:'🇮🇱',iata:'TLV'},{n:'IST — Estambul',p:'Turquía',f:'🇹🇷',iata:'IST'},
+  // Europa
+  {n:'AMS — Amsterdam Schiphol',p:'Países Bajos',f:'🇳🇱',iata:'AMS'},{n:'FRA — Frankfurt',p:'Alemania',f:'🇩🇪',iata:'FRA'},{n:'CGN — Colonia',p:'Alemania',f:'🇩🇪',iata:'CGN'},{n:'LHR — Londres Heathrow',p:'Reino Unido',f:'🇬🇧',iata:'LHR'},{n:'LGW — Londres Gatwick',p:'Reino Unido',f:'🇬🇧',iata:'LGW'},{n:'CDG — París Charles de Gaulle',p:'Francia',f:'🇫🇷',iata:'CDG'},{n:'MAD — Madrid Barajas',p:'España',f:'🇪🇸',iata:'MAD'},{n:'BCN — Barcelona',p:'España',f:'🇪🇸',iata:'BCN'},{n:'MXP — Milán Malpensa',p:'Italia',f:'🇮🇹',iata:'MXP'},{n:'FCO — Roma Fiumicino',p:'Italia',f:'🇮🇹',iata:'FCO'},{n:'LIS — Lisboa',p:'Portugal',f:'🇵🇹',iata:'LIS'},{n:'BRU — Bruselas',p:'Bélgica',f:'🇧🇪',iata:'BRU'},{n:'ZRH — Zúrich',p:'Suiza',f:'🇨🇭',iata:'ZRH'},{n:'VIE — Viena',p:'Austria',f:'🇦🇹',iata:'VIE'},{n:'ATH — Atenas',p:'Grecia',f:'🇬🇷',iata:'ATH'},{n:'WAW — Varsovia',p:'Polonia',f:'🇵🇱',iata:'WAW'},
+  // África
+  {n:'JNB — Johannesburgo',p:'Sudáfrica',f:'🇿🇦',iata:'JNB'},{n:'CPT — Ciudad del Cabo',p:'Sudáfrica',f:'🇿🇦',iata:'CPT'},{n:'CAI — El Cairo',p:'Egipto',f:'🇪🇬',iata:'CAI'},{n:'CMN — Casablanca',p:'Marruecos',f:'🇲🇦',iata:'CMN'},{n:'LOS — Lagos',p:'Nigeria',f:'🇳🇬',iata:'LOS'},{n:'NBO — Nairobi',p:'Kenia',f:'🇰🇪',iata:'NBO'},{n:'ADD — Addis Abeba',p:'Etiopía',f:'🇪🇹',iata:'ADD'},
+  // Oceanía
+  {n:'SYD — Sídney',p:'Australia',f:'🇦🇺',iata:'SYD'},{n:'MEL — Melbourne',p:'Australia',f:'🇦🇺',iata:'MEL'},{n:'BNE — Brisbane',p:'Australia',f:'🇦🇺',iata:'BNE'},{n:'AKL — Auckland',p:'Nueva Zelanda',f:'🇳🇿',iata:'AKL'},
+];
+
+function acAeropuerto(inputId, ddId) {
+  const input = document.getElementById(inputId);
+  const dd = document.getElementById(ddId);
+  const q = normAC(input.value);
+  if (!q) { dd.innerHTML = ''; return; }
+  const matches = AEROPUERTOS.filter(a =>
+    normAC(a.n).includes(q) || normAC(a.p).includes(q) || a.iata.toLowerCase().includes(q)
+  ).slice(0, 14);
+  if (!matches.length) { dd.innerHTML = ''; return; }
+  dd.innerHTML = matches.map((a,i) => {
+    const safe = a.n.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `<div class="ac-item" data-val="${safe}" data-inp="${inputId}" data-dd="${ddId}" onmousedown="event.preventDefault();acSelectEl(this)">
+    <span class="ac-item-flag">${a.f}</span>
+    <span class="ac-item-name">${a.n}</span>
+    <span class="ac-item-sub">${a.p}</span>
+  </div>`;
+  }).join('');
+}
+
+function acPais(inputId, ddId) {
+  const input = document.getElementById(inputId);
+  const dd = document.getElementById(ddId);
+  const q = normAC(input.value);
+  if (!q) { dd.innerHTML = ''; return; }
+  const matches = PAISES.filter(p => normAC(p.n).includes(q)).slice(0, 12);
+  if (!matches.length) { dd.innerHTML = ''; return; }
+  // Group by region
+  const byRegion = {};
+  matches.forEach(p => { if (!byRegion[p.r]) byRegion[p.r] = []; byRegion[p.r].push(p); });
+  let html = '';
+  Object.entries(byRegion).forEach(([region, items]) => {
+    html += `<div class="ac-divider">${region}</div>`;
+    items.forEach((p) => {
+      const safe = p.n.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      html += `<div class="ac-item" data-val="${safe}" data-inp="${inputId}" data-dd="${ddId}" onmousedown="event.preventDefault();acSelectEl(this)">
+        <span class="ac-item-flag">${p.f}</span>
+        <span class="ac-item-name">${p.n}</span>
+      </div>`;
+    });
+  });
+  dd.innerHTML = html;
+}
+
+function acPuerto(inputId, ddId) {
+  const input = document.getElementById(inputId);
+  const dd = document.getElementById(ddId);
+  const q = normAC(input.value);
+  if (!q) { dd.innerHTML = ''; return; }
+  const matches = PUERTOS.filter(p => normAC(p.n).includes(q) || normAC(p.p).includes(q)).slice(0, 14);
+  if (!matches.length) { dd.innerHTML = ''; return; }
+  dd.innerHTML = matches.map(p => `<div class="ac-item" onmousedown="acSelect('${inputId}','${ddId}','${p.n.replace(/'/g,"\\'")}')">
+    <span class="ac-item-flag">${p.f}</span>
+    <span class="ac-item-name">${p.n}</span>
+    <span class="ac-item-sub">${p.p}</span>
+  </div>`).join('');
+}
+
+function acSelect(inputId, ddId, value) {
+  document.getElementById(inputId).value = value;
+  document.getElementById(ddId).innerHTML = '';
+}
+function acSelectEl(el) {
+  const val = el.getAttribute('data-val');
+  const inputId = el.getAttribute('data-inp');
+  const ddId = el.getAttribute('data-dd');
+  if (inputId && ddId && val) {
+    document.getElementById(inputId).value = val;
+    document.getElementById(ddId).innerHTML = '';
+  }
+}
+
+function acBlur(ddId) {
+  setTimeout(() => { const dd = document.getElementById(ddId); if (dd) dd.innerHTML = ''; }, 150);
+}
+
+function acKey(e, ddId, inputId) {
+  const dd = document.getElementById(ddId);
+  const items = dd ? [...dd.querySelectorAll('.ac-item')] : [];
+  const focused = dd ? dd.querySelector('.ac-item.focused') : null;
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    const idx = focused ? items.indexOf(focused) : -1;
+    items.forEach(i => i.classList.remove('focused'));
+    if (idx < items.length - 1) items[idx+1].classList.add('focused');
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    const idx = focused ? items.indexOf(focused) : items.length;
+    items.forEach(i => i.classList.remove('focused'));
+    if (idx > 0) items[idx-1].classList.add('focused');
+  } else if (e.key === 'Enter' && focused) {
+    e.preventDefault();
+    focused.dispatchEvent(new MouseEvent('mousedown'));
+  } else if (e.key === 'Escape') {
+    if (dd) dd.innerHTML = '';
+  }
 }
 
 // Init
 generarID();
+renderBultos();
 </script>
 </body>
 </html>
