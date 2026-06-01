@@ -168,6 +168,35 @@
   .res-chargeable-note { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
   .bultos-empty { text-align: center; padding: 24px; font-size: 13px; color: var(--muted); }
 
+
+  /* ── COTIZADOR PAÍS SELECTOR ── */
+  .cot-pais-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cot-pais-pill {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 13px; font-weight: 500; color: var(--mid);
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 20px; padding: 6px 14px; cursor: pointer;
+    transition: all 0.15s; user-select: none;
+  }
+  .cot-pais-pill:hover { border-color: var(--dark); color: var(--dark); }
+  .cot-pais-pill.active { background: var(--dark); color: white; border-color: var(--dark); }
+  .cot-pais-flag { font-size: 16px; }
+  .cot-puerto-pill {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 500; color: var(--mid);
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 12px; cursor: pointer;
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .cot-puerto-pill input { accent-color: var(--dark); cursor: pointer; }
+  .cot-puerto-pill:hover { border-color: var(--dark); color: var(--dark); }
+  @media (max-width: 700px) {
+    #filtro-resto-wrap > div:first-child { grid-template-columns: 1fr !important; }
+  }
+
+
+  
+
   /* ── NCM ── */
   .ncm-result-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 12px 16px; margin-bottom: 8px; cursor: pointer; transition: all 0.15s; }
   .ncm-result-card:hover { border-color: var(--dark); }
@@ -270,6 +299,106 @@
 
 
 
+
+
+  /* ── OCR / IMAGE TAB ── */
+  .paste-tab-btn {
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
+    padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--muted); cursor: pointer; transition: all 0.15s;
+  }
+  .paste-tab-btn:hover { border-color: var(--dark); color: var(--dark); }
+  .paste-tab-btn.active { background: var(--dark); color: white; border-color: var(--dark); }
+  .img-drop-zone {
+    border: 2px dashed var(--border); border-radius: var(--radius-lg);
+    padding: 32px 20px; text-align: center; cursor: pointer;
+    transition: all 0.15s; background: var(--bg);
+  }
+  .img-drop-zone:hover, .img-drop-zone.drag-over {
+    border-color: var(--info); background: var(--info-bg);
+  }
+  .img-drop-zone.drag-over { transform: scale(1.01); }
+
+  /* ── PASTE PARSER ── */
+  .paste-btn {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    color: var(--info); background: var(--info-bg); border: 1px solid #b3d0ef;
+    border-radius: var(--radius); padding: 9px 16px; cursor: pointer;
+    transition: all 0.15s; margin-bottom: 24px; width: 100%;
+    justify-content: center;
+  }
+  .paste-btn:hover { background: #d0e6f7; border-color: var(--info); }
+
+  .paste-modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+    z-index: 1000; display: flex; align-items: center; justify-content: center;
+    padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .paste-modal-overlay.visible { opacity: 1; pointer-events: all; }
+  .paste-modal {
+    background: var(--white); border-radius: var(--radius-lg);
+    width: 100%; max-width: 600px; max-height: 90vh;
+    display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    transform: translateY(8px); transition: transform 0.2s;
+  }
+  .paste-modal-overlay.visible .paste-modal { transform: translateY(0); }
+  .paste-modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 20px; border-bottom: 1px solid var(--border);
+  }
+  .paste-modal-title { font-size: 15px; font-weight: 600; color: var(--dark); }
+  .paste-modal-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .paste-modal-close {
+    background: none; border: none; cursor: pointer; color: var(--muted);
+    font-size: 20px; padding: 2px 6px; border-radius: 4px; line-height: 1;
+  }
+  .paste-modal-close:hover { color: var(--dark); background: var(--bg); }
+  .paste-modal-body { padding: 20px; flex: 1; overflow-y: auto; }
+  textarea#paste-input {
+    width: 100%; height: 200px; font-family: 'DM Mono', monospace;
+    font-size: 12px; color: var(--dark); background: var(--bg);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 12px; outline: none; resize: vertical; line-height: 1.6;
+    transition: border-color 0.15s;
+  }
+  textarea#paste-input:focus { border-color: var(--dark); background: var(--white); }
+  .paste-preview { margin-top: 16px; display: none; }
+  .paste-preview.visible { display: block; }
+  .paste-preview-title {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+  }
+  .parse-field {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px 10px; border-radius: var(--radius);
+    margin-bottom: 6px; font-size: 13px;
+  }
+  .parse-field.found { background: var(--success-bg); }
+  .parse-field.not-found { background: var(--bg); opacity: 0.6; }
+  .parse-field-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .parse-field-label { font-weight: 500; color: var(--mid); min-width: 140px; flex-shrink: 0; }
+  .parse-field-value { color: var(--dark); flex: 1; line-height: 1.4; }
+  .parse-field.not-found .parse-field-value { color: var(--muted); font-style: italic; }
+  .paste-modal-footer {
+    padding: 16px 20px; border-top: 1px solid var(--border);
+    display: flex; gap: 10px; justify-content: flex-end;
+  }
+  .btn-paste-apply {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    color: white; background: var(--dark); border: none;
+    border-radius: var(--radius); padding: 10px 24px; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-paste-apply:hover { background: var(--red); }
+  .btn-paste-cancel {
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    color: var(--muted); background: none; border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 10px 18px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-paste-cancel:hover { border-color: var(--dark); color: var(--dark); }
+
   /* ── PORT TAGS ── */
   .port-tags-wrap { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 8px; min-height: 42px; cursor: text; transition: border-color 0.15s; }
   .port-tags-wrap:focus-within { border-color: var(--dark); }
@@ -329,6 +458,7 @@
     .res-chargeable { grid-column: span 2; }
   }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
 </head>
 <body>
 
@@ -354,6 +484,74 @@
 <div class="page">
   <h1 class="page-title">Nueva cotización</h1>
   <p class="page-sub">Completá todos los campos marcados con <span style="color:var(--red)">*</span> para generar el mail.</p>
+
+
+  <!-- PASTE PARSER -->
+  <button class="paste-btn" onclick="abrirPaste()">
+    📋 Pegar datos de un mail o documento para autocompletar
+  </button>
+
+  <div class="paste-modal-overlay" id="paste-overlay" onclick="if(event.target===this)cerrarPaste()">
+    <div class="paste-modal">
+      <div class="paste-modal-header">
+        <div>
+          <div class="paste-modal-title">📋 Autocompletar desde texto</div>
+          <div class="paste-modal-sub">Pegá el contenido del mail o documento del cliente</div>
+        </div>
+        <button class="paste-modal-close" onclick="cerrarPaste()">×</button>
+      </div>
+      <div class="paste-modal-body">
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <button class="paste-tab-btn active" id="tab-texto-btn" onclick="switchPasteTab('texto')">📝 Texto</button>
+          <button class="paste-tab-btn" id="tab-imagen-btn" onclick="switchPasteTab('imagen')">🖼️ Imagen / Foto</button>
+        </div>
+
+        <div id="paste-tab-texto">
+          <textarea id="paste-input" placeholder="Pegá acá el texto del mail, la proforma, el packing list o cualquier documento con los datos de la operación...
+
+Ejemplo:
+- Tablas con dimensiones y pesos → bultos
+- 'EXW', 'FOB', 'CIF'... → Incoterm
+- 'aéreo', 'marítimo'... → Modalidad
+- Nombre del país o ciudad → Origen/Destino
+- Dirección de retiro
+- Nombre del cliente"></textarea>
+        </div>
+
+        <div id="paste-tab-imagen" style="display:none">
+          <div class="img-drop-zone" id="img-drop-zone" onclick="document.getElementById('img-file-input').click()" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="onImgDrop(event)">
+            <div id="img-drop-content">
+              <div style="font-size:32px;margin-bottom:8px">📸</div>
+              <div style="font-size:14px;font-weight:500;color:var(--mid)">Hacé clic o arrastrá una imagen</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:4px">JPG, PNG, PDF — fotos de documentos, packing lists, proformas</div>
+            </div>
+            <input type="file" id="img-file-input" accept="image/*" style="display:none" onchange="onImgSelect(event)" />
+          </div>
+          <div id="img-preview-wrap" style="display:none;margin-top:12px">
+            <img id="img-preview" style="max-width:100%;max-height:180px;border-radius:8px;border:1px solid var(--border);display:block;margin-bottom:8px" />
+            <div id="ocr-status" style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px">
+              <div class="spinner" id="ocr-spinner" style="display:none"></div>
+              <span id="ocr-status-text"></span>
+            </div>
+            <div id="ocr-progress-wrap" style="display:none;margin-top:6px">
+              <div style="background:var(--border);border-radius:4px;height:4px;overflow:hidden">
+                <div id="ocr-progress-bar" style="background:var(--info);height:100%;width:0%;transition:width 0.3s"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="paste-preview" id="paste-preview">
+          <div class="paste-preview-title">Campos detectados</div>
+          <div id="paste-preview-fields"></div>
+        </div>
+      </div>
+      <div class="paste-modal-footer">
+        <button class="btn-paste-cancel" onclick="cerrarPaste()">Cancelar</button>
+        <button class="btn-paste-cancel" id="btn-analizar" onclick="analizarActivo()" style="border-color:var(--info);color:var(--info)">🔍 Analizar</button>
+        <button class="btn-paste-apply" id="btn-apply-paste" onclick="aplicarParse()" style="display:none">Autocompletar campos →</button>
+      </div>
+    </div>
+  </div>
 
   <div class="id-row">
     <span class="id-label">ID Operación</span>
@@ -672,7 +870,8 @@
     </div>
     <button class="btn-generate btn-gmail" onclick="abrirGmail()">Abrir Gmail con este pedido →</button>
   </div>
-</div>
+
+  </div>
 </div>
 
 <!-- ══════════════════ TAB 2: INCOTERMS ══════════════════ -->
@@ -778,34 +977,47 @@
       Actualizar
     </button>
   </div>
-  <div class="cot-filters">
-    <div class="cot-filters-grid">
-      <div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <div class="cot-filter-label">Agente</div>
-          <button class="select-all-btn" onclick="toggleAllChecks('filtro-agentes')">Todos</button>
-        </div>
-        <div class="cot-filter-checks" id="filtro-agentes"></div>
+  <div class="cot-filters" id="cot-filters">
+
+    <!-- PASO 1: País -->
+    <div style="margin-bottom:20px">
+      <div class="cot-filter-label" style="margin-bottom:10px">País de origen</div>
+      <div class="cot-pais-grid" id="filtro-paises-origen"></div>
+    </div>
+
+    <!-- PASO 2: Agente -->
+    <div id="filtro-agente-wrap" style="display:none;margin-bottom:20px">
+      <div class="cot-filter-label" style="margin-bottom:10px">
+        Agente
+        <span id="filtro-pais-label" style="font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0;font-size:12px;margin-left:6px"></span>
       </div>
-      <div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <div class="cot-filter-label">Puerto origen</div>
-          <button class="select-all-btn" onclick="toggleAllChecks('filtro-origenes')">Todos</button>
+      <div class="cot-pais-grid" id="filtro-agentes-pills"></div>
+    </div>
+
+    <!-- PASO 3: Puertos opcionales -->
+    <div id="filtro-puertos-wrap" style="display:none">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <div class="cot-filter-label">Puerto origen <span style="font-weight:400;font-size:11px;color:var(--muted);text-transform:none;letter-spacing:0">(opcional)</span></div>
+            <button class="select-all-btn" onclick="toggleAllChecks('filtro-origenes')">Todos</button>
+          </div>
+          <div class="cot-filter-checks" id="filtro-origenes" style="flex-direction:row;flex-wrap:wrap;max-height:none;gap:6px"></div>
         </div>
-        <div class="cot-filter-checks" id="filtro-origenes"></div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <div class="cot-filter-label">Puerto destino <span style="font-weight:400;font-size:11px;color:var(--muted);text-transform:none;letter-spacing:0">(opcional)</span></div>
+            <button class="select-all-btn" onclick="toggleAllChecks('filtro-destinos')">Todos</button>
+          </div>
+          <div class="cot-filter-checks" id="filtro-destinos" style="flex-direction:row;flex-wrap:wrap;max-height:none;gap:6px"></div>
+        </div>
       </div>
-      <div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <div class="cot-filter-label">Puerto destino</div>
-          <button class="select-all-btn" onclick="toggleAllChecks('filtro-destinos')">Todos</button>
-        </div>
-        <div class="cot-filter-checks" id="filtro-destinos"></div>
+      <div style="margin-bottom:16px">
+        <div class="cot-filter-label" style="margin-bottom:8px">Tipo de contenedor</div>
+        <div class="cot-filter-checks" id="filtro-contenedores" style="flex-direction:row;flex-wrap:wrap;max-height:none"></div>
       </div>
     </div>
-    <div style="margin-bottom:16px">
-      <div class="cot-filter-label" style="margin-bottom:8px">Tipo de contenedor</div>
-      <div class="cot-filter-checks" id="filtro-contenedores" style="flex-direction:row;flex-wrap:wrap;max-height:none"></div>
-    </div>
+
     <div class="cot-actions">
       <button class="btn-buscar" onclick="aplicarFiltros()">Buscar tarifas</button>
       <button class="btn-limpiar" onclick="limpiarFiltros()">Limpiar filtros</button>
@@ -816,9 +1028,10 @@
     </div>
   </div>
   <div id="cot-resultados">
-    <div class="cot-loading" id="cot-cargando">
-      <div class="spinner"></div>
-      Cargando tarifas...
+    <div class="cot-status" id="cot-cargando">
+      <div class="cot-status-icon">🌍</div>
+      <div class="cot-status-title">Elegí un país para empezar</div>
+      <div class="cot-status-sub">Seleccioná el país de origen arriba para ver las tarifas disponibles.</div>
     </div>
   </div>
 </div>
@@ -1510,28 +1723,242 @@ function semaforo(validezStr) {
 function formatFecha(d) { return d.getDate().toString().padStart(2,'0') + '/' + (d.getMonth()+1).toString().padStart(2,'0'); }
 function esVigente(validezStr) { const fecha = parsearFecha(validezStr); if (!fecha) return true; const hoy = new Date(); hoy.setHours(0,0,0,0); return fecha >= hoy; }
 
+
+// ── DATOS EMBEBIDOS (actualizados desde Google Sheets) ──
+const TARIFAS_EMBED = [{"País Agente": "China", "Agente": "Rainbow", "Naviera": "COSCO", "Puerto origen": "NINGBO/SHANGHAI/QINGDAO/XINGANG/SHEKOU/YANTIAN", "Puerto destino": "Iquique / Arica", "Contenedor": "20 ST", "Flete": "5.300", "Moneda": "USD", "Validez": "2026-06-14", "Días libres": "17", "Estado": "VIGENTE", "Remarks": ".+USD 12 ISPS"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "COSCO", "Puerto origen": "NINGBO/SHANGHAI/QINGDAO/XINGANG/SHEKOU/YANTIAN", "Puerto destino": "Iquique / Arica", "Contenedor": "40 ST/HC", "Flete": "5.500", "Moneda": "USD", "Validez": "2026-06-14", "Días libres": "17", "Estado": "VIGENTE", "Remarks": ".+USD 12 ISPS"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "COSCO", "Puerto origen": "SHENZHEN/NINGBO/SHANGHAI/QINGDAO/TIANJIN", "Puerto destino": "Callao / Chancay / San Antonio / Guayaquil / Buenaventura", "Contenedor": "20 ST", "Flete": "5.100", "Moneda": "USD", "Validez": "2026-06-14", "Días libres": "22", "Estado": "VIGENTE", "Remarks": ".+USD 12 ISPS"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "COSCO", "Puerto origen": "SHENZHEN/NINGBO/SHANGHAI/QINGDAO/TIANJIN", "Puerto destino": "Callao / Chancay / San Antonio / Guayaquil / Buenaventura", "Contenedor": "40 ST/HC", "Flete": "5.300", "Moneda": "USD", "Validez": "2026-06-14", "Días libres": "22", "Estado": "VIGENTE", "Remarks": ".+USD 12 ISPS"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "PIL", "Puerto origen": "SHENZHEN/TIANJIN", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "20 ST", "Flete": "6.300", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "17", "Estado": "VIGENTE", "Remarks": ".+USD 20 ISPS"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "PIL", "Puerto origen": "SHENZHEN/TIANJIN", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "40 ST/HC", "Flete": "6.500", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "17", "Estado": "VIGENTE", "Remarks": ".+USD 20 ISPS"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "PIL", "Puerto origen": "SHENZHEN/TIANJIN", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "40 NOR", "Flete": "5.200", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "14", "Estado": "VIGENTE", "Remarks": ".+USD 20 ISPS"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "CMA", "Puerto origen": "SHENZHEN/NINGBO/SHANGHAI/QINGDAO/XINGANG", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "20 ST", "Flete": "6.300", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "21", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "CMA", "Puerto origen": "SHENZHEN/NINGBO/SHANGHAI/QINGDAO/XINGANG", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "40 ST/HC", "Flete": "6.500", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "21", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "CMA", "Puerto origen": "SHENZHEN/NINGBO/SHANGHAI/QINGDAO/XINGANG", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "40 NOR", "Flete": "5.300", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "21", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "MSC", "Puerto origen": "SHENZHEN/NINGBO/QINGDAO", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "20 ST", "Flete": "6.400", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "18", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "MSC", "Puerto origen": "SHENZHEN/NINGBO/QINGDAO", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "40 ST/HC", "Flete": "6.700", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "18", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "MSC", "Puerto origen": "NINGBO/SHANGHAI/QINGDAO/XINGANG/SHEKOU/YANTIAN", "Puerto destino": "Iquique / Arica", "Contenedor": "20 ST", "Flete": "5.500", "Moneda": "USD", "Validez": "2026-06-14", "Días libres": "21", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "MSC", "Puerto origen": "NINGBO/SHANGHAI/QINGDAO/XINGANG/SHEKOU/YANTIAN", "Puerto destino": "Iquique / Arica", "Contenedor": "40 ST/HC", "Flete": "5.900", "Moneda": "USD", "Validez": "2026-06-14", "Días libres": "21", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "Yang Ming", "Puerto origen": "YANTIAN/SHEKOU/NINGBO", "Puerto destino": "Buenos Aires", "Contenedor": "20 ST", "Flete": "6.300", "Moneda": "USD", "Validez": "2026-06-02", "Días libres": "21", "Estado": "POR VENCER", "Remarks": "-"}, {"País Agente": "China", "Agente": "Rainbow", "Naviera": "Yang Ming", "Puerto origen": "YANTIAN/SHEKOU/NINGBO", "Puerto destino": "Buenos Aires", "Contenedor": "40 ST/HC", "Flete": "6.500", "Moneda": "USD", "Validez": "2026-06-02", "Días libres": "21", "Estado": "POR VENCER", "Remarks": "-"}, {"País Agente": "China", "Agente": "Global", "Naviera": "COSCO", "Puerto origen": "Hong Kong/Shenzhen", "Puerto destino": "Buenos Aires", "Contenedor": "20 ST", "Flete": "6.160", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "14", "Estado": "VIGENTE", "Remarks": ".+FAF $390 // OWS USD 500/20'>18mt"}, {"País Agente": "China", "Agente": "Global", "Naviera": "COSCO", "Puerto origen": "Hong Kong/Shenzhen", "Puerto destino": "Buenos Aires", "Contenedor": "40 ST/HC", "Flete": "5.820", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "14", "Estado": "VIGENTE", "Remarks": ".+FAF $780"}, {"País Agente": "China", "Agente": "Global", "Naviera": "COSCO", "Puerto origen": "Hong Kong/Shenzhen", "Puerto destino": "Asunción", "Contenedor": "20 ST", "Flete": "7.060", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "18", "Estado": "VIGENTE", "Remarks": ".+FAF $390"}, {"País Agente": "China", "Agente": "Global", "Naviera": "COSCO", "Puerto origen": "Hong Kong/Shenzhen", "Puerto destino": "Asunción", "Contenedor": "40 ST/HC", "Flete": "7.520", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "18", "Estado": "VIGENTE", "Remarks": ".+FAF $780"}, {"País Agente": "China", "Agente": "Global", "Naviera": "MSC", "Puerto origen": "Dalian/Ningbo/Xingang/Qingdao/Shanghai/Shenzhen", "Puerto destino": "Buenos Aires", "Contenedor": "20 ST", "Flete": "6.300", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "10", "Estado": "VIGENTE", "Remarks": "GFS included"}, {"País Agente": "China", "Agente": "Global", "Naviera": "MSC", "Puerto origen": "Dalian/Ningbo/Xingang/Qingdao/Shanghai/Shenzhen", "Puerto destino": "Buenos Aires", "Contenedor": "40 ST/HC", "Flete": "6.500", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "10", "Estado": "VIGENTE", "Remarks": "GFS included"}, {"País Agente": "China", "Agente": "Global", "Naviera": "MSC", "Puerto origen": "Dalian/Ningbo/Xingang/Qingdao/Shanghai/Shenzhen", "Puerto destino": "Buenos Aires", "Contenedor": "40 NOR", "Flete": "6.200", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "10", "Estado": "VIGENTE", "Remarks": "GFS included"}, {"País Agente": "China", "Agente": "Global", "Naviera": "MSC", "Puerto origen": "Dalian/Ningbo/Xingang/Qingdao/Shanghai/Shenzhen", "Puerto destino": "Zárate / Rosario", "Contenedor": "20 ST", "Flete": "6.680", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "10", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Global", "Naviera": "MSC", "Puerto origen": "Dalian/Ningbo/Xingang/Qingdao/Shanghai/Shenzhen", "Puerto destino": "Zárate / Rosario", "Contenedor": "40 ST/HC", "Flete": "6.950", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "10", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Global", "Naviera": "MSC", "Puerto origen": "Dalian/Ningbo/Xingang/Qingdao/Shanghai/Shenzhen", "Puerto destino": "Bahía Blanca", "Contenedor": "20 ST", "Flete": "8.450", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "10", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Global", "Naviera": "MSC", "Puerto origen": "Dalian/Ningbo/Xingang/Qingdao/Shanghai/Shenzhen", "Puerto destino": "Bahía Blanca", "Contenedor": "40 ST/HC", "Flete": "8.650", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "10", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Global", "Naviera": "MSC", "Puerto origen": "Dalian/Ningbo/Xingang/Qingdao/Shanghai/Shenzhen", "Puerto destino": "Asunción", "Contenedor": "20 ST", "Flete": "6.600", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "10", "Estado": "VIGENTE", "Remarks": "GFS/FAD - vía IPANEMA/CARIOCA"}, {"País Agente": "China", "Agente": "Global", "Naviera": "MSC", "Puerto origen": "Dalian/Ningbo/Xingang/Qingdao/Shanghai/Shenzhen", "Puerto destino": "Asunción", "Contenedor": "40 ST/HC", "Flete": "7.100", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "10", "Estado": "VIGENTE", "Remarks": "GFS/FAD - vía IPANEMA/CARIOCA"}, {"País Agente": "China", "Agente": "Global", "Naviera": "HMM", "Puerto origen": "Shekou", "Puerto destino": "Buenos Aires", "Contenedor": "20 ST", "Flete": "6.300", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "18", "Estado": "VIGENTE", "Remarks": "ISPS $25/CTNR // ECC included"}, {"País Agente": "China", "Agente": "Global", "Naviera": "HMM", "Puerto origen": "Shekou", "Puerto destino": "Buenos Aires", "Contenedor": "40 ST/HC", "Flete": "6.400", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "18", "Estado": "VIGENTE", "Remarks": "ISPS $25/CTNR // ECC included"}, {"País Agente": "China", "Agente": "Global", "Naviera": "ZIM", "Puerto origen": "Shenzhen/Hong Kong", "Puerto destino": "Buenos Aires", "Contenedor": "20 ST", "Flete": "6.200", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "17", "Estado": "VIGENTE", "Remarks": "ISPS USD 15"}, {"País Agente": "China", "Agente": "Global", "Naviera": "ZIM", "Puerto origen": "Shenzhen/Hong Kong", "Puerto destino": "Buenos Aires", "Contenedor": "40 ST/HC", "Flete": "6.300", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "17", "Estado": "VIGENTE", "Remarks": "ISPS USD 15"}, {"País Agente": "China", "Agente": "Global", "Naviera": "Evergreen", "Puerto origen": "Hong Kong/Shenzhen", "Puerto destino": "Buenos Aires", "Contenedor": "20 ST", "Flete": "6.300", "Moneda": "USD", "Validez": "2026-06-06", "Días libres": "21", "Estado": "VIGENTE", "Remarks": "ISOCC included"}, {"País Agente": "China", "Agente": "Global", "Naviera": "Evergreen", "Puerto origen": "Hong Kong/Shenzhen", "Puerto destino": "Buenos Aires", "Contenedor": "40 ST/HC", "Flete": "6.500", "Moneda": "USD", "Validez": "2026-06-06", "Días libres": "21", "Estado": "VIGENTE", "Remarks": "ISOCC included"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "COSCO", "Puerto origen": "SHANGHAI/NINGBO/SHENZHEN/DALIAN/XIAMEN/QINGDAO", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "20 ST", "Flete": "6.050", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "21", "Estado": "VIGENTE", "Remarks": ".+USD 15 ISPS"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "COSCO", "Puerto origen": "SHANGHAI/NINGBO/SHENZHEN/DALIAN/XIAMEN/QINGDAO", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "40 HC", "Flete": "6.200", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "21", "Estado": "VIGENTE", "Remarks": ".+USD 15 ISPS"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "COSCO", "Puerto origen": "SHANGHAI/NINGBO/SHENZHEN/DALIAN/XIAMEN/QINGDAO", "Puerto destino": "San Antonio / Valparaíso / Lirquen", "Contenedor": "20 ST", "Flete": "4.200", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "17", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "COSCO", "Puerto origen": "SHANGHAI/NINGBO/SHENZHEN/DALIAN/XIAMEN/QINGDAO", "Puerto destino": "San Antonio / Valparaíso / Lirquen", "Contenedor": "40 HC", "Flete": "4.400", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "17", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "COSCO", "Puerto origen": "SHANGHAI/NINGBO/SHENZHEN/DALIAN/XIAMEN/QINGDAO", "Puerto destino": "Iquique / Arica", "Contenedor": "20 ST", "Flete": "4.400", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "17", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "COSCO", "Puerto origen": "SHANGHAI/NINGBO/SHENZHEN/DALIAN/XIAMEN/QINGDAO", "Puerto destino": "Iquique / Arica", "Contenedor": "40 HC", "Flete": "4.600", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "17", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "MSC", "Puerto origen": "SHANGHAI/NINGBO/QINGDAO/XINGANG", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "20 ST", "Flete": "6.100", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "18", "Estado": "VIGENTE", "Remarks": "Servicio Ipanema"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "MSC", "Puerto origen": "SHANGHAI/NINGBO/QINGDAO/XINGANG", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "40 HC", "Flete": "6.300", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "18", "Estado": "VIGENTE", "Remarks": "Servicio Ipanema"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "MSC", "Puerto origen": "NINGBO/SHENZHEN/DALIAN/XIAMEN/QINGDAO/XINGANG/SHANGHAI", "Puerto destino": "Iquique / Arica", "Contenedor": "20 ST", "Flete": "4.600", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "14", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "MSC", "Puerto origen": "NINGBO/SHENZHEN/DALIAN/XIAMEN/QINGDAO/XINGANG/SHANGHAI", "Puerto destino": "Iquique / Arica", "Contenedor": "40 HC", "Flete": "5.000", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "14", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "PIL", "Puerto origen": "SHANGHAI/NINGBO/SHENZHEN/QINGDAO/XINGANG", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "20 ST", "Flete": "6.100", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "20", "Estado": "VIGENTE", "Remarks": ".+USD 15 ISPS"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "PIL", "Puerto origen": "SHANGHAI/NINGBO/SHENZHEN/QINGDAO/XINGANG", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "40 HC", "Flete": "6.300", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "20", "Estado": "VIGENTE", "Remarks": ".+USD 15 ISPS"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "HMM", "Puerto origen": "SHANGHAI/NINGBO/SHEKOU/QINGDAO", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "20 ST", "Flete": "6.010", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "21", "Estado": "VIGENTE", "Remarks": ".+USD 25 ISPS"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "HMM", "Puerto origen": "SHANGHAI/NINGBO/SHEKOU/QINGDAO", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "40 HC", "Flete": "6.120", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "21", "Estado": "VIGENTE", "Remarks": ".+USD 25 ISPS"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "Evergreen", "Puerto origen": "SHANGHAI/NINGBO/QINGDAO/XINGANG/SHENZHEN", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "20 ST", "Flete": "6.000", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "25", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "China", "Agente": "Reach", "Naviera": "Evergreen", "Puerto origen": "SHANGHAI/NINGBO/QINGDAO/XINGANG/SHENZHEN", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "40 HC", "Flete": "6.200", "Moneda": "USD", "Validez": "2026-06-07", "Días libres": "25", "Estado": "VIGENTE", "Remarks": "-"}, {"País Agente": "Alemania", "Agente": "Menzell", "Naviera": "CMA", "Puerto origen": "Hamburg / Antwerp / Rotterdam", "Puerto destino": "Buenos Aires", "Contenedor": "20 ST", "Flete": "-25", "Moneda": "EUR", "Validez": "2026-04-30", "Días libres": "14", "Estado": "VENCIDA", "Remarks": "ETS per TEU EUR 55 / PS 125"}, {"País Agente": "Alemania", "Agente": "Menzell", "Naviera": "CMA", "Puerto origen": "Hamburg / Antwerp / Rotterdam", "Puerto destino": "Buenos Aires", "Contenedor": "40 ST/HC", "Flete": "0", "Moneda": "EUR", "Validez": "2026-04-30", "Días libres": "14", "Estado": "VENCIDA", "Remarks": "ETS per TEU EUR 55 / PS 125"}, {"País Agente": "Alemania", "Agente": "Menzell", "Naviera": "HAPAG", "Puerto origen": "Bremerhaven / Le Havre", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "20 ST", "Flete": "25", "Moneda": "EUR", "Validez": "2026-04-30", "Días libres": "14", "Estado": "VENCIDA", "Remarks": "ETS per TEU EUR 58 / PS 125"}, {"País Agente": "Alemania", "Agente": "Menzell", "Naviera": "HAPAG", "Puerto origen": "Bremerhaven / Le Havre", "Puerto destino": "Buenos Aires / Montevideo", "Contenedor": "40 ST/HC", "Flete": "50", "Moneda": "EUR", "Validez": "2026-04-30", "Días libres": "14", "Estado": "VENCIDA", "Remarks": "ETS per TEU EUR 58 / PS 125"}, {"País Agente": "Italia", "Agente": "Dafarra", "Naviera": "Maersk", "Puerto origen": "Genova / Vado", "Puerto destino": "Buenos Aires", "Contenedor": "20 ST", "Flete": "50", "Moneda": "EUR", "Validez": "2026-04-30", "Días libres": "21", "Estado": "VENCIDA", "Remarks": ".+ETS EUR 73 + VP EUR 29 + FTE EUR 20 + EB EUR 86"}, {"País Agente": "Italia", "Agente": "Dafarra", "Naviera": "Maersk", "Puerto origen": "Genova / Vado", "Puerto destino": "Buenos Aires", "Contenedor": "40 ST/HC", "Flete": "100", "Moneda": "EUR", "Validez": "2026-04-30", "Días libres": "21", "Estado": "VENCIDA", "Remarks": ".+ETS EUR 146 + VP EUR 29 + FTE EUR 20 + EB EUR 172"}, {"País Agente": "Italia", "Agente": "Dafarra", "Naviera": "MSC", "Puerto origen": "Genova / Livorno", "Puerto destino": "Buenos Aires", "Contenedor": "20 ST", "Flete": "125", "Moneda": "EUR", "Validez": "2026-04-30", "Días libres": "21", "Estado": "VENCIDA", "Remarks": ".+FEU EUR 13 + ECA EUR 20 + ETS EUR 69 + EB 100"}, {"País Agente": "Italia", "Agente": "Dafarra", "Naviera": "MSC", "Puerto origen": "Genova / Livorno", "Puerto destino": "Buenos Aires", "Contenedor": "40 ST/HC", "Flete": "225", "Moneda": "EUR", "Validez": "2026-04-30", "Días libres": "21", "Estado": "VENCIDA", "Remarks": ".+FEU EUR 26 + ECA EUR 40 + ETS EUR 138 + EB 200"}, {"País Agente": "Italia", "Agente": "Dafarra", "Naviera": "Hapag Lloyd", "Puerto origen": "Genova / Livorno", "Puerto destino": "Buenos Aires", "Contenedor": "20 ST", "Flete": "100", "Moneda": "EUR", "Validez": "2026-04-30", "Días libres": "14", "Estado": "VENCIDA", "Remarks": ".+BAF EUR 127 + ETS EUR 57 + EF EUR 60"}, {"País Agente": "Italia", "Agente": "Dafarra", "Naviera": "Hapag Lloyd", "Puerto origen": "Genova / Livorno", "Puerto destino": "Buenos Aires", "Contenedor": "40 ST/HC", "Flete": "86", "Moneda": "EUR", "Validez": "2026-04-30", "Días libres": "14", "Estado": "VENCIDA", "Remarks": ".+BAF EUR 254 + ETS EUR 114 + EF EUR 120"}];
+const AGENTES_DIR = [{"pais": "China", "agente": "Rainbow", "contacto": "Brendon Chen", "email": "brendonchen@rainbowell.com", "estado": "Cargadas"}, {"pais": "China", "agente": "Global Goodwill", "contacto": "Claire Yang", "email": "claire.yang@formosa-sz.cn", "estado": "Cargadas"}, {"pais": "China", "agente": "Reach Logistics", "contacto": "Equipo CS", "email": "cs07@reachtrans.com", "estado": "Cargadas"}, {"pais": "China", "agente": "Milkyway", "contacto": "Tony Zhou / Yolanda Wang", "email": "tony.zhou@mwclg.com", "estado": "Vencidas"}, {"pais": "China", "agente": "Safety", "contacto": "Vanessa Chen", "email": "vanessa.chen@safety-sh.com", "estado": "Pendiente"}, {"pais": "China", "agente": "CNS Intertrans", "contacto": "Leah", "email": "leah@cns-shipping.com", "estado": "Pendiente"}, {"pais": "China", "agente": "Sunny Worldwide", "contacto": "Bettina", "email": "mkt009@swwlogistics.com.cn", "estado": "Pendiente"}, {"pais": "Alemania", "agente": "Menzell", "contacto": "N. Basedahl / T. Heidrich", "email": "N.Basedahl@menzelldoehle.de", "estado": "Vencidas"}, {"pais": "Alemania", "agente": "FR8 Germany", "contacto": "Sabine Lienau", "email": "sabine.lienau@fr8-germany.de", "estado": "Pendiente"}, {"pais": "Alemania", "agente": "Redline", "contacto": "Z. Coezer / O. Silva", "email": "z.coezer@red-line.biz", "estado": "Pendiente"}, {"pais": "Alemania", "agente": "Santova Group", "contacto": "Robert Bruggemann", "email": "Robert.Bruggemann@santova.eu", "estado": "Pendiente"}, {"pais": "Alemania", "agente": "Cross Freight", "contacto": "Lukas Sorgenfrei", "email": "lukas.sorgenfrei@crossfreight.de", "estado": "Pendiente"}, {"pais": "Italia", "agente": "Dafarra", "contacto": "Simone / Erika", "email": "simone@dafarra.com", "estado": "Vencidas"}, {"pais": "Italia", "agente": "Thruex", "contacto": "Federica Beni", "email": "seaquotes@thruex.com", "estado": "Pendiente"}, {"pais": "Italia", "agente": "FJT Logistics", "contacto": "E. Savi / G. Civiletti", "email": "e.savi@fjtlog.it", "estado": "Pendiente"}, {"pais": "India", "agente": "PR Integrated Logistics", "contacto": "Parag P. Rode", "email": "parag@prilpl.com", "estado": "Pendiente"}, {"pais": "India", "agente": "Sevenseas", "contacto": "Priyanka S.", "email": "airexport1.maa@sevenseasexpress.com", "estado": "Pendiente"}, {"pais": "India", "agente": "HTL Logistics", "contacto": "Eraj Fernando", "email": "fyaqoob@htllogistics.com", "estado": "Pendiente"}, {"pais": "España", "agente": "Novocargo", "contacto": "S. Merelo / A. Barroso", "email": "smerelo@novocargo.com", "estado": "Pendiente"}, {"pais": "España", "agente": "Share Logistics", "contacto": "Gracia Alfred", "email": "gracia.alfred@sharelogistics.com", "estado": "Pendiente"}, {"pais": "España", "agente": "Roner Logistics", "contacto": "Andrea Dobrovska", "email": "andreadobrovska@ronerlogistics.com", "estado": "Pendiente"}];
+
 async function cargarDatos(forzar = false) {
   if (tarifasRaw.length > 0 && !forzar) { construirFiltros(); return; }
   const res = document.getElementById('cot-resultados');
-  res.innerHTML = '<div class="cot-loading"><div class="spinner"></div>Cargando tarifas desde Google Sheets...</div>';
+
+  // Load embedded data immediately
+  tarifasRaw = TARIFAS_EMBED.map(r => ({
+    'Agente': r['Agente'],
+    'Naviera': r['Naviera'],
+    'Puerto origen': r['Puerto origen'],
+    'Puerto destino': r['Puerto destino'],
+    'Contenedor': r['Contenedor'],
+    'Flete': r['Flete'],
+    'Moneda': r['Moneda'],
+    'Validez': r['Validez'],
+    'Días libres': r['Días libres'],
+    'Estado': r['Estado'],
+    'Remarks': r['Remarks'],
+    'País Agente': r['País Agente'],
+  }));
+
+  construirFiltros();
+  aplicarFiltros();
+
+  // Try to refresh from Sheets in background (silent)
   try {
-    const resp = await fetch(APPS_SCRIPT_URL);
+    const resp = await fetch(APPS_SCRIPT_URL, {signal: AbortSignal.timeout(8000)});
     const data = await resp.json();
-    if (!Array.isArray(data) || data.length === 0) throw new Error('Sin datos');
-    tarifasRaw = data;
-    construirFiltros();
-    aplicarFiltros();
+    if (Array.isArray(data) && data.length > 0) {
+      tarifasRaw = data;
+      construirFiltros();
+      aplicarFiltros();
+    }
   } catch(e) {
-    res.innerHTML = `<div class="cot-status"><div class="cot-status-icon">⚠️</div><div class="cot-status-title">No se pudo conectar con Google Sheets</div><div class="cot-status-sub">Verificá tu conexión y el Apps Script. ${e.message}</div></div>`;
+    // Silently fail — embedded data is already loaded
   }
 }
 function unique(arr) { return [...new Set(arr.filter(Boolean))].sort(); }
-function construirFiltros() {
-  renderChecks('filtro-agentes', unique(tarifasRaw.map(r => r['Agente'])), true);
-  renderChecks('filtro-origenes', unique(tarifasRaw.map(r => r['Puerto origen'])), false);
-  renderChecks('filtro-destinos', unique(tarifasRaw.map(r => r['Puerto destino'])), false);
-  renderChecks('filtro-contenedores', unique(tarifasRaw.map(r => r['Contenedor'])), true);
+
+let paisOrigenSeleccionado = null;
+let agenteSeleccionado = null;
+
+const PAIS_FLAG_MAP = {
+  'China':'🇨🇳','Hong Kong':'🇭🇰','Taiwán':'🇹🇼','Corea del Sur':'🇰🇷',
+  'Japón':'🇯🇵','Vietnam':'🇻🇳','Malasia':'🇲🇾','Singapur':'🇸🇬',
+  'Indonesia':'🇮🇩','India':'🇮🇳','Bangladesh':'🇧🇩','Pakistán':'🇵🇰',
+  'Emiratos Árabes':'🇦🇪','Arabia Saudita':'🇸🇦','Turquía':'🇹🇷',
+  'Países Bajos':'🇳🇱','Bélgica':'🇧🇪','Alemania':'🇩🇪','Reino Unido':'🇬🇧',
+  'Francia':'🇫🇷','España':'🇪🇸','Portugal':'🇵🇹','Italia':'🇮🇹',
+  'Grecia':'🇬🇷','Polonia':'🇵🇱','Sudáfrica':'🇿🇦','Egipto':'🇪🇬',
+  'Marruecos':'🇲🇦','Nigeria':'🇳🇬','Kenia':'🇰🇪',
+  'Argentina':'🇦🇷','Brasil':'🇧🇷','Uruguay':'🇺🇾','Chile':'🇨🇱',
+  'Perú':'🇵🇪','Colombia':'🇨🇴','Estados Unidos':'🇺🇸',
+  'Australia':'🇦🇺','Nueva Zelanda':'🇳🇿','Otros':'🌍',
+};
+
+// Ciudad → País map for origin port parsing
+const CIUDAD_PAIS = {
+  // China
+  'shanghai':'China','ningbo':'China','shenzhen':'China','qingdao':'China',
+  'tianjin':'China','dalian':'China','xiamen':'China','yantian':'China',
+  'shekou':'China','xingang':'China','guangzhou':'China','hong kong':'China',
+  'hongkong':'China',
+  // Alemania y norte de Europa
+  'hamburg':'Alemania','hamburgo':'Alemania','bremerhaven':'Alemania','bremen':'Alemania',
+  'antwerp':'Bélgica','amberes':'Bélgica',
+  'rotterdam':'Países Bajos','amsterdam':'Países Bajos',
+  'le havre':'Francia','marsella':'Francia','paris':'Francia',
+  'felixstowe':'Reino Unido','southampton':'Reino Unido','london':'Reino Unido',
+  'gdansk':'Polonia',
+  'gotemburgo':'Suecia','estocolmo':'Suecia',
+  // Italia
+  'genova':'Italia','livorno':'Italia','vado':'Italia','la spezia':'Italia',
+  'napoles':'Italia','trieste':'Italia',
+  // España
+  'barcelona':'España','valencia':'España','algeciras':'España','bilbao':'España',
+  'madrid':'España','vigo':'España',
+  // Portugal
+  'lisboa':'Portugal','sines':'Portugal',
+  // India
+  'mumbai':'India','nhava sheva':'India','mundra':'India','chennai':'India',
+  'kolkata':'India','delhi':'India','nhava':'India',
+  // Bangladesh
+  'chittagong':'Bangladesh','dhaka':'Bangladesh',
+  // Pakistán
+  'karachi':'Pakistán',
+  // Vietnam
+  'ho chi minh':'Vietnam','hanoi':'Vietnam','haiphong':'Vietnam','hai phong':'Vietnam',
+  // Tailandia
+  'bangkok':'Tailandia','laem chabang':'Tailandia',
+  // Malasia
+  'port klang':'Malasia','penang':'Malasia','kuala lumpur':'Malasia',
+  // Singapur
+  'singapore':'Singapur','singapur':'Singapur',
+  // Indonesia
+  'jakarta':'Indonesia','surabaya':'Indonesia',
+  // Corea
+  'busan':'Corea del Sur','incheon':'Corea del Sur',
+  // Japón
+  'tokyo':'Japón','tokio':'Japón','yokohama':'Japón','osaka':'Japón','nagoya':'Japón',
+  // Taiwán
+  'kaohsiung':'Taiwán','taipei':'Taiwán','keelung':'Taiwán',
+  // Medio Oriente
+  'dubai':'Emiratos Árabes','jebel ali':'Emiratos Árabes','abu dhabi':'Emiratos Árabes',
+  'jeddah':'Arabia Saudita','dammam':'Arabia Saudita',
+  'haifa':'Israel','ashdod':'Israel',
+  'istanbul':'Turquía','mersin':'Turquía','izmir':'Turquía',
+  // África
+  'durban':'Sudáfrica','cape town':'Sudáfrica','johannesburg':'Sudáfrica',
+  'casablanca':'Marruecos','alejandria':'Egipto','mombasa':'Kenia',
+  'lagos':'Nigeria','dar es salaam':'Tanzania',
+  // Sudamérica
+  'buenos aires':'Argentina','zarate':'Argentina','rosario':'Argentina',
+  'santos':'Brasil','paranagua':'Brasil','itajai':'Brasil',
+  'montevideo':'Uruguay','valparaiso':'Chile','san antonio':'Chile',
+  'callao':'Perú','buenaventura':'Colombia','cartagena':'Colombia',
+  'guayaquil':'Ecuador',
+  // USA
+  'miami':'Estados Unidos','new york':'Estados Unidos','los angeles':'Estados Unidos',
+  'long beach':'Estados Unidos','houston':'Estados Unidos','savannah':'Estados Unidos',
+  // Oceanía
+  'sydney':'Australia','melbourne':'Australia','brisbane':'Australia',
+  'auckland':'Nueva Zelanda',
+};
+
+function getPaisesFromPuertoOrigen(puertoStr) {
+  // Returns ALL countries found in a multi-port string like "Hamburg / Antwerp / Rotterdam"
+  const partes = puertoStr.toLowerCase().split(/[\/,]+/).map(p => p.trim()).filter(Boolean);
+  const found = new Set();
+  for (const parte of partes) {
+    if (CIUDAD_PAIS[parte]) { found.add(CIUDAD_PAIS[parte]); continue; }
+    for (const [ciudad, pais] of Object.entries(CIUDAD_PAIS)) {
+      if (parte.includes(ciudad) || ciudad.includes(parte)) { found.add(pais); break; }
+    }
+  }
+  return [...found];
 }
+
+function getPaisFromPuertoOrigen(puertoStr) {
+  // Legacy single-value version — returns first match
+  const paises = getPaisesFromPuertoOrigen(puertoStr);
+  return paises.length > 0 ? paises[0] : null;
+}
+
+function construirFiltros() {
+  // Derive countries from origin port strings
+  // Each tarifa can belong to multiple countries (e.g. "Hamburg / Antwerp / Rotterdam")
+  const tarifasPorPais = {};
+  tarifasRaw.forEach(r => {
+    const paises = getPaisesFromPuertoOrigen(r['Puerto origen'] || '');
+    paises.forEach(pais => {
+      if (!tarifasPorPais[pais]) tarifasPorPais[pais] = 0;
+      tarifasPorPais[pais]++;
+    });
+  });
+
+  const paisesList = Object.keys(tarifasPorPais).sort((a,b) =>
+    tarifasPorPais[b] - tarifasPorPais[a]
+  );
+
+  const paisGrid = document.getElementById('filtro-paises-origen');
+  if (paisGrid) {
+    paisGrid.innerHTML = paisesList.map(pais => {
+      const flag = PAIS_FLAG_MAP[pais] || '🌍';
+      return `<button class="cot-pais-pill" data-pais="${pais}" onclick="seleccionarPaisOrigen('${pais.replace(/'/g,"\\'")}')">
+        <span class="cot-pais-flag">${flag}</span>
+        <span>${pais}</span>
+      </button>`;
+    }).join('');
+  }
+}
+
+function seleccionarPaisOrigen(pais) {
+  paisOrigenSeleccionado = pais;
+  agenteSeleccionado = null;
+
+  // Update country pills
+  document.querySelectorAll('.cot-pais-pill').forEach(p =>
+    p.classList.toggle('active', p.getAttribute('data-pais') === pais)
+  );
+
+  // Build agents that have tarifas from this country's ports
+  const flag = PAIS_FLAG_MAP[pais] || '🌍';
+  const label = document.getElementById('filtro-pais-label');
+  if (label) label.textContent = `— ${flag} ${pais}`;
+
+  const tarifasDelPais = tarifasRaw.filter(r => getPaisesFromPuertoOrigen(r['Puerto origen']).includes(pais));
+  const agentesDelPais = [...new Set(tarifasDelPais.map(r => r['Agente']))].sort();
+
+  const agentePills = document.getElementById('filtro-agentes-pills');
+  if (agentePills) {
+    agentePills.innerHTML = agentesDelPais.map(ag =>
+      `<button class="cot-pais-pill" data-agente="${ag}" onclick="seleccionarAgente('${ag.replace(/'/g,"\\'")}')">
+        ${ag}
+      </button>`
+    ).join('');
+  }
+
+  document.getElementById('filtro-agente-wrap').style.display = 'block';
+  document.getElementById('filtro-puertos-wrap').style.display = 'none';
+
+  // Show results for whole country while no agent selected
+  aplicarFiltros();
+}
+
+function seleccionarAgente(agente) {
+  agenteSeleccionado = agente;
+
+  // Update agent pills
+  document.querySelectorAll('#filtro-agentes-pills .cot-pais-pill').forEach(p =>
+    p.classList.toggle('active', p.getAttribute('data-agente') === agente)
+  );
+
+  // Build ports for this agent
+  const tarifasAgente = tarifasRaw.filter(r =>
+    getPaisesFromPuertoOrigen(r['Puerto origen']).includes(paisOrigenSeleccionado) && r['Agente'] === agente
+  );
+
+  const origenes = unique(tarifasAgente.map(r => r['Puerto origen']));
+  const destinos = unique(tarifasAgente.map(r => r['Puerto destino']));
+  const contenedores = unique(tarifasAgente.map(r => r['Contenedor']));
+
+  renderChecks('filtro-origenes', origenes, true);
+  renderChecks('filtro-destinos', destinos, false);
+  renderChecks('filtro-contenedores', contenedores, true);
+
+  document.getElementById('filtro-puertos-wrap').style.display = 'block';
+
+  aplicarFiltros();
+}
+
+
 function renderChecks(containerId, items, allChecked) {
   const el = document.getElementById(containerId);
   if (!el) return;
@@ -1540,20 +1967,25 @@ function renderChecks(containerId, items, allChecked) {
 function getChecked(containerId) { return [...document.querySelectorAll(`#${containerId} input:checked`)].map(i => i.value); }
 function toggleAllChecks(containerId) { const checks = document.querySelectorAll(`#${containerId} input`); const allChecked = [...checks].every(c => c.checked); checks.forEach(c => c.checked = !allChecked); }
 function limpiarFiltros() {
-  ['filtro-agentes','filtro-contenedores'].forEach(id => { document.querySelectorAll(`#${id} input`).forEach(c => c.checked = true); });
+  paisOrigenSeleccionado = null;
+  agenteSeleccionado = null;
+  document.querySelectorAll('.cot-pais-pill').forEach(p => p.classList.remove('active'));
+  document.getElementById('filtro-agente-wrap').style.display = 'none';
+  document.getElementById('filtro-puertos-wrap').style.display = 'none';
+  ['filtro-contenedores'].forEach(id => { document.querySelectorAll(`#${id} input`).forEach(c => c.checked = true); });
   ['filtro-origenes','filtro-destinos'].forEach(id => { document.querySelectorAll(`#${id} input`).forEach(c => c.checked = false); });
   document.getElementById('solo-vigentes').checked = true;
   aplicarFiltros();
 }
 function aplicarFiltros() {
   if (tarifasRaw.length === 0) { cargarDatos(false); return; }
-  const agentes = getChecked('filtro-agentes');
   const origenes = getChecked('filtro-origenes');
   const destinos = getChecked('filtro-destinos');
   const contenedores = getChecked('filtro-contenedores');
   const soloVigentes = document.getElementById('solo-vigentes').checked;
   let filtradas = tarifasRaw.filter(r => {
-    if (agentes.length && !agentes.includes(r['Agente'])) return false;
+    if (paisOrigenSeleccionado && !getPaisesFromPuertoOrigen(r['Puerto origen']).includes(paisOrigenSeleccionado)) return false;
+    if (agenteSeleccionado && r['Agente'] !== agenteSeleccionado) return false;
     if (origenes.length && !origenes.includes(r['Puerto origen'])) return false;
     if (destinos.length && !destinos.includes(r['Puerto destino'])) return false;
     if (contenedores.length && !contenedores.includes(r['Contenedor'])) return false;
@@ -1588,6 +2020,464 @@ function renderResultados(datos) {
   res.innerHTML = html;
 }
 
+
+
+
+
+// ══════════ OCR / IMAGE ══════════
+let currentPasteTab = 'texto';
+
+function switchPasteTab(tab) {
+  currentPasteTab = tab;
+  document.getElementById('paste-tab-texto').style.display = tab === 'texto' ? 'block' : 'none';
+  document.getElementById('paste-tab-imagen').style.display = tab === 'imagen' ? 'block' : 'none';
+  document.getElementById('tab-texto-btn').classList.toggle('active', tab === 'texto');
+  document.getElementById('tab-imagen-btn').classList.toggle('active', tab === 'imagen');
+  // Reset preview when switching
+  document.getElementById('paste-preview').classList.remove('visible');
+  document.getElementById('btn-apply-paste').style.display = 'none';
+}
+
+function analizarActivo() {
+  if (currentPasteTab === 'texto') parsearTexto();
+  else if (currentPasteTab === 'imagen') {
+    const img = document.getElementById('img-preview');
+    if (img.src && img.src !== window.location.href) correrOCR(img.src);
+    else alert('Primero seleccioná una imagen.');
+  }
+}
+
+function onImgDrop(e) {
+  e.preventDefault();
+  document.getElementById('img-drop-zone').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) cargarImagen(file);
+}
+
+function onImgSelect(e) {
+  const file = e.target.files[0];
+  if (file) cargarImagen(file);
+}
+
+function cargarImagen(file) {
+  if (!file.type.startsWith('image/')) {
+    alert('Por favor seleccioná una imagen (JPG, PNG, etc.)');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const preview = document.getElementById('img-preview');
+    preview.src = e.target.result;
+    document.getElementById('img-preview-wrap').style.display = 'block';
+    document.getElementById('img-drop-content').style.display = 'none';
+    setOCRStatus('Imagen cargada. Hacé clic en "Analizar" para extraer el texto.', false);
+    document.getElementById('paste-preview').classList.remove('visible');
+    document.getElementById('btn-apply-paste').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function correrOCR(imageSrc) {
+  const spinner = document.getElementById('ocr-spinner');
+  const statusText = document.getElementById('ocr-status-text');
+  const progressWrap = document.getElementById('ocr-progress-wrap');
+  const progressBar = document.getElementById('ocr-progress-bar');
+  const btnAnalizar = document.getElementById('btn-analizar');
+
+  spinner.style.display = 'inline-block';
+  progressWrap.style.display = 'block';
+  btnAnalizar.disabled = true;
+  btnAnalizar.style.opacity = '0.5';
+
+  const steps = ['Cargando motor OCR...', 'Inicializando...', 'Analizando imagen...', 'Leyendo texto...', 'Procesando...'];
+
+  try {
+    const worker = await Tesseract.createWorker('eng', 1, {
+      logger: m => {
+        if (m.status === 'recognizing text') {
+          const pct = Math.round((m.progress || 0) * 100);
+          progressBar.style.width = pct + '%';
+          statusText.textContent = `Leyendo texto... ${pct}%`;
+        } else if (m.status) {
+          const step = steps.find(s => s.toLowerCase().includes(m.status.split(' ')[0])) || m.status;
+          statusText.textContent = step;
+        }
+      }
+    });
+
+    statusText.textContent = 'Extrayendo texto de la imagen...';
+    const { data: { text } } = await worker.recognize(imageSrc);
+    await worker.terminate();
+
+    spinner.style.display = 'none';
+    progressWrap.style.display = 'none';
+    progressBar.style.width = '0%';
+    btnAnalizar.disabled = false;
+    btnAnalizar.style.opacity = '';
+
+    if (!text.trim()) {
+      setOCRStatus('⚠️ No se pudo extraer texto. Probá con una imagen más clara.', false);
+      return;
+    }
+
+    setOCRStatus('✅ Texto extraído. Analizando campos...', false);
+
+    // Put extracted text into textarea for debugging and run parser
+    document.getElementById('paste-input').value = text;
+
+    // Run parser on extracted text
+    parsearTexto();
+
+  } catch(err) {
+    spinner.style.display = 'none';
+    progressWrap.style.display = 'none';
+    btnAnalizar.disabled = false;
+    btnAnalizar.style.opacity = '';
+    setOCRStatus('❌ Error al procesar la imagen: ' + err.message, false);
+    console.error('OCR error:', err);
+  }
+}
+
+function setOCRStatus(msg, loading) {
+  document.getElementById('ocr-status-text').textContent = msg;
+  document.getElementById('ocr-spinner').style.display = loading ? 'inline-block' : 'none';
+}
+
+
+// ══════════ PASTE PARSER ══════════
+let parsedData = {};
+
+function abrirPaste() {
+  document.getElementById('paste-overlay').classList.add('visible');
+  setTimeout(() => document.getElementById('paste-input').focus(), 100);
+}
+function cerrarPaste() {
+  document.getElementById('paste-overlay').classList.remove('visible');
+}
+
+function parsearTexto() {
+  const txt = document.getElementById('paste-input').value;
+  if (!txt.trim()) return;
+  parsedData = {};
+
+  const lines = txt.split(/\n/).map(l => l.trim()).filter(Boolean);
+  const full = txt;
+  const up = txt.toUpperCase();
+
+  // ── MODALIDAD ──
+  if (/a[eé]re[oa]/i.test(full)) parsedData.modalidad = 'AÉREO';
+  else if (/mar[ií]tim[oa]|fcl|lcl|contenedor/i.test(full)) {
+    if (/\bfcl\b/i.test(full)) parsedData.modalidad = 'FCL';
+    else parsedData.modalidad = 'LCL';
+  }
+
+  // ── INCOTERM ──
+  const incoTerms = ['EXW','FCA','FAS','FOB','CFR','CIF','CPT','CIP','DAP','DPU','DDP'];
+  for (const inc of incoTerms) {
+    if (new RegExp('\\b'+inc+'\\b','i').test(full)) {
+      parsedData.incoterm = inc; break;
+    }
+  }
+
+  // ── TIPO OPERACIÓN ──
+  if (/\bimpo\b|importaci[oó]n|import/i.test(full)) parsedData.tipo = 'IMPO';
+  else if (/\bexpo\b|exportaci[oó]n|export/i.test(full)) parsedData.tipo = 'EXPO';
+
+  // ── PAÍS ORIGEN ──
+  const paisMap = [
+    {keys:['india','rajkot','mumbai','delhi','gujarat','chennai','kolkata','pune'],p:'India',f:'🇮🇳'},
+    {keys:['china','shanghai','beijing','guangzhou','shenzhen','ningbo','tianjin','qingdao','hangzhou','yiwu','wenzhou','xiamen'],p:'China',f:'🇨🇳'},
+    {keys:['hong kong'],p:'Hong Kong',f:'🇭🇰'},
+    {keys:['taiwan','taipei','kaohsiung'],p:'Taiwán',f:'🇹🇼'},
+    {keys:['vietnam','ho chi minh','hanoi','haiphong','hai phong'],p:'Vietnam',f:'🇻🇳'},
+    {keys:['bangladesh','dhaka','chittagong'],p:'Bangladesh',f:'🇧🇩'},
+    {keys:['pakistan','karachi','lahore'],p:'Pakistán',f:'🇵🇰'},
+    {keys:['indonesia','jakarta','surabaya'],p:'Indonesia',f:'🇮🇩'},
+    {keys:['tailandia','thailand','bangkok','laem chabang'],p:'Tailandia',f:'🇹🇭'},
+    {keys:['malasia','malaysia','port klang','penang','kuala lumpur'],p:'Malasia',f:'🇲🇾'},
+    {keys:['singapur','singapore'],p:'Singapur',f:'🇸🇬'},
+    {keys:['corea','korea','busan','incheon','seul','seoul'],p:'Corea del Sur',f:'🇰🇷'},
+    {keys:['japon','japan','tokyo','osaka','nagoya'],p:'Japón',f:'🇯🇵'},
+    {keys:['estados unidos','usa','united states','new york','los angeles','miami','houston','chicago'],p:'Estados Unidos',f:'🇺🇸'},
+    {keys:['brasil','brazil','sao paulo','santos','paranagua','rio de janeiro'],p:'Brasil',f:'🇧🇷'},
+    {keys:['chile','valparaiso','san antonio'],p:'Chile',f:'🇨🇱'},
+    {keys:['uruguay','montevideo'],p:'Uruguay',f:'🇺🇾'},
+    {keys:['alemania','germany','hamburg','hamburgo','bremen'],p:'Alemania',f:'🇩🇪'},
+    {keys:['españa','spain','barcelona','valencia','madrid'],p:'España',f:'🇪🇸'},
+    {keys:['italia','italy','genova','livorno','la spezia'],p:'Italia',f:'🇮🇹'},
+    {keys:['paises bajos','netherlands','rotterdam','amsterdam'],p:'Países Bajos',f:'🇳🇱'},
+    {keys:['belgica','belgium','amberes','antwerp','bruselas'],p:'Bélgica',f:'🇧🇪'},
+    {keys:['reino unido','uk','united kingdom','london','felixstowe','southampton'],p:'Reino Unido',f:'🇬🇧'},
+    {keys:['turquia','turkey','istanbul','mersin','izmir'],p:'Turquía',f:'🇹🇷'},
+    {keys:['emiratos','dubai','jebel ali','abu dhabi','uae'],p:'Emiratos Árabes',f:'🇦🇪'},
+    {keys:['sudafrica','south africa','durban','cape town','johannesburg'],p:'Sudáfrica',f:'🇿🇦'},
+    {keys:['marruecos','morocco','casablanca'],p:'Marruecos',f:'🇲🇦'},
+    {keys:['australia','sydney','melbourne','brisbane'],p:'Australia',f:'🇦🇺'},
+    {keys:['mexico','mexico','veracruz','manzanillo','monterrey'],p:'México',f:'🇲🇽'},
+    {keys:['argentina','buenos aires','ezeiza','rosario','cordoba'],p:'Argentina',f:'🇦🇷'},
+  ];
+
+  const txtLow = full.toLowerCase();
+  // Try to detect origin vs destination from context
+  // Look for "from X", "origin: X", "desde X", "origen: X"
+  const origenCtx = full.match(/(?:origin|origen|from|desde|salida|pickup|retiro)[:\s]+([^\n,;]{3,50})/i);
+  const destinoCtx = full.match(/(?:destination|destino|to|hacia|entrega|delivery)[:\s]+([^\n,;]{3,50})/i);
+
+  for (const entry of paisMap) {
+    for (const key of entry.keys) {
+      if (txtLow.includes(key)) {
+        // Try to determine if it's origin or destination
+        const keyIdx = txtLow.indexOf(key);
+        const before = txtLow.slice(Math.max(0,keyIdx-80), keyIdx);
+        const isDestino = /destino|destination|to\b|hacia|entrega|delivery|ezeiza|aep|eziza/i.test(before);
+        const isOrigen = /origen|origin|from\b|desde|pickup|retiro|fábrica|fabrica/i.test(before);
+        if (isDestino && !parsedData.paisDestino) parsedData.paisDestino = entry;
+        else if (!parsedData.paisOrigen) parsedData.paisOrigen = entry;
+      }
+    }
+  }
+
+  // ── AEROPUERTO / PUERTO ORIGEN ──
+  const aeroPuertoMap = [
+    // Aeropuertos India
+    {keys:['rajkot','gidc metoda','lodhika','ahmedabad','gujarat'],n:'BOM — Mumbai',iata:'BOM',f:'🇮🇳',tipo:'aero'},
+    {keys:['mumbai','bombay'],n:'BOM — Mumbai',iata:'BOM',f:'🇮🇳',tipo:'aero'},
+    {keys:['delhi','new delhi','gurgaon','noida','faridabad'],n:'DEL — Delhi',iata:'DEL',f:'🇮🇳',tipo:'aero'},
+    {keys:['chennai','madras'],n:'MAA — Chennai',iata:'MAA',f:'🇮🇳',tipo:'aero'},
+    {keys:['kolkata','calcutta'],n:'CCU — Kolkata',iata:'CCU',f:'🇮🇳',tipo:'aero'},
+    {keys:['bangalore','bengaluru'],n:'BLR — Bangalore',iata:'BLR',f:'🇮🇳',tipo:'aero'},
+    {keys:['hyderabad'],n:'HYD — Hyderabad',iata:'HYD',f:'🇮🇳',tipo:'aero'},
+    // Aeropuertos Argentina
+    {keys:['ezeiza','eze','ministro pistarini'],n:'EZE — Ezeiza',iata:'EZE',f:'🇦🇷',tipo:'aero'},
+    {keys:['aeroparque','jorge newbery','aep'],n:'AEP — Aeroparque',iata:'AEP',f:'🇦🇷',tipo:'aero'},
+    // Puertos Argentina
+    {keys:['buenos aires','puerto ba','ba port'],n:'Buenos Aires',f:'🇦🇷',tipo:'puerto'},
+    {keys:['zarate','zárate'],n:'Zárate',f:'🇦🇷',tipo:'puerto'},
+    {keys:['rosario'],n:'Rosario',f:'🇦🇷',tipo:'puerto'},
+    // Puertos China
+    {keys:['shanghai'],n:'Shanghai',f:'🇨🇳',tipo:'puerto'},{keys:['ningbo'],n:'Ningbo',f:'🇨🇳',tipo:'puerto'},
+    {keys:['shenzhen','yantian'],n:'Shenzhen',f:'🇨🇳',tipo:'puerto'},{keys:['guangzhou'],n:'Guangzhou',f:'🇨🇳',tipo:'puerto'},
+    {keys:['tianjin'],n:'Tianjin',f:'🇨🇳',tipo:'puerto'},{keys:['qingdao'],n:'Qingdao',f:'🇨🇳',tipo:'puerto'},
+    // Otros hubs
+    {keys:['hong kong','hongkong'],n:'Hong Kong',f:'🇭🇰',tipo:'puerto'},
+    {keys:['singapore','singapur'],n:'SIN — Singapur Changi',f:'🇸🇬',tipo:'aero'},
+    {keys:['dubai','jebel ali'],n:'DXB — Dubai',f:'🇦🇪',tipo:'aero'},
+    {keys:['rotterdam'],n:'Rotterdam',f:'🇳🇱',tipo:'puerto'},
+    {keys:['hamburg','hamburgo'],n:'Hamburgo',f:'🇩🇪',tipo:'puerto'},
+    {keys:['santos'],n:'Santos',f:'🇧🇷',tipo:'puerto'},
+    {keys:['montevideo'],n:'Montevideo',f:'🇺🇾',tipo:'puerto'},
+  ];
+
+  for (const entry of aeroPuertoMap) {
+    for (const key of entry.keys) {
+      if (txtLow.includes(key)) {
+        const keyIdx = txtLow.indexOf(key);
+        const before = txtLow.slice(Math.max(0,keyIdx-100), keyIdx);
+        const isDestino = /destino|destination|to\b|hacia|delivery|ezeiza|aep/i.test(before+key);
+        // Ezeiza and AEP are always destination for Argentina
+        const isArgDestino = ['ezeiza','eze','aeroparque','aep','ministro pistarini','buenos aires'].includes(key);
+        if ((isDestino || isArgDestino) && !parsedData.puertoDestino) {
+          parsedData.puertoDestino = entry;
+        } else if (!parsedData.puertoOrigen && !isArgDestino) {
+          parsedData.puertoOrigen = entry;
+        }
+      }
+    }
+  }
+
+  // ── DIRECCIÓN DE RETIRO ──
+  // Look for address patterns: street numbers, plot numbers, GIDC, etc.
+  const addrPatterns = [
+    /(?:plot|flat|no\.?|#)[\s.]*[A-Z]-?\d+[^\n]{5,80}/i,
+    /\d+[\s,]+[A-Za-z]{3,}[\s,]+(?:road|street|avenue|lane|nagar|colony|industrial|area|zone|gate|block)[^\n]{0,60}/i,
+    /(?:near|opp|opposite|behind)[\s]+[^\n]{5,60}/i,
+  ];
+  for (const pat of addrPatterns) {
+    const m = full.match(pat);
+    if (m) {
+      // Try to get a few lines of context
+      const idx = full.indexOf(m[0]);
+      const addrLines = full.slice(idx, idx+200).split('\n').slice(0,4).join(', ').replace(/,\s*,/g,',').trim();
+      parsedData.dirRetiro = addrLines;
+      break;
+    }
+  }
+
+  // ── CLIENTE / EMPRESA ──
+  const clientePatterns = [
+    /(?:cliente|client|company|empresa|buyer|comprador)[:\s]+([^\n,]{3,60})/i,
+    /(?:dear|estimado)[\s]+([^\n,]{3,40})/i,
+  ];
+  for (const pat of clientePatterns) {
+    const m = full.match(pat);
+    if (m) { parsedData.cliente = m[1].trim(); break; }
+  }
+
+  // ── VALOR ──
+  const valorM = full.match(/(?:value|valor|total|amount|usd|\$)[\s:]*([\d][\d.,]+)/i);
+  if (valorM) parsedData.valor = valorM[1].replace(/[^0-9.]/g,'');
+
+  // ── NCM / HS CODE ──
+  const ncmM = full.match(/(?:ncm|hs\s*code|hscode|tariff)[:\s]*([\d.]{6,12})/i);
+  if (ncmM) parsedData.ncm = ncmM[1];
+
+  // ── DESCRIPCIÓN ──
+  const descPatterns = [
+    /(?:item|product|goods|mercader[ií]a|descripci[oó]n|commodity)[:\s]+([^\n]{5,80})/i,
+    /(?:item name)[\s\S]{0,20}?\n([^\n]{5,80})/i,
+  ];
+  for (const pat of descPatterns) {
+    const m = full.match(pat);
+    if (m && m[1].trim().length > 3) { parsedData.descripcion = m[1].trim(); break; }
+  }
+  // Fallback: get most repeated item name from table
+  if (!parsedData.descripcion) {
+    const tableItems = [...full.matchAll(/^([A-Za-z][^\d\n]{5,50})\s+\d+\s+[\d.]+/gm)];
+    if (tableItems.length) parsedData.descripcion = tableItems[0][1].trim();
+  }
+
+  // ── BULTOS desde tabla ──
+  // Match rows like: 1  RE524039 service tool  150  24.000  25.200  375x375x250
+  const rowRegex = /\d+\s+([A-Za-z][^\n]{3,50?})\s+(\d+)\s+([\d.]+)\s+([\d.]+)\s+(\d+)[xX×](\d+)[xX×](\d+)/g;
+  let match;
+  const bultosDetectados = [];
+  const seen = new Set();
+  while ((match = rowRegex.exec(full)) !== null) {
+    const key = `${match[1].trim()}|${match[2]}|${match[5]}|${match[6]}|${match[7]}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    bultosDetectados.push({
+      desc: match[1].trim().replace(/\s+/g,' ').slice(0,30),
+      qty: match[2],
+      peso: (parseFloat(match[4]) / parseInt(match[2])).toFixed(3), // per unit gross weight
+      l: match[5], w: match[6], h: match[7],
+    });
+  }
+  if (bultosDetectados.length) parsedData.bultos = bultosDetectados;
+
+  // ── SHOW PREVIEW ──
+  mostrarPreview();
+}
+
+function mostrarPreview() {
+  const preview = document.getElementById('paste-preview');
+  const fieldsEl = document.getElementById('paste-preview-fields');
+  const applyBtn = document.getElementById('btn-apply-paste');
+  preview.classList.add('visible');
+
+  const fields = [
+    { label: 'Modalidad',       val: parsedData.modalidad,                          icon: '🚚' },
+    { label: 'Incoterm',        val: parsedData.incoterm,                           icon: '📜' },
+    { label: 'Tipo operación',  val: parsedData.tipo,                               icon: '↔️' },
+    { label: 'País origen',     val: parsedData.paisOrigen?.p,                      icon: parsedData.paisOrigen?.f||'🌍' },
+    { label: 'Puerto/Aero origen', val: parsedData.puertoOrigen?.n,                 icon: parsedData.puertoOrigen?.f||'✈️' },
+    { label: 'País destino',    val: parsedData.paisDestino?.p,                     icon: parsedData.paisDestino?.f||'🌍' },
+    { label: 'Puerto/Aero destino', val: parsedData.puertoDestino?.n,               icon: parsedData.puertoDestino?.f||'✈️' },
+    { label: 'Dirección retiro',val: parsedData.dirRetiro?.slice(0,60)+(parsedData.dirRetiro?.length>60?'...':''), icon: '📍' },
+    { label: 'Descripción',     val: parsedData.descripcion,                        icon: '📦' },
+    { label: 'Valor USD',       val: parsedData.valor ? '$ '+parsedData.valor : null, icon: '💵' },
+    { label: 'NCM',             val: parsedData.ncm,                                icon: '🔢' },
+    { label: 'Bultos detectados', val: parsedData.bultos ? parsedData.bultos.length + ' tipo(s) de bulto' : null, icon: '📐' },
+  ];
+
+  fieldsEl.innerHTML = fields.map(f => `
+    <div class="parse-field ${f.val ? 'found' : 'not-found'}">
+      <span class="parse-field-icon">${f.icon}</span>
+      <span class="parse-field-label">${f.label}</span>
+      <span class="parse-field-value">${f.val || 'No detectado'}</span>
+    </div>
+  `).join('');
+
+  const found = fields.filter(f => f.val).length;
+  applyBtn.style.display = found > 0 ? 'block' : 'none';
+  applyBtn.textContent = `Autocompletar ${found} campo${found!==1?'s':''} →`;
+}
+
+function aplicarParse() {
+  const d = parsedData;
+
+  // Modalidad
+  if (d.modalidad) {
+    document.getElementById('modalidad').value = d.modalidad;
+    onModalidad();
+  }
+  // Incoterm
+  if (d.incoterm) document.getElementById('incoterm').value = d.incoterm;
+  // Tipo
+  if (d.tipo) document.getElementById('tipo').value = d.tipo;
+  // Auto logistica
+  if (d.incoterm && d.tipo) autoLogistica(d.incoterm);
+
+  // País origen
+  if (d.paisOrigen) document.getElementById('pais-origen').value = d.paisOrigen.p;
+  // País destino
+  if (d.paisDestino) document.getElementById('pais-destino').value = d.paisDestino.p;
+
+  // Puerto/Aero origen — add as tag
+  if (d.puertoOrigen) {
+    portTags['puerto-origen'] = [];
+    addPortTag('puerto-origen', d.puertoOrigen.n, d.puertoOrigen.f);
+  }
+  // Puerto/Aero destino — add as tag
+  if (d.puertoDestino) {
+    portTags['puerto-destino'] = [];
+    addPortTag('puerto-destino', d.puertoDestino.n, d.puertoDestino.f);
+  }
+
+  // Dirección retiro
+  if (d.dirRetiro) document.getElementById('dir-retiro').value = d.dirRetiro;
+  // Descripción
+  if (d.descripcion) document.getElementById('descripcion').value = d.descripcion;
+  // Valor
+  if (d.valor) document.getElementById('valor').value = d.valor;
+  // NCM
+  if (d.ncm) document.getElementById('ncm').value = d.ncm;
+
+  // Bultos
+  if (d.bultos && d.bultos.length) {
+    bultosRows = [];
+    bultosNextId = 1;
+    // Set unit to mm→cm
+    bultosUnit = 'mm' in (d.bultos[0]||{}) ? 'mm' : 'mm';
+    // Dimensions are in mm, convert to cm
+    d.bultos.forEach(b => {
+      bultosRows.push({
+        id: bultosNextId++,
+        desc: b.desc,
+        qty: b.qty,
+        l: (parseFloat(b.l)/10).toFixed(1),
+        w: (parseFloat(b.w)/10).toFixed(1),
+        h: (parseFloat(b.h)/10).toFixed(1),
+        peso: b.peso,
+      });
+    });
+    // Set unit to cm since we converted
+    bultosUnit = 'cm';
+    document.querySelectorAll('.unit-pill').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.unit-pill')[0]?.classList.add('active');
+    renderBultos();
+    recalcularBultos();
+  }
+
+  cerrarPaste();
+
+  // Scroll to top of form
+  document.getElementById('tab-formulario').scrollIntoView({behavior:'smooth', block:'start'});
+
+  // Flash feedback
+  const btn = document.querySelector('.paste-btn');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '✅ Campos autocompletos exitosamente';
+  btn.style.background = 'var(--success-bg)';
+  btn.style.color = 'var(--success)';
+  btn.style.borderColor = 'var(--success)';
+  setTimeout(() => {
+    btn.innerHTML = orig;
+    btn.style.background = '';
+    btn.style.color = '';
+    btn.style.borderColor = '';
+  }, 3000);
+}
 
 
 // ══════════ PORT TAGS ══════════
@@ -1701,6 +2591,14 @@ function getPortTagsText(inputId) {
   if (!portTags[inputId] || portTags[inputId].length === 0) return '';
   return portTags[inputId].map(t => t.name).join(' / ');
 }
+
+
+
+
+
+
+
+
 
 // ══════════ AUTOCOMPLETE PAÍSES Y PUERTOS ══════════
 const PAISES = [
